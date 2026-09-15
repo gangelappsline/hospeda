@@ -4,9 +4,10 @@ import type { ApiErrorShape } from "@/lib/types";
 /**
  * Cliente HTTP del backend externo de Hospeda.
  *
- * Todas las peticiones del navegador se construyen con `NEXT_PUBLIC_API_URL`.
- * El token recibido por login se agrega como Bearer desde el almacenamiento
- * del navegador; no se llama a una ruta `/api` del proyecto de Next.
+ * En el navegador todas las peticiones pasan por el proxy same-origin `/api`,
+ * evitando que CORS dependa del dominio donde se despliegue el frontend. En el
+ * servidor se usa `NEXT_PUBLIC_API_URL` directamente. El token recibido por
+ * login se agrega como Bearer desde el almacenamiento del navegador.
  */
 
 export class ApiError extends Error implements ApiErrorShape {
@@ -36,7 +37,8 @@ export interface RequestOptions extends Omit<RequestInit, "body"> {
 
 function buildUrl(endpoint: string, baseUrl?: string): string {
   if (/^https?:\/\//i.test(endpoint)) return endpoint;
-  const base = (baseUrl ?? clientEnv.apiUrl).replace(/\/$/, "");
+  const defaultBase = typeof window === "undefined" ? clientEnv.apiUrl : "/api";
+  const base = (baseUrl ?? defaultBase).replace(/\/$/, "");
   const path = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
   return `${base}${path}`;
 }
