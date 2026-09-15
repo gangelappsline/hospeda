@@ -74,7 +74,7 @@ export function ProfileView() {
   }
 
   const error = updateProfile.error;
-  const avatarUrl = preview ?? user.avatarUrl ?? null;
+  const avatarUrl = preview ?? user.photo ?? null;
   return (
     <div className="mx-auto max-w-4xl space-y-7">
       <div>

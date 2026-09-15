@@ -83,7 +83,7 @@ El login debe devolver una respuesta con esta forma:
     "email": "admin@hospeda.com",
     "phone": "+52 55 1234 5678",
     "role": "admin",
-    "avatarUrl": null
+    "photo": null
   },
   "token": "backend-token",
   "expiresAt": "2026-09-22T20:34:04.000Z"

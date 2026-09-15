@@ -41,10 +41,10 @@ export function AdminTopbar({ user }: { user: User }) {
             aria-expanded={menuOpen}
             className="flex items-center gap-3 rounded-xl py-1.5 pl-1.5 pr-3 transition hover:bg-zinc-100"
           >
-            {user.avatarUrl ? (
+            {user.photo ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
-                src={user.avatarUrl}
+                src={user.photo}
                 alt=""
                 className="size-9 rounded-full object-cover"
               />
