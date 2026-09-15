@@ -14,7 +14,7 @@ import { queryKeys } from "@/lib/query/keys";
 import { routes } from "@/lib/routes";
 import type { LoginCredentials, LoginResponse, User } from "@/lib/types";
 
-/** Usuario actual, consultado directamente al backend externo. */
+/** Usuario actual, consultado a través del proxy same-origin de la aplicación. */
 export function useCurrentUser(initialData?: User) {
   return useQuery({
     queryKey: queryKeys.auth.me,

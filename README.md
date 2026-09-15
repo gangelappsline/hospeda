@@ -11,20 +11,24 @@ cp .env.example .env.local
 npm run dev
 ```
 
-Las peticiones del navegador se hacen directamente a `NEXT_PUBLIC_API_URL`,
-que debe apuntar al backend accesible desde el navegador. El backend debe
-permitir el origen del frontend mediante CORS. Las peticiones conservan el token
-`Authorization`, cookies, query strings, cuerpos y respuestas del backend.
+Las peticiones del navegador se hacen a la ruta same-origin `/api`. El Route
+Handler de Next.js las reenvía desde el servidor a `API_URL`, por lo que el
+navegador no se comunica directamente con el backend ni depende de su
+configuración CORS. El proxy conserva `Authorization`, cookies, query strings,
+cuerpos y respuestas de la API.
 
 ## Variables de entorno
 
 | Variable | Descripción |
 | --- | --- |
-| `API_URL` | URL privada del backend usada por el proxy, sin slash final |
+| `API_URL` | URL base del backend usada **solo en el servidor** por el proxy, sin slash final |
 | `NEXT_PUBLIC_APP_ENV` | Entorno lógico (`local`, `development` o `production`) |
 | `NEXT_PUBLIC_APP_URL` | URL pública del frontend |
-| `NEXT_PUBLIC_API_URL` | Fallback del backend para SSR y despliegues anteriores |
 | `NEXT_PUBLIC_API_TIMEOUT` | Timeout de las peticiones en milisegundos |
+
+`NEXT_PUBLIC_API_URL` se acepta temporalmente como fallback para despliegues
+anteriores, pero debe migrarse a `API_URL`. No la uses en configuraciones nuevas:
+la URL de la API no necesita exponerse al navegador.
 
 El token que devuelve el backend en el login se envía como `Authorization: Bearer`
 en cada petición posterior. La API es la responsable de validar permisos y
@@ -51,7 +55,8 @@ sesión**.
 
 ## Contrato mínimo de la API
 
-El cliente usa estos endpoints relativos a `NEXT_PUBLIC_API_URL`:
+El cliente usa estos endpoints relativos al proxy `/api`; este los reenvía como
+rutas relativas a `API_URL`:
 
 ```text
 POST   /auth/login

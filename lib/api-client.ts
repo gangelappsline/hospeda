@@ -1,14 +1,13 @@
-import { clientEnv } from "@/lib/env";
+import { API_PROXY_PATH, clientEnv } from "@/lib/env";
 import type { ApiErrorShape } from "@/lib/types";
 
 /**
- * Cliente HTTP del backend externo de Hospeda.
+ * Cliente HTTP del backend de Hospeda.
  *
- * Todas las peticiones se hacen directamente contra `NEXT_PUBLIC_API_URL`,
- * tanto en el navegador como en el servidor. Esto evita enviar consultas al
- * servidor de Next.js (por ejemplo, `localhost:3000/api`) y permite que los
- * datos provengan del backend y la base de datos configurados. El token
- * recibido por login se agrega como Bearer desde el almacenamiento del navegador.
+ * En el navegador, las rutas relativas se resuelven siempre bajo `/api`. El
+ * Route Handler de Next.js reenvía esas solicitudes al backend configurado en
+ * el servidor, por lo que el navegador nunca necesita hacer una petición
+ * cross-origin ni depender de la configuración CORS de la API.
  */
 
 export class ApiError extends Error implements ApiErrorShape {
@@ -32,17 +31,20 @@ export interface RequestOptions extends Omit<RequestInit, "body"> {
   /** Token Bearer explícito, útil para peticiones desde un entorno servidor. */
   token?: string;
   timeout?: number;
-  /** Solo para integraciones server-to-server muy puntuales. */
+  /**
+   * Base explícita para integraciones server-to-server. Las llamadas del
+   * navegador no deben establecerla: usan siempre el proxy same-origin.
+   */
   baseUrl?: string;
 }
 
 function buildUrl(endpoint: string, baseUrl?: string): string {
   if (/^https?:\/\//i.test(endpoint)) return endpoint;
-  // El navegador también debe hablar con la API externa. No usar `/api` aquí:
-  // esa ruta convierte la petición en una llamada al host del frontend.
-  const base = (baseUrl ?? clientEnv.apiUrl).replace(/\/$/, "");
+
   const path = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
-  return `${base}${path}`;
+  if (baseUrl) return `${baseUrl.replace(/\/$/, "")}${path}`;
+
+  return `${API_PROXY_PATH}${path}`;
 }
 
 function getBrowserToken() {
@@ -77,6 +79,7 @@ export async function apiFetch<T>(
     response = await fetch(buildUrl(endpoint, baseUrl), {
       ...init,
       headers: finalHeaders,
+      // La solicitud es same-origin (`/api`), así que no provoca preflight CORS.
       credentials: init.credentials ?? "include",
       signal: init.signal ?? controller.signal,
       body:
