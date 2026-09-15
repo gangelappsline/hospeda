@@ -73,12 +73,12 @@ export interface Property {
   propertyType?: string;
 }
 
-export interface PropertyType {
-  id: string;
+/** Tipo de alojamiento del catálogo (`/web/admin/lodging-types`). */
+export interface LodgingType {
+  id: number;
   name: string;
-  description?: string | null;
-  propertyCount?: number;
-  active?: boolean;
+  description: string;
+  icon_url: string;
 }
 
 export interface Country {

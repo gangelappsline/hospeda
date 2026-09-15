@@ -13,9 +13,9 @@ export const queryKeys = {
     list: (filters?: object) => ["properties", "list", filters ?? {}] as const,
     detail: (id: string) => ["properties", "detail", id] as const,
   },
-  propertyTypes: {
-    all: ["property-types"] as const,
-    list: ["property-types", "list"] as const,
+  lodgingTypes: {
+    all: ["lodging-types"] as const,
+    list: ["lodging-types", "list"] as const,
   },
   colonies: {
     all: ["colonies"] as const,
