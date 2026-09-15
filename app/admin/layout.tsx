@@ -1,31 +1,11 @@
-import { redirect } from "next/navigation";
+import type { ReactNode } from "react";
 
-import { AdminSidebar } from "@/components/admin/sidebar";
-import { AdminTopbar } from "@/components/admin/topbar";
-import { getCurrentUser } from "@/lib/auth/session";
-import { routes } from "@/lib/routes";
+import { AdminShell } from "@/components/admin/admin-shell";
 
 /**
- * Layout protegido del panel administrativo.
- *
- * Aquí ocurre la protección REAL: se verifica la firma y expiración del token
- * en el servidor. El `proxy.ts` solo hace una comprobación rápida previa, así
- * que un usuario con una cookie falsa igual termina en el login.
+ * El panel usa el token del backend externo. AdminShell valida la sesión en el
+ * navegador y cada consulta de datos viaja directamente a NEXT_PUBLIC_API_URL.
  */
-export default async function AdminLayout({ children }: LayoutProps<"/admin">) {
-  const user = await getCurrentUser();
-
-  if (!user) {
-    redirect(`${routes.login}?redirectTo=${encodeURIComponent(routes.admin.root)}`);
-  }
-
-  return (
-    <div className="flex min-h-dvh flex-1 bg-zinc-50">
-      <AdminSidebar />
-      <div className="flex min-w-0 flex-1 flex-col">
-        <AdminTopbar user={user} />
-        <main className="flex-1 p-6 lg:p-8">{children}</main>
-      </div>
-    </div>
-  );
+export default function AdminLayout({ children }: { children: ReactNode }) {
+  return <AdminShell>{children}</AdminShell>;
 }

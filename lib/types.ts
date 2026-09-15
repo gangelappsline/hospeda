@@ -6,6 +6,7 @@ export interface User {
   id: string;
   name: string;
   email: string;
+  phone?: string | null;
   role: UserRole;
   avatarUrl?: string | null;
 }
@@ -69,6 +70,46 @@ export interface Property {
   status: PropertyStatus;
   imageUrl: string;
   superhost?: boolean;
+  propertyType?: string;
+}
+
+export interface PropertyType {
+  id: string;
+  name: string;
+  description?: string | null;
+  propertyCount?: number;
+  active?: boolean;
+}
+
+export interface Country {
+  id: string;
+  name: string;
+  code?: string;
+}
+
+export interface State {
+  id: string;
+  name: string;
+  countryId: string;
+}
+
+export interface City {
+  id: string;
+  name: string;
+  stateId: string;
+}
+
+export interface Colony {
+  id: string;
+  name: string;
+  postalCode: string;
+  countryId: string;
+  countryName?: string;
+  stateId: string;
+  stateName?: string;
+  cityId: string;
+  cityName?: string;
+  createdAt?: string;
 }
 
 export interface RevenuePoint {

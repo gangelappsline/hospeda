@@ -7,13 +7,25 @@ export const routes = {
     root: "/admin",
     bookings: "/admin/reservaciones",
     properties: "/admin/propiedades",
+    propertyTypes: "/admin/propiedades/tipos",
     users: "/admin/usuarios",
     settings: "/admin/configuracion",
+    colonies: "/admin/configuracion/colonias",
+    profile: "/admin/perfil",
   },
+  /** Rutas del backend externo. El cliente HTTP las antepone a API_URL. */
   api: {
     login: "/auth/login",
     logout: "/auth/logout",
     me: "/auth/me",
+    dashboard: "/dashboard",
+    properties: "/properties",
+    propertyTypes: "/property-types",
+    colonies: "/colonies",
+    countries: "/locations/countries",
+    states: "/locations/states",
+    cities: "/locations/cities",
+    profile: "/users/me",
   },
 } as const;
 

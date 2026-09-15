@@ -7,13 +7,12 @@ import {
   Search,
   ShieldCheck,
   Sparkles,
-  UserRound,
   Users,
 } from "lucide-react";
 
 import { Logo } from "@/components/logo";
 import { PropertyCard } from "@/components/property-card";
-import { getCurrentUser } from "@/lib/auth/session";
+import { HomeAuthButton } from "@/components/home-auth-button";
 import { featuredProperties } from "@/lib/mock-data";
 import { routes } from "@/lib/routes";
 
@@ -49,9 +48,7 @@ const benefits = [
   },
 ];
 
-export default async function HomePage() {
-  const user = await getCurrentUser();
-
+export default function HomePage() {
   return (
     <div className="flex flex-1 flex-col">
       {/* ---------- Header ---------- */}
@@ -79,23 +76,7 @@ export default async function HomePage() {
               Pon tu espacio en Hospeda
             </Link>
 
-            {user ? (
-              <Link
-                href={routes.admin.root}
-                className="flex items-center gap-2 rounded-full bg-brand-500 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-600"
-              >
-                <UserRound className="size-4" />
-                Ir al panel
-              </Link>
-            ) : (
-              <Link
-                href={routes.login}
-                className="flex items-center gap-2 rounded-full bg-brand-500 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-600"
-              >
-                <UserRound className="size-4" />
-                Iniciar sesión
-              </Link>
-            )}
+            <HomeAuthButton />
           </div>
         </div>
       </header>
