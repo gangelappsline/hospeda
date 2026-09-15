@@ -7,7 +7,7 @@ import type {
 
 /**
  * Datos de referencia para pintar el panel mientras la API externa responde.
- * TanStack Query siempre intenta revalidarlos contra `NEXT_PUBLIC_API_URL`.
+ * TanStack Query siempre intenta revalidarlos mediante el proxy local `/api`.
  */
 
 export const dashboardStats: DashboardStats = {

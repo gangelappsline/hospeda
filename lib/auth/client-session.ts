@@ -8,8 +8,8 @@ const SESSION_COOKIE = "hospeda_session";
 
 /**
  * La sesión del panel pertenece al backend externo. El token se conserva en el
- * navegador únicamente para poder enviarlo como Bearer en las peticiones a la
- * API; nunca se usa una ruta `/api` de Next como proxy de autenticación.
+ * navegador únicamente para enviarlo como Bearer al proxy same-origin `/api`;
+ * Next.js lo reenvía al backend sin exponer su URL ni requerir CORS.
  */
 export function saveClientSession(
   token: string,

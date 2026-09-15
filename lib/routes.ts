@@ -13,7 +13,7 @@ export const routes = {
     colonies: "/admin/configuracion/colonias",
     profile: "/admin/perfil",
   },
-  /** Rutas del backend externo. El cliente HTTP las antepone a API_URL. */
+  /** Rutas del backend externo. El cliente HTTP las antepone al proxy local `/api`. */
   api: {
     login: "/auth/login",
     logout: "/auth/logout",

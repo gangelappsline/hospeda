@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function AdminPage() {
   // Datos de referencia para pintar la pantalla inmediatamente. TanStack Query
-  // los revalida directamente contra el backend externo en el navegador.
+  // los revalida mediante el proxy same-origin `/api` en el navegador.
   const initialData = {
     stats: dashboardStats,
     revenue: revenueSeries,
