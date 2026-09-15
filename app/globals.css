@@ -4,21 +4,24 @@
   --background: #ffffff;
   --foreground: #171717;
 
-  /* Paleta de marca Hospeda */
-  --brand-50: #fff1f3;
-  --brand-100: #ffe1e6;
-  --brand-200: #ffc8d2;
-  --brand-300: #ffa0b3;
-  --brand-400: #ff6b8b;
-  --brand-500: #ff385c;
-  --brand-600: #ed1c47;
-  --brand-700: #c81039;
-  --brand-800: #a71136;
-  --brand-900: #8e1234;
+  /* Paleta oficial de Hospeda: naranja, azules y turquesa. */
+  --brand-50: #fff7f2;
+  --brand-100: #ffeadc;
+  --brand-200: #ffd2b8;
+  --brand-300: #fbb58c;
+  --brand-400: #f89a63;
+  --brand-500: #f48644;
+  --brand-600: #dc692d;
+  --brand-700: #b84d20;
+  --brand-800: #943e20;
+  --brand-900: #78361f;
 
-  --ink-500: #717171;
-  --ink-700: #484848;
-  --ink-900: #222222;
+  --accent-500: #21a5b5;
+  --accent-700: #1c5691;
+
+  --ink-500: #54647c;
+  --ink-700: #1c5691;
+  --ink-900: #0c2544;
 }
 
 @theme inline {
@@ -35,6 +38,9 @@
   --color-brand-700: var(--brand-700);
   --color-brand-800: var(--brand-800);
   --color-brand-900: var(--brand-900);
+
+  --color-accent-500: var(--accent-500);
+  --color-accent-700: var(--accent-700);
 
   --color-ink-500: var(--ink-500);
   --color-ink-700: var(--ink-700);

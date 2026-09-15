@@ -7,21 +7,23 @@ Panel administrativo de Hospeda construido con **Next.js 16**, **React 19**, **T
 ```bash
 npm install
 cp .env.example .env.local
-# Edita NEXT_PUBLIC_API_URL con la URL de tu backend
+# Edita API_URL con la URL de tu backend
 npm run dev
 ```
 
-El frontend no implementa endpoints de negocio ni usa `/api` como proxy. El login,
-la sesión, el dashboard y los catálogos se solicitan directamente al backend
-configurado en `NEXT_PUBLIC_API_URL`.
+Las peticiones del navegador se hacen al proxy same-origin `/api` de Next.js,
+que las reenvía al backend configurado en `API_URL`. Así el frontend funciona
+en dominios de preview o producción sin generar errores CORS. El proxy conserva
+el token `Authorization`, cookies, query strings, cuerpos y respuestas del backend.
 
 ## Variables de entorno
 
 | Variable | Descripción |
 | --- | --- |
+| `API_URL` | URL privada del backend usada por el proxy, sin slash final |
 | `NEXT_PUBLIC_APP_ENV` | Entorno lógico (`local`, `development` o `production`) |
 | `NEXT_PUBLIC_APP_URL` | URL pública del frontend |
-| `NEXT_PUBLIC_API_URL` | URL base del backend, sin slash final |
+| `NEXT_PUBLIC_API_URL` | Fallback del backend para SSR y despliegues anteriores |
 | `NEXT_PUBLIC_API_TIMEOUT` | Timeout de las peticiones en milisegundos |
 
 El token que devuelve el backend en el login se envía como `Authorization: Bearer`
