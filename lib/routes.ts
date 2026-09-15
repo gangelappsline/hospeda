@@ -20,7 +20,7 @@ export const routes = {
     me: "/auth/me",
     dashboard: "/dashboard",
     properties: "/properties",
-    propertyTypes: "/property-types",
+    lodgingTypes: "/web/admin/lodging-types",
     colonies: "/colonies",
     countries: "/locations/countries",
     states: "/locations/states",

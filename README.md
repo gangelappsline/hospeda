@@ -40,7 +40,7 @@ navegación y nunca guarda una contraseña.
 | `/admin` | Resumen de operación |
 | `/admin/reservaciones` | Reservaciones |
 | `/admin/propiedades` | **Alojamientos > Lista**, con búsqueda y filtros |
-| `/admin/propiedades/tipos` | **Alojamientos > Tipos**, CRUD de tipos |
+| `/admin/propiedades/tipos` | **Alojamientos > Tipos**, CRUD en tarjetas con icono WebP (`id`, `name`, `description`, `icon_url`) |
 | `/admin/usuarios` | Usuarios |
 | `/admin/configuracion` | Configuración |
 | `/admin/configuracion/colonias` | **Configuración > Colonias**, CRUD por país, estado, ciudad, código postal y nombre |
@@ -59,10 +59,10 @@ POST   /auth/logout
 GET    /auth/me
 GET    /dashboard
 GET    /properties?search=&status=&city=&propertyType=
-GET    /property-types
-POST   /property-types
-PUT    /property-types/:id
-DELETE /property-types/:id
+GET    /web/admin/lodging-types
+POST   /web/admin/lodging-types
+PUT    /web/admin/lodging-types/:id
+DELETE /web/admin/lodging-types/:id
 GET    /locations/countries
 GET    /locations/states?countryId=:id
 GET    /locations/cities?stateId=:id
@@ -92,6 +92,13 @@ El login debe devolver una respuesta con esta forma:
 
 Las respuestas de listados pueden ser un arreglo o `{ "items": [] }`,
 `{ "data": [] }` o `{ "results": [] }`.
+
+El listado de tipos de alojamiento devuelve registros con
+`{ "id": number, "name": string, "description": string, "icon_url": string }`.
+El alta (`POST`) y la edición (`PUT`) se envían como `multipart/form-data`
+con los campos `name`, `description` e `icon`, donde `icon` es un archivo
+de imagen en formato **WebP** (en la edición el icono es opcional y solo se
+envía cuando se reemplaza).
 
 ## Scripts
 
