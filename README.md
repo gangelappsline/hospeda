@@ -11,10 +11,10 @@ cp .env.example .env.local
 npm run dev
 ```
 
-Las peticiones del navegador se hacen al proxy same-origin `/api` de Next.js,
-que las reenvía al backend configurado en `API_URL`. Así el frontend funciona
-en dominios de preview o producción sin generar errores CORS. El proxy conserva
-el token `Authorization`, cookies, query strings, cuerpos y respuestas del backend.
+Las peticiones del navegador se hacen directamente a `NEXT_PUBLIC_API_URL`,
+que debe apuntar al backend accesible desde el navegador. El backend debe
+permitir el origen del frontend mediante CORS. Las peticiones conservan el token
+`Authorization`, cookies, query strings, cuerpos y respuestas del backend.
 
 ## Variables de entorno
 
