@@ -6,9 +6,8 @@ import type {
 } from "@/lib/types";
 
 /**
- * Datos de demostración que sirve `/api/dashboard` mientras el backend real
- * no está conectado. Al cambiar AUTH_MODE/API_URL, sustituye estas respuestas
- * por las del servicio real sin tocar los componentes.
+ * Datos de referencia para pintar el panel mientras la API externa responde.
+ * TanStack Query siempre intenta revalidarlos contra `NEXT_PUBLIC_API_URL`.
  */
 
 export const dashboardStats: DashboardStats = {

@@ -2,12 +2,11 @@ import { clientEnv } from "@/lib/env";
 import type { ApiErrorShape } from "@/lib/types";
 
 /**
- * Cliente HTTP de Hospeda.
+ * Cliente HTTP del backend externo de Hospeda.
  *
- * - Antepone `NEXT_PUBLIC_API_URL` a cada endpoint.
- * - Envía cookies (`credentials: "include"`) para que viaje la sesión httpOnly.
- * - Aplica timeout con AbortController.
- * - Normaliza cualquier fallo en un `ApiError`.
+ * Todas las peticiones del navegador se construyen con `NEXT_PUBLIC_API_URL`.
+ * El token recibido por login se agrega como Bearer desde el almacenamiento
+ * del navegador; no se llama a una ruta `/api` del proyecto de Next.
  */
 
 export class ApiError extends Error implements ApiErrorShape {
@@ -21,20 +20,17 @@ export class ApiError extends Error implements ApiErrorShape {
     this.details = details;
   }
 
-  /** 401/403: la sesión expiró o el token no es válido. */
   get isAuthError() {
     return this.status === 401 || this.status === 403;
   }
 }
 
 export interface RequestOptions extends Omit<RequestInit, "body"> {
-  /** Cuerpo en objeto plano; se serializa a JSON automáticamente. */
   body?: unknown;
-  /** Token Bearer explícito (útil desde el servidor, donde no hay cookies). */
+  /** Token Bearer explícito, útil para peticiones desde un entorno servidor. */
   token?: string;
-  /** Sobrescribe el timeout por defecto, en ms. */
   timeout?: number;
-  /** Usa una base distinta a NEXT_PUBLIC_API_URL (ej. rutas internas /api). */
+  /** Solo para integraciones server-to-server muy puntuales. */
   baseUrl?: string;
 }
 
@@ -43,6 +39,14 @@ function buildUrl(endpoint: string, baseUrl?: string): string {
   const base = (baseUrl ?? clientEnv.apiUrl).replace(/\/$/, "");
   const path = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
   return `${base}${path}`;
+}
+
+function getBrowserToken() {
+  if (typeof window === "undefined") return undefined;
+  return (
+    window.localStorage.getItem("hospeda_api_token") ??
+    window.sessionStorage.getItem("hospeda_api_token")
+  );
 }
 
 export async function apiFetch<T>(
@@ -56,11 +60,13 @@ export async function apiFetch<T>(
   );
 
   const finalHeaders = new Headers(headers);
+  const isFormData = typeof FormData !== "undefined" && body instanceof FormData;
   if (!finalHeaders.has("Accept")) finalHeaders.set("Accept", "application/json");
-  if (body !== undefined && !finalHeaders.has("Content-Type")) {
+  if (body !== undefined && !isFormData && !finalHeaders.has("Content-Type")) {
     finalHeaders.set("Content-Type", "application/json");
   }
-  if (token) finalHeaders.set("Authorization", `Bearer ${token}`);
+  const bearer = token ?? getBrowserToken();
+  if (bearer) finalHeaders.set("Authorization", `Bearer ${bearer}`);
 
   let response: Response;
   try {
@@ -69,7 +75,12 @@ export async function apiFetch<T>(
       headers: finalHeaders,
       credentials: init.credentials ?? "include",
       signal: init.signal ?? controller.signal,
-      body: body === undefined ? undefined : JSON.stringify(body),
+      body:
+        body === undefined
+          ? undefined
+          : isFormData
+            ? (body as FormData)
+            : JSON.stringify(body),
     });
   } catch (error) {
     clearTimeout(timeoutId);
@@ -90,7 +101,9 @@ export async function apiFetch<T>(
   const isJson = response.headers
     .get("content-type")
     ?.includes("application/json");
-  const payload = isJson ? await response.json().catch(() => null) : await response.text();
+  const payload = isJson
+    ? await response.json().catch(() => null)
+    : await response.text();
 
   if (!response.ok) {
     const message =
@@ -114,12 +127,4 @@ export const api = {
     apiFetch<T>(endpoint, { ...options, method: "PATCH", body }),
   delete: <T>(endpoint: string, options?: RequestOptions) =>
     apiFetch<T>(endpoint, { ...options, method: "DELETE" }),
-};
-
-/** Llama a las rutas internas de Next (`/api/...`) en vez del backend externo. */
-export const internalApi = {
-  get: <T>(endpoint: string, options?: RequestOptions) =>
-    apiFetch<T>(endpoint, { ...options, method: "GET", baseUrl: "/api" }),
-  post: <T>(endpoint: string, body?: unknown, options?: RequestOptions) =>
-    apiFetch<T>(endpoint, { ...options, method: "POST", body, baseUrl: "/api" }),
 };

@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import { ArrowLeft, BadgeCheck, ShieldCheck, Sparkles } from "lucide-react";
 
 import { Logo } from "@/components/logo";
-import { getCurrentUser } from "@/lib/auth/session";
 import { routes } from "@/lib/routes";
 import { LoginForm } from "./login-form";
 
@@ -24,13 +22,9 @@ export default async function LoginPage({
 }: {
   searchParams: Promise<{ redirectTo?: string }>;
 }) {
-  // Si ya hay sesión válida, no tiene sentido mostrar el login.
-  const user = await getCurrentUser();
+  // La sesión se valida en el backend externo; proxy.ts evita mostrar esta
+  // pantalla cuando ya existe una sesión de navegador.
   const { redirectTo } = await searchParams;
-
-  if (user) {
-    redirect(redirectTo || routes.admin.root);
-  }
 
   return (
     <div className="flex min-h-dvh flex-1">

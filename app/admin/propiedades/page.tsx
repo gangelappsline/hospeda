@@ -1,16 +1,9 @@
 import type { Metadata } from "next";
-import { Building2 } from "lucide-react";
 
-import { PlaceholderPage } from "@/components/admin/placeholder-page";
+import { PropertyListView } from "@/components/admin/property-list-view";
 
-export const metadata: Metadata = { title: "Propiedades" };
+export const metadata: Metadata = { title: "Alojamientos" };
 
 export default function PropertiesPage() {
-  return (
-    <PlaceholderPage
-      title="Propiedades"
-      description="Publica, edita y revisa el estado de cada inmueble."
-      icon={Building2}
-    />
-  );
+  return <PropertyListView />;
 }

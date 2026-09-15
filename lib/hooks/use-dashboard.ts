@@ -2,8 +2,9 @@
 
 import { useQuery } from "@tanstack/react-query";
 
-import { internalApi } from "@/lib/api-client";
+import { api } from "@/lib/api-client";
 import { queryKeys } from "@/lib/query/keys";
+import { routes } from "@/lib/routes";
 import type {
   Booking,
   DashboardStats,
@@ -22,7 +23,7 @@ export interface DashboardResponse {
 export function useDashboard(initialData?: DashboardResponse) {
   return useQuery({
     queryKey: queryKeys.dashboard.overview,
-    queryFn: () => internalApi.get<DashboardResponse>("/dashboard"),
+    queryFn: () => api.get<DashboardResponse>(routes.api.dashboard),
     initialData,
     staleTime: 30 * 1000,
   });

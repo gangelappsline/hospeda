@@ -6,9 +6,13 @@ import {
   BarChart3,
   Building2,
   CalendarCheck,
+  ChevronDown,
   LayoutDashboard,
   LifeBuoy,
+  List,
+  MapPinned,
   Settings,
+  Tags,
   Users,
 } from "lucide-react";
 
@@ -19,9 +23,22 @@ import { cn } from "@/lib/utils";
 const navigation = [
   { href: routes.admin.root, label: "Resumen", icon: LayoutDashboard },
   { href: routes.admin.bookings, label: "Reservaciones", icon: CalendarCheck },
-  { href: routes.admin.properties, label: "Propiedades", icon: Building2 },
+  {
+    href: routes.admin.properties,
+    label: "Alojamientos",
+    icon: Building2,
+    children: [
+      { href: routes.admin.properties, label: "Lista", icon: List },
+      { href: routes.admin.propertyTypes, label: "Tipos", icon: Tags },
+    ],
+  },
   { href: routes.admin.users, label: "Usuarios", icon: Users },
-  { href: routes.admin.settings, label: "Configuración", icon: Settings },
+  {
+    href: routes.admin.settings,
+    label: "Configuraciones",
+    icon: Settings,
+    children: [{ href: routes.admin.colonies, label: "Colonias", icon: MapPinned }],
+  },
 ];
 
 export function AdminSidebar() {
@@ -33,31 +50,59 @@ export function AdminSidebar() {
         <Logo href={routes.admin.root} />
       </div>
 
-      <nav className="flex-1 space-y-1 px-3 py-6">
+      <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-6">
         <p className="px-3 pb-2 text-xs font-semibold uppercase tracking-wider text-ink-500">
           Panel
         </p>
 
-        {navigation.map(({ href, label, icon: Icon }) => {
+        {navigation.map(({ href, label, icon: Icon, children }) => {
           const isActive =
             href === routes.admin.root
               ? pathname === href
-              : pathname.startsWith(href);
+              : pathname === href || pathname.startsWith(`${href}/`);
+          const hasChildren = Boolean(children?.length);
 
           return (
-            <Link
-              key={href}
-              href={href}
-              className={cn(
-                "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition",
-                isActive
-                  ? "bg-brand-50 text-brand-600"
-                  : "text-ink-700 hover:bg-zinc-100 hover:text-ink-900",
-              )}
-            >
-              <Icon className="size-[18px]" />
-              {label}
-            </Link>
+            <div key={href}>
+              <Link
+                href={href}
+                className={cn(
+                  "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition",
+                  isActive
+                    ? "bg-brand-50 text-brand-600"
+                    : "text-ink-700 hover:bg-zinc-100 hover:text-ink-900",
+                )}
+              >
+                <Icon className="size-[18px]" />
+                <span className="flex-1">{label}</span>
+                {hasChildren ? (
+                  <ChevronDown className={cn("size-4 transition", isActive && "rotate-180")} />
+                ) : null}
+              </Link>
+
+              {hasChildren && isActive ? (
+                <div className="ml-5 mt-1 space-y-0.5 border-l border-zinc-200 pl-3">
+                  {children?.map(({ href: childHref, label: childLabel, icon: ChildIcon }) => {
+                    const isChildActive = pathname === childHref;
+                    return (
+                      <Link
+                        key={childHref}
+                        href={childHref}
+                        className={cn(
+                          "flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm transition",
+                          isChildActive
+                            ? "font-semibold text-brand-600"
+                            : "text-ink-500 hover:bg-zinc-50 hover:text-ink-900",
+                        )}
+                      >
+                        <ChildIcon className="size-4" />
+                        {childLabel}
+                      </Link>
+                    );
+                  })}
+                </div>
+              ) : null}
+            </div>
           );
         })}
       </nav>
@@ -67,9 +112,7 @@ export function AdminSidebar() {
           <span className="grid size-9 place-items-center rounded-lg bg-white text-brand-500 shadow-sm">
             <BarChart3 className="size-4" />
           </span>
-          <p className="mt-3 text-sm font-semibold text-ink-900">
-            Reportes avanzados
-          </p>
+          <p className="mt-3 text-sm font-semibold text-ink-900">Reportes avanzados</p>
           <p className="mt-1 text-xs leading-relaxed text-ink-500">
             Analiza ocupación e ingresos por temporada.
           </p>

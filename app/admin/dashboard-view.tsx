@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 
 import { StatCard } from "@/components/admin/stat-card";
+import { useCurrentUser } from "@/lib/hooks/use-auth";
 import { useDashboard, type DashboardResponse } from "@/lib/hooks/use-dashboard";
 import type { BookingStatus } from "@/lib/types";
 import { cn, formatCurrency, formatDate, formatNumber } from "@/lib/utils";
@@ -27,9 +28,11 @@ export function DashboardView({
   userName,
 }: {
   initialData: DashboardResponse;
-  userName: string;
+  userName?: string;
 }) {
   const { data, isFetching } = useDashboard(initialData);
+  const { data: currentUser } = useCurrentUser();
+  const greetingName = userName ?? currentUser?.name ?? "tu equipo";
 
   if (!data) {
     return (
@@ -48,7 +51,7 @@ export function DashboardView({
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-ink-900">
-            Hola, {userName.split(" ")[0]} 👋
+            Hola, {greetingName.split(" ")[0]} 👋
           </h1>
           <p className="mt-1 text-sm text-ink-500">
             Este es el resumen de tu operación en Hospeda.

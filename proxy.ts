@@ -1,36 +1,32 @@
 import { NextResponse, type NextRequest } from "next/server";
 
-import { AUTH_COOKIE_NAME } from "@/lib/env";
-import { isAuthPath, isProtectedPath, routes } from "@/lib/routes";
+import { routes } from "@/lib/routes";
 
 /**
- * Proxy de Next.js 16 (antes se llamaba `middleware.ts`).
- *
- * Hace una comprobación *optimista*: solo mira si la cookie de sesión existe
- * para redirigir rápido, sin verificar la firma (eso es caro y aquí corre en
- * cada request). La verificación real del token ocurre en el layout de /admin
- * y en las rutas de API, que es donde de verdad se protege el acceso.
+ * Protección de navegación ligera. La sesión real vive en el backend externo
+ * y sus endpoints validan el Bearer token; esta cookie no contiene secretos y
+ * solo evita mostrar pantallas equivocadas durante la navegación.
  */
 export function proxy(request: NextRequest) {
-  const { pathname, search } = request.nextUrl;
-  const hasSession = Boolean(request.cookies.get(AUTH_COOKIE_NAME)?.value);
+  const { pathname } = request.nextUrl;
+  const hasClientSession = Boolean(request.cookies.get("hospeda_session")?.value);
 
-  // Sin sesión en una ruta protegida -> al login, recordando a dónde iba.
-  if (isProtectedPath(pathname) && !hasSession) {
-    const loginUrl = new URL(routes.login, request.url);
-    loginUrl.searchParams.set("redirectTo", `${pathname}${search}`);
-    return NextResponse.redirect(loginUrl);
+  if (pathname === routes.login && hasClientSession) {
+    return NextResponse.redirect(new URL(routes.admin.root, request.url));
   }
 
-  // Con sesión en /login -> directo al panel.
-  if (isAuthPath(pathname) && hasSession) {
-    return NextResponse.redirect(new URL(routes.admin.root, request.url));
+  if (
+    (pathname === routes.admin.root || pathname.startsWith(`${routes.admin.root}/`)) &&
+    !hasClientSession
+  ) {
+    const loginUrl = new URL(routes.login, request.url);
+    loginUrl.searchParams.set("redirectTo", `${pathname}${request.nextUrl.search}`);
+    return NextResponse.redirect(loginUrl);
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  // Excluye assets estáticos para no bloquear CSS/JS/imágenes.
   matcher: ["/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)"],
 };
