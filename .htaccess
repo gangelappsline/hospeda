@@ -1,0 +1,13 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  
+  # Si estás en una subcarpeta, descomenta y ajusta la siguiente línea:
+  # RewriteBase /admin/
+
+  # No reescribas si el archivo o directorio existe realmente (assets, css, etc.)
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+
+  # Redirige todo lo demás a index.html
+  RewriteRule . /index.html [L]
+</IfModule>

@@ -1,0 +1,66 @@
+import type { ProfileUser } from '@/types/profile'
+
+const TOKEN_KEY = 'access_token'
+const USER_KEY = 'user'
+
+/**
+ * Busca el token primero en localStorage, luego en sessionStorage.
+ * Devuelve null si no existe en ninguno.
+ */
+export const getToken = (): string | null => {
+  return (
+    localStorage.getItem(TOKEN_KEY) ||
+    sessionStorage.getItem(TOKEN_KEY) ||
+    null
+  )
+}
+
+export const getUser = <T = any>(): T | null => {
+  const raw = localStorage.getItem(USER_KEY) || sessionStorage.getItem(USER_KEY)
+  if (!raw) return null
+  try {
+    return JSON.parse(raw) as T
+  } catch {
+    return null
+  }
+}
+
+/**
+ * Guarda token y usuario en el storage indicado.
+ */
+export const saveAuth = (
+  accessToken: string,
+  user: any,
+  persist: boolean
+): void => {
+  const storage = persist ? localStorage : sessionStorage
+
+  // Limpiar el otro storage para evitar duplicados
+  const otherStorage = persist ? sessionStorage : localStorage
+  otherStorage.removeItem(TOKEN_KEY)
+  otherStorage.removeItem(USER_KEY)
+
+  storage.setItem(TOKEN_KEY, accessToken)
+  storage.setItem(USER_KEY, JSON.stringify(user))
+}
+
+export const updateStoredUser = (user: Partial<ProfileUser>): void => {
+  const current = getUser<ProfileUser>()
+  if (!current) return
+
+  const updated = { ...current, ...user }
+  const inLocal = !!localStorage.getItem(USER_KEY)
+  const storage = inLocal ? localStorage : sessionStorage
+
+  storage.setItem(USER_KEY, JSON.stringify(updated))
+}
+
+/**
+ * Limpia toda la sesión de ambos storages.
+ */
+export const clearAuth = (): void => {
+  ;[localStorage, sessionStorage].forEach((storage) => {
+    storage.removeItem(TOKEN_KEY)
+    storage.removeItem(USER_KEY)
+  })
+}
