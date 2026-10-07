@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 import { Check, Plus, ChevronRight, Tags, RefreshCw } from 'lucide-react'
 import { getLodgingTypes } from '@/api/lodgingTypes'
 import type { LodgingType } from '@/types/lodgingType'

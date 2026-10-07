@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 import { Plus, ChevronRight, Search, User as UserIcon, RefreshCw } from 'lucide-react'
 import { getUsers } from '@/api/users'
 import type { AdminUser, UserRole } from '@/types/user'

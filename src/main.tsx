@@ -5,6 +5,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { Toaster } from 'sonner'
 import App from './App'
 import './index.css'
+import { BrowserRouter } from 'react-router-dom'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -19,7 +20,9 @@ const queryClient = new QueryClient({
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
       <Toaster
         position="top-right"
         richColors

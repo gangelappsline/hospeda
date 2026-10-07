@@ -1,22 +1,200 @@
 export interface FeaturedStay {
   id: number
   title: string
-  location: string
+  slug: string
+  address: LodgingAddress | null
   rating: number
   guests: number
   bedrooms: number
-  price_per_night: number
-  image_url: string
+  bathrooms: number | null
+  price: number
+  photos: LodgingPhoto[]
+  type: LodgingType
   is_superhost: boolean
-  category: string
 }
 
+export interface LodgingType {
+  id: number
+  name: string
+}
+
+export interface LodgingPhoto {
+  id: number
+  photo: string
+  thumbnail: string
+}
+
+export interface LodgingAddress {
+  street: string
+  city: string
+  state: string
+  country: string
+  zip_code: string
+  formatted_address: string
+}
+
+export interface LodgingAmenity {
+  id: number
+  amenity_id: number
+  name: string
+  icon: string
+}
+
+export interface LodgingOwner {
+  id: number
+  name: string
+  photo: string | null
+}
+
+export interface LodgingDetail {
+  id: number
+  title: string
+  description: string
+  slug: string
+  base_price: number
+  cleaning_fee: number
+  service_fee: number
+  security_deposit: number
+  bathrooms: number
+  bedrooms: number
+  beds: number
+  guests: number          // viene de "capacity"
+  rating: number
+  reviews: number
+  status: string
+  type: LodgingType
+  owner: LodgingOwner
+  amenities: LodgingAmenity[]
+  address: LodgingAddress | null
+  photos: LodgingPhoto[]
+}
+
+interface ApiLodgingDetail {
+  id: number
+  title: string | null
+  description: string | null
+  slug: string | null
+  base_price: string | null
+  cleaning_fee: string | null
+  service_fee: string | null
+  security_deposit: string | null
+  bathrooms: number
+  bedrooms: number
+  beds: number
+  capacity: number
+  rating: string
+  reviews: number
+  status: string
+  type: { id: number; name: string }
+  owner: { id: number; name: string; photo: string | null }
+  amenities: Array<{
+    id: number
+    amenity_id: number
+    name: string
+    icon: string
+  }>
+  address: {
+    street: string
+    city: string
+    state: string
+    country: string
+    zip_code: string
+    formatted_address: string
+  } | null
+  photos: Array<{ id: number; photo: string; thumbnail: string }>
+}
+
+export interface ApiDetailResponse {
+  success: boolean
+  data: ApiLodgingDetail
+  message: string
+}
+
+export interface LodgingAmenity {
+  id: number
+  amenity_id: number
+  name: string
+  icon: string
+}
+
+export interface LodgingOwner {
+  id: number
+  name: string
+  photo: string | null
+  is_superhost?: boolean
+  reviews_count?: number
+  rating?: number
+}
+
+export interface LodgingReview {
+  id: number
+  author_name: string
+  author_photo: string | null
+  author_location?: string
+  rating: number
+  comment: string
+  created_at: string
+}
+
+export interface LodgingDetail {
+  id: number
+  title: string
+  description: string
+  slug: string
+  base_price: number
+  cleaning_fee: number
+  service_fee: number
+  security_deposit: number
+  bathrooms: number
+  bedrooms: number
+  beds: number
+  guests: number
+  rating: number
+  reviews: number
+  reviews_list?: LodgingReview[]
+  status: string
+  type: LodgingType
+  owner: LodgingOwner
+  amenities: LodgingAmenity[]
+  address: LodgingAddress | null
+  photos: LodgingPhoto[]
+  // Opcionales que la API quizás devuelva más adelante:
+  check_in_time?: string
+  check_out_time?: string
+  is_superhost?: boolean
+  is_guest_favorite?: boolean
+}
+
+export interface LodgingSearchFilters {
+  city?: string
+  check_in?: string          // YYYY-MM-DD
+  check_out?: string         // YYYY-MM-DD
+  guests?: number
+  min_price?: number
+  max_price?: number
+  type?: string              // nombre del tipo: 'Casa', 'Cabaña', etc.
+  min_rating?: number
+  amenities?: string[]       // nombres de amenidades
+}
+
+export interface Paginated<T> {
+  items: T[]
+  meta: {
+    current_page: number
+    last_page: number
+    per_page: number
+    total: number
+  }
+}
+
+// Los valores ahora coinciden con type.name que devuelve la API
 export type StayCategory =
   | 'all'
-  | 'cabins'
-  | 'incredible'
-  | 'design'
-  | 'city'
-  | 'haciendas'
-  | 'views'
-  | 'pets'
+  | 'Casa'
+  | 'Cabaña'
+  | 'Glamping'
+  | 'Oficina'
+  | 'Loft'
+  | 'Apartamento'
+  | 'Villa'
+  | 'Estudio'

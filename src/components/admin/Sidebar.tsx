@@ -1,64 +1,81 @@
-import { useState } from 'react'
-import { NavLink, useLocation } from 'react-router'
+import { useMemo, useState } from 'react'
+import { NavLink, useLocation } from 'react-router-dom'
+import { Home, ChevronDown } from 'lucide-react'
 import {
-  LayoutGrid,
-  CalendarCheck,
-  Home,
-  Users,
-  Settings,
-  ChevronDown,
-} from 'lucide-react'
+  PANELS,
+  getActiveRole,
+  type PanelSection,
+  type PanelConfig,
+} from '@/config/panels'
 
-interface MenuItem {
-  label: string
-  icon: React.ReactNode
-  to?: string
-  children?: { label: string; to: string }[]
+/** Mapa de clases Tailwind por color para evitar templates dinámicos que Tailwind no detecta. */
+const ACCENT_CLASSES: Record<
+  PanelConfig['accent'],
+  {
+    bg: string
+    bgSoft: string
+    text: string
+    border: string
+    ring: string
+  }
+> = {
+  orange: {
+    bg: 'bg-orange-500',
+    bgSoft: 'bg-orange-50',
+    text: 'text-orange-600',
+    border: 'border-orange-200',
+    ring: 'focus:ring-orange-500',
+  },
+  rose: {
+    bg: 'bg-rose-500',
+    bgSoft: 'bg-rose-50',
+    text: 'text-rose-600',
+    border: 'border-rose-200',
+    ring: 'focus:ring-rose-500',
+  },
+  sky: {
+    bg: 'bg-sky-500',
+    bgSoft: 'bg-sky-50',
+    text: 'text-sky-600',
+    border: 'border-sky-200',
+    ring: 'focus:ring-sky-500',
+  },
+  violet: {
+    bg: 'bg-violet-500',
+    bgSoft: 'bg-violet-50',
+    text: 'text-violet-600',
+    border: 'border-violet-200',
+    ring: 'focus:ring-violet-500',
+  },
 }
-
-const menuItems: MenuItem[] = [
-  {
-    label: 'Resumen',
-    icon: <LayoutGrid size={18} />,
-    to: '/admin/dashboard',
-  },
-  {
-    label: 'Reservaciones',
-    icon: <CalendarCheck size={18} />,
-    to: '/admin/reservations',
-  },
-  {
-    label: 'Alojamientos',
-    icon: <Home size={18} />,
-    children: [
-      { label: 'Lista', to: '/admin/lodgings' },
-      { label: 'Tipos', to: '/admin/lodging-types' },
-    ],
-  },
-  {
-    label: 'Usuarios',
-    icon: <Users size={18} />,
-    to: '/admin/users',
-  },
-  {
-    label: 'Configuraciones',
-    icon: <Settings size={18} />,
-    children: [
-      { label: 'Colonia', to: '/admin/settings/settlements' },
-      { label: 'Amenidades', to: '/admin/settings/amenities' },
-    ],
-  },
-]
 
 export default function Sidebar() {
   const location = useLocation()
-  const [openMenus, setOpenMenus] = useState<string[]>(() => {
-    // Abrir automáticamente el menú que contiene la ruta actual
-    const active = menuItems.find((item) =>
-      item.children?.some((child) => location.pathname.startsWith(child.to))
-    )
-    return active ? [active.label] : []
-  })
+  const activeRole = getActiveRole(location.pathname)
+  const panel = activeRole ? PANELS[activeRole] : PANELS.administrator
+  const accent = ACCENT_CLASSES[panel.accent]
+
+  // ¿Qué submenús deben estar abiertos al cargar?
+  const initialOpenMenus = useMemo(() => {
+    return panel.sections
+      .filter((s) =>
+        s.children?.some((c) => location.pathname.startsWith(c.to))
+      )
+      .map((s) => s.label)
+  }, [panel, location.pathname])
+
+  console.log('Active role:', activeRole)
+  console.log('Panel:', panel)
+  console.log('Accent classes:', accent)
+  console.log('Initial open menus:', initialOpenMenus)
+  const [openMenus, setOpenMenus] = useState<string[]>(initialOpenMenus)
+
+  // Sincronizar cuando cambia el panel activo (por ejemplo, de admin a host)
+  const [lastRole, setLastRole] = useState(activeRole)
+  if (lastRole !== activeRole) {
+    setLastRole(activeRole)
+    setOpenMenus(initialOpenMenus)
+  }
 
   const toggleMenu = (label: string) => {
     setOpenMenus((prev) =>
@@ -66,18 +83,29 @@ export default function Sidebar() {
     )
   }
 
-  const isChildActive = (item: MenuItem) =>
-    item.children?.some((child) => location.pathname.startsWith(child.to))
+  const isSectionActive = (section: PanelSection) =>
+    section.children?.some((c) => location.pathname.startsWith(c.to)) ?? false
 
   return (
-    <aside className="fixed left-0 top-0 h-screen w-64 bg-white border-r border-gray-200 flex flex-col">
+    <aside className="fixed left-0 top-0 h-screen w-64 bg-white border-r border-gray-200 flex flex-col z-40">
       {/* Logo */}
       <div className="h-16 flex items-center gap-2.5 px-5 border-b border-gray-100">
-        <div className="w-9 h-9 rounded-lg bg-orange-500 flex items-center justify-center">
+        <div
+          className={`w-9 h-9 rounded-lg ${accent.bg} flex items-center justify-center`}
+        >
           <Home size={18} className="text-white" />
         </div>
         <span className="text-lg font-semibold text-gray-900 tracking-tight">
           Hospeda
+        </span>
+      </div>
+
+      {/* Badge del panel activo */}
+      <div className="px-5 pt-5">
+        <span
+          className={`inline-flex items-center px-2.5 py-1 rounded-md text-xs font-semibold text-white ${accent.bg}`}
+        >
+          {panel.label}
         </span>
       </div>
 
@@ -88,46 +116,48 @@ export default function Sidebar() {
         </p>
 
         <ul className="space-y-1">
-          {menuItems.map((item) => {
-            const hasChildren = !!item.children
-            const isOpen = openMenus.includes(item.label)
-            const childActive = isChildActive(item)
+          {panel.sections.map((section) => {
+            const hasChildren = !!section.children?.length
+            const isOpen = openMenus.includes(section.label)
+            const childActive = isSectionActive(section)
 
-            // Item sin submenú
+            // ---- Item simple (sin submenú) ----
             if (!hasChildren) {
               return (
-                <li key={item.label}>
+                <li key={section.label}>
                   <NavLink
-                    to={item.to!}
+                    to={section.to!}
+                    end
                     className={({ isActive }) =>
                       `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                         isActive
-                          ? 'bg-orange-50 text-orange-600'
+                          ? `${accent.bgSoft} ${accent.text}`
                           : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
                       }`
                     }
                   >
-                    <span className="text-current">{item.icon}</span>
-                    {item.label}
+                    <section.icon size={18} className="shrink-0" />
+                    {section.label}
                   </NavLink>
                 </li>
               )
             }
 
-            // Item con submenú
+            // ---- Item con submenú ----
             return (
-              <li key={item.label}>
+              <li key={section.label}>
                 <button
-                  onClick={() => toggleMenu(item.label)}
+                  type="button"
+                  onClick={() => toggleMenu(section.label)}
                   className={`w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                     childActive
-                      ? 'text-orange-600'
+                      ? accent.text
                       : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
                   }`}
                 >
                   <span className="flex items-center gap-3">
-                    {item.icon}
-                    {item.label}
+                    <section.icon size={18} className="shrink-0" />
+                    {section.label}
                   </span>
                   <ChevronDown
                     size={16}
@@ -139,14 +169,14 @@ export default function Sidebar() {
 
                 {isOpen && (
                   <ul className="mt-1 ml-4 pl-3 border-l border-gray-200 space-y-1">
-                    {item.children!.map((child) => (
+                    {section.children!.map((child) => (
                       <li key={child.to}>
                         <NavLink
                           to={child.to}
                           className={({ isActive }) =>
                             `block px-3 py-2 rounded-lg text-sm transition-colors ${
                               isActive
-                                ? 'bg-orange-50 text-orange-600 font-medium'
+                                ? `${accent.bgSoft} ${accent.text} font-medium`
                                 : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50'
                             }`
                           }
@@ -166,7 +196,7 @@ export default function Sidebar() {
       {/* Footer del sidebar */}
       <div className="p-4 border-t border-gray-100">
         <p className="text-xs text-gray-400 text-center">
-          Hospeda Admin v1.0
+          Hospeda · {panel.label}
         </p>
       </div>
     </aside>

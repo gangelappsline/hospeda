@@ -1,89 +1,121 @@
-import { useState } from 'react'
-import { useMutation } from '@tanstack/react-query'
-import { useNavigate, Link } from 'react-router'
-import { toast } from 'sonner'
-import { Mail, Lock, ArrowLeft, AlertCircle, ShieldCheck, Clock, BadgeCheck, Home } from 'lucide-react'
-import { login } from '@/api/auth'
-import type { LoginCredentials, ApiError } from '@/types/auth'
-import InputField from '@/components/InputField'
-import { saveAuth } from '@/utils/authStorage'
+import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { useNavigate, Link } from "react-router-dom";
+import { toast } from "sonner";
+import {
+  Mail,
+  Lock,
+  ArrowLeft,
+  AlertCircle,
+  ShieldCheck,
+  Clock,
+  BadgeCheck,
+  Home,
+} from "lucide-react";
+import { login } from "@/api/auth";
+import type { LoginCredentials, ApiError } from "@/types/auth";
+import InputField from "@/components/InputField";
+import { saveAuth } from "@/utils/authStorage";
+import { PANELS, getDefaultPanel } from '@/config/panels'
 
 export default function Login() {
-  const navigate = useNavigate()
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [remember, setRemember] = useState(false)
-  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({})
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [remember, setRemember] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
   const mutation = useMutation({
     mutationFn: (credentials: LoginCredentials) => login(credentials),
     onSuccess: (data) => {
-    // Guardar en el storage correcto según "remember"
-    saveAuth(data.access_token, data.user, remember)
+      // Guardar en el storage correcto según "remember"
+      saveAuth(data.access_token, data.user, remember);
 
-    toast.success('¡Bienvenido de vuelta!', {
-      description: `Hola ${data.user.name}, has iniciado sesión correctamente.`,
-    })
+      toast.success("¡Bienvenido de vuelta!", {
+        description: `Hola ${data.user.name}, has iniciado sesión correctamente.`,
+      });
 
-    // Si veníamos de una ruta protegida, volver ahí
-    const params = new URLSearchParams(window.location.search)
-    const redirect = params.get('redirect') || '/admin/dashboard'
-    navigate(redirect, { replace: true })
-  },
+      // Si veníamos de una ruta protegida, volver ahí
+      const params = new URLSearchParams(window.location.search);
+      const redirect = params.get("redirect") || "/admin/dashboard";
+
+      if (redirect) {
+        const targetRole = redirect.startsWith("/host/dashboard")
+          ? "host"
+          : redirect.startsWith("/admin/dashboard")
+            ? "administrator"
+            : redirect.startsWith("/support/dashboard")
+              ? "support"
+              : redirect.startsWith("/guest/dashboard")
+                ? "guest"
+                : null;
+
+        if (targetRole && data.user.role == targetRole) {
+          navigate(redirect, { replace: true });
+          return;
+        }
+      }
+
+      // Sin redirect válido → primer panel disponible
+      navigate(getDefaultPanel(data.user.role), { replace: true });
+      //navigate(redirect, { replace: true })
+    },
     onError: (error: ApiError) => {
       // Limpiar errores previos de campos
-      setFieldErrors({})
+      setFieldErrors({});
 
       // Manejo de errores de validación (422)
       if (error.status === 422 && error.errors) {
-        const errors: Record<string, string> = {}
+        const errors: Record<string, string> = {};
         Object.entries(error.errors).forEach(([key, messages]) => {
-          errors[key] = messages[0]
-        })
-        setFieldErrors(errors)
-        toast.error('Datos incompletos', {
-          description: 'Verifique los campos marcados en rojo.',
-        })
-        return
+          errors[key] = messages[0];
+        });
+        setFieldErrors(errors);
+        toast.error("Datos incompletos", {
+          description: "Verifique los campos marcados en rojo.",
+        });
+        return;
       }
 
       // Mostrar Toast según el tipo de error
       if (error.status === 0) {
-        toast.error('Sin conexión', {
-          description: 'No se pudo conectar con el servidor de Hospeda. Verifique su conexión a internet.',
-        })
+        toast.error("Sin conexión", {
+          description:
+            "No se pudo conectar con el servidor de Hospeda. Verifique su conexión a internet.",
+        });
       } else if (error.status === 401) {
-        toast.error('Credenciales incorrectas', {
-          description: 'El correo electrónico o la contraseña son incorrectos.',
-        })
+        toast.error("Credenciales incorrectas", {
+          description: "El correo electrónico o la contraseña son incorrectos.",
+        });
       } else if (error.status === 429) {
-        toast.error('Demasiados intentos', {
-          description: 'Por seguridad, espere un momento antes de intentar de nuevo.',
-        })
+        toast.error("Demasiados intentos", {
+          description:
+            "Por seguridad, espere un momento antes de intentar de nuevo.",
+        });
       } else {
-        toast.error('Error al iniciar sesión', {
+        toast.error("Error al iniciar sesión", {
           description: error.message,
-        })
+        });
       }
     },
-  })
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    setFieldErrors({})
+    e.preventDefault();
+    setFieldErrors({});
 
     // Validación local
     if (!email.trim()) {
-      setFieldErrors({ email: 'El correo electrónico es obligatorio' })
-      return
+      setFieldErrors({ email: "El correo electrónico es obligatorio" });
+      return;
     }
     if (!password) {
-      setFieldErrors({ password: 'La contraseña es obligatoria' })
-      return
+      setFieldErrors({ password: "La contraseña es obligatoria" });
+      return;
     }
 
-    mutation.mutate({ email, password, remember })
-  }
+    mutation.mutate({ email, password, remember });
+  };
 
   return (
     <div className="min-h-screen flex">
@@ -94,7 +126,7 @@ export default function Login() {
           className="absolute inset-0 bg-cover bg-center opacity-30 mix-blend-overlay"
           style={{
             backgroundImage:
-              'url(https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80)',
+              "url(https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80)",
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-orange-900/90 via-orange-800/60 to-orange-600/40" />
@@ -106,7 +138,9 @@ export default function Login() {
             <div className="w-9 h-9 rounded-lg bg-white/20 backdrop-blur flex items-center justify-center">
               <Home size={20} className="text-white" />
             </div>
-            <span className="text-xl font-semibold tracking-tight">Hospeda</span>
+            <span className="text-xl font-semibold tracking-tight">
+              Hospeda
+            </span>
           </div>
 
           {/* Texto central */}
@@ -115,7 +149,8 @@ export default function Login() {
               Administra tu hospedaje desde un solo lugar
             </h2>
             <p className="text-white/80 mb-8 leading-relaxed">
-              Reservaciones, propiedades, pagos y huéspedes. Todo sincronizado en tiempo real.
+              Reservaciones, propiedades, pagos y huéspedes. Todo sincronizado
+              en tiempo real.
             </p>
 
             <ul className="space-y-4">
@@ -177,7 +212,7 @@ export default function Login() {
               <AlertCircle size={18} className="text-red-500 shrink-0 mt-0.5" />
               <p className="text-sm text-red-700">
                 {(mutation.error as ApiError)?.message ||
-                  'No se pudo conectar con el servidor de Hospeda.'}
+                  "No se pudo conectar con el servidor de Hospeda."}
               </p>
             </div>
           )}
@@ -220,7 +255,9 @@ export default function Login() {
                 onChange={(e) => setRemember(e.target.checked)}
                 className="w-4 h-4 rounded border-gray-300 text-orange-600 focus:ring-orange-500"
               />
-              <span className="text-sm text-gray-700">Mantener sesión iniciada</span>
+              <span className="text-sm text-gray-700">
+                Mantener sesión iniciada
+              </span>
             </label>
 
             <button
@@ -228,18 +265,21 @@ export default function Login() {
               disabled={mutation.isPending}
               className="w-full rounded-lg bg-orange-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              {mutation.isPending ? 'Iniciando sesión...' : 'Iniciar sesión'}
+              {mutation.isPending ? "Iniciando sesión..." : "Iniciar sesión"}
             </button>
           </form>
 
           <p className="text-center text-sm text-gray-500 mt-6">
-            ¿Aún no tienes cuenta?{' '}
-            <Link to="/register" className="text-orange-600 hover:text-orange-700 font-medium">
+            ¿Aún no tienes cuenta?{" "}
+            <Link
+              to="/register"
+              className="text-orange-600 hover:text-orange-700 font-medium"
+            >
               Regístrate gratis
             </Link>
           </p>
         </div>
       </div>
     </div>
-  )
+  );
 }

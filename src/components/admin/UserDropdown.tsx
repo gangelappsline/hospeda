@@ -1,10 +1,12 @@
 import { useState, useRef, useEffect } from 'react'
-import { useNavigate } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import { User, Settings, LogOut, ChevronDown } from 'lucide-react'
 import { getUser, clearAuth } from '@/utils/authStorage'
 import type { ProfileUser } from '@/types/profile'
 import ProfileModal from './profile/ProfileModal'
+import { Role } from '@/types/auth'
+
 
 function getInitials(name: string): string {
   return name
@@ -25,6 +27,13 @@ export default function UserDropdown() {
   const user = getUser<ProfileUser>()
   const displayName = user?.name || 'Usuario'
   const initials = getInitials(displayName)
+
+  const DEFAULT_ROLE_LABELS: Record<Role, string> = {
+  'host': 'Anfitrión',
+  'administrator': 'Administrador',
+  'support': 'Soporte',
+  'guest': 'Invitado',
+}
 
   // Cerrar dropdown al hacer clic fuera
   useEffect(() => {
@@ -74,7 +83,7 @@ export default function UserDropdown() {
             <p className="text-sm font-medium text-gray-900 leading-tight">
               {displayName}
             </p>
-            <p className="text-xs text-gray-500 leading-tight">Administrator</p>
+            <p className="text-xs text-gray-500 leading-tight">{user?.role ? DEFAULT_ROLE_LABELS[user.role as Role] : ''}</p>
           </div>
 
           <ChevronDown

@@ -324,7 +324,7 @@ export default function ProfileModal({ isOpen, onClose }: Props) {
                   <input
                     type="text"
                     value={
-                      profile?.role === 'admin'
+                      profile?.role === 'administrator'
                         ? 'Administrador'
                         : profile?.role === 'host'
                           ? 'Anfitrión'

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 import { Home, LogIn } from 'lucide-react'
+import LogoIcon from '@/assets/images/icon.webp'
 
 export default function LandingNavbar() {
   const [scrolled, setScrolled] = useState(false)
@@ -24,8 +25,8 @@ export default function LandingNavbar() {
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-orange-500 flex items-center justify-center">
-            <Home size={16} className="text-white" />
+          <div className="w-16 h-16 rounded-lg flex items-center justify-center">
+            <img src={LogoIcon} alt="Hospeda Logo" className="w-12 h-12" />
           </div>
           <span className="text-lg font-bold text-gray-900 tracking-tight">
             Hospeda

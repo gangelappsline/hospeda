@@ -15,6 +15,13 @@ export const getToken = (): string | null => {
   )
 }
 
+export const getAuth = (): { accessToken: string | null; user: any | null } => {
+  return {
+    accessToken: getToken(),
+    user: getUser(),
+  }
+}
+
 export const getUser = <T = any>(): T | null => {
   const raw = localStorage.getItem(USER_KEY) || sessionStorage.getItem(USER_KEY)
   if (!raw) return null
