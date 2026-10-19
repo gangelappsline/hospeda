@@ -18,6 +18,10 @@ import Settings from '@/pages/admin/Settings'
 import Amenities from '@/pages/admin/settings/Amenities'
 import Settlements from '@/pages/admin/settings/Settlements'
 import Services from '@/pages/admin/settings/Services'
+import ExperienceList from '@/pages/admin/experiences/ExperienceList'
+import ExperienceCategories from '@/pages/admin/experiences/ExperienceCategories'
+import ServiceList from '@/pages/admin/services/ServiceList'
+import ServiceCategories from '@/pages/admin/services/ServiceCategories'
 import AdminNotFound from '@/pages/admin/NotFound'
 import { useLocation } from 'react-router-dom'
 
@@ -52,6 +56,10 @@ export default function App() {
     <Route path="reservations" element={<Reservations />} />
     <Route path="lodgings" element={<LodgingList />} />
     <Route path="lodging-types" element={<LodgingTypes />} />
+    <Route path="experiences" element={<ExperienceList />} />
+    <Route path="experience-categories" element={<ExperienceCategories />} />
+    <Route path="services" element={<ServiceList />} />
+    <Route path="service-categories" element={<ServiceCategories />} />
     <Route path="users" element={<Users />} />
     <Route path="settings" element={<Settings />} />
     <Route path="settings/amenities" element={<Amenities />} />
