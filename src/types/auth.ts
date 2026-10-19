@@ -21,7 +21,7 @@ export interface ApiError {
   errors?: Record<string, string[]>
   status?: number
 }*/
-export type Role = 'administrator' | 'host' | 'guest' | 'support'
+export type Role = 'administrator' | 'host' | 'guest' | 'support' | 'affiliate'
 
 export interface AuthUser {
   id: number

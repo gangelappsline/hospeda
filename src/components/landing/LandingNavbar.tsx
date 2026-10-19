@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Home, LogIn } from 'lucide-react'
+import { LogIn } from 'lucide-react'
 import LogoIcon from '@/assets/images/icon.webp'
 
 export default function LandingNavbar() {
@@ -53,6 +53,12 @@ export default function LandingNavbar() {
           >
             Sé anfitrión
           </a>
+          <Link
+            to="/afiliados"
+            className="text-sm font-medium text-cool-steel-700 hover:text-vivid-tangerine-500 transition-colors"
+          >
+            Programa de afiliados
+          </Link>
         </nav>
 
         {/* Derecha */}

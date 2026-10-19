@@ -16,7 +16,7 @@ import { login } from "@/api/auth";
 import type { LoginCredentials, ApiError } from "@/types/auth";
 import InputField from "@/components/InputField";
 import { saveAuth } from "@/utils/authStorage";
-import { PANELS, getDefaultPanel } from '@/config/panels'
+import { getDefaultPanel } from '@/config/panels'
 
 export default function Login() {
   const navigate = useNavigate();
@@ -48,7 +48,9 @@ export default function Login() {
               ? "support"
               : redirect.startsWith("/guest/dashboard")
                 ? "guest"
-                : null;
+                : redirect.startsWith("/affiliate/")
+                  ? "affiliate"
+                  : null;
 
         if (targetRole && data.user.role == targetRole) {
           navigate(redirect, { replace: true });

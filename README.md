@@ -73,3 +73,23 @@ export default defineConfig([
 ])
 
 ```
+
+---
+
+## Hospeda · Sistema de Afiliados
+
+El repositorio incluye el **Programa de Afiliados** completo (frontend):
+
+- Landing pública: `/afiliados`
+- Registro profesional de afiliados (multi-paso): `/afiliados/registro?ref=CODIGO`
+- Panel del afiliado (`rol affiliate`): `/affiliate/dashboard`, `/affiliate/referrals`,
+  `/affiliate/commissions`, `/affiliate/payouts`, `/affiliate/profile`
+- Administración: `/admin/affiliates` (aprobar/suspender) y
+  `/admin/affiliates/settings` (porcentajes de comisión configurables)
+
+Modelo: cada afiliado puede referir **infinitos** usuarios de nivel 1 (hijos) y
+cada uno de ellos **infinitos** de nivel 2 (nietos). Comisión por defecto:
+**3 %** por nivel 1 y **2 %** por nivel 2 — configurable desde la API.
+
+📄 **Documentación para los ajustes de la API:**
+[docs/afiliados/SISTEMA_DE_AFILIADOS.md](docs/afiliados/SISTEMA_DE_AFILIADOS.md)

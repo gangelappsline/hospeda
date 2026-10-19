@@ -15,6 +15,10 @@ import {
   Home,
   Compass,
   ConciergeBell,
+  Share2,
+  Network,
+  Wallet,
+  Percent,
 } from 'lucide-react'
 import type { Role } from '@/types/auth'
 
@@ -34,8 +38,8 @@ export interface PanelConfig {
   role: Role
   basePath: string
   label: string
-  //** Paleta de acento de marca: 'vivid-tangerine' | 'pacific-blue' | 'tangerine-dream' | 'cool-steel' */
-  accent: 'vivid-tangerine' | 'pacific-blue' | 'tangerine-dream' | 'cool-steel'
+  //** Paleta de acento de marca: 'vivid-tangerine' | 'pacific-blue' | 'tangerine-dream' | 'cool-steel' | 'parchment' */
+  accent: 'vivid-tangerine' | 'pacific-blue' | 'tangerine-dream' | 'cool-steel' | 'parchment'
   sections: PanelSection[]
 }
 
@@ -73,6 +77,14 @@ export const PANELS: Record<Role, PanelConfig> = {
         ],
       },
       { label: 'Usuarios', icon: Users, to: '/admin/users' },
+      {
+        label: 'Afiliados',
+        icon: Share2,
+        children: [
+          { label: 'Directorio', to: '/admin/affiliates' },
+          { label: 'Configuración', to: '/admin/affiliates/settings' },
+        ],
+      },
       {
         label: 'Configuraciones',
         icon: Settings,
@@ -124,6 +136,20 @@ export const PANELS: Record<Role, PanelConfig> = {
       { label: 'Usuarios', icon: Users, to: '/support/users' },
     ],
   },
+
+  affiliate: {
+    role: 'affiliate',
+    basePath: '/affiliate',
+    label: 'Afiliado',
+    accent: 'parchment',
+    sections: [
+      { label: 'Resumen', icon: LayoutDashboard, to: '/affiliate/dashboard' },
+      { label: 'Mi red', icon: Network, to: '/affiliate/referrals' },
+      { label: 'Comisiones', icon: Percent, to: '/affiliate/commissions' },
+      { label: 'Retiros', icon: Wallet, to: '/affiliate/payouts' },
+      { label: 'Mi perfil', icon: User, to: '/affiliate/profile' },
+    ],
+  },
 }
 
 export function getActiveRole(pathname: string): Role | null {
@@ -131,6 +157,7 @@ export function getActiveRole(pathname: string): Role | null {
   if (pathname.startsWith('/host')) return 'host'
   if (pathname.startsWith('/guest')) return 'guest'
   if (pathname.startsWith('/support')) return 'support'
+  if (pathname.startsWith('/affiliate')) return 'affiliate'
   return null
 }
 
