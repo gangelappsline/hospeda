@@ -334,7 +334,7 @@ export default function AffiliateRegister() {
   // ─── Pantalla de éxito ────────────────────────────────────────────────────
   if (success) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-6 bg-gradient-to-br from-parchment-50 via-white to-vivid-tangerine-50">
+      <div className="min-h-screen flex items-center justify-center p-6 bg-gradient-to-br from-parchment-50 via-parchment-100 to-vivid-tangerine-50">
         <div className="w-full max-w-xl">
           <div className="bg-white rounded-2xl shadow-xl border border-cool-steel-100 p-10 text-center">
             <div className="w-16 h-16 rounded-full bg-pacific-blue-50 flex items-center justify-center mx-auto mb-5">
@@ -469,7 +469,7 @@ export default function AffiliateRegister() {
       </div>
 
       {/* Panel derecho — Wizard */}
-      <div className="flex-1 flex items-start lg:items-center justify-center p-6 sm:p-10 bg-white overflow-y-auto">
+      <div className="flex-1 flex items-start lg:items-center justify-center p-6 sm:p-10 bg-surface-warm overflow-y-auto">
         <div className="w-full max-w-xl">
           <Link
             to="/afiliados"

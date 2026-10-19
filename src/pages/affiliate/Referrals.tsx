@@ -129,7 +129,7 @@ export default function AffiliateReferrals() {
 
       {/* Resumen de la pirámide */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="rounded-xl border border-vivid-tangerine-100 bg-gradient-to-br from-vivid-tangerine-50 to-white p-5">
+        <div className="rounded-xl border border-vivid-tangerine-100 bg-gradient-to-br from-vivid-tangerine-50 to-vivid-tangerine-100 p-5">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-lg bg-vivid-tangerine-500 text-white flex items-center justify-center">
               <UserPlus size={19} />
@@ -144,7 +144,7 @@ export default function AffiliateReferrals() {
             </div>
           </div>
         </div>
-        <div className="rounded-xl border border-parchment-100 bg-gradient-to-br from-parchment-50 to-white p-5">
+        <div className="rounded-xl border border-parchment-100 bg-gradient-to-br from-parchment-50 to-parchment-100 p-5">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-lg bg-parchment-500 text-white flex items-center justify-center">
               <Users size={19} />
@@ -159,7 +159,7 @@ export default function AffiliateReferrals() {
             </div>
           </div>
         </div>
-        <div className="rounded-xl border border-pacific-blue-100 bg-gradient-to-br from-pacific-blue-50 to-white p-5">
+        <div className="rounded-xl border border-pacific-blue-100 bg-gradient-to-br from-pacific-blue-50 to-pacific-blue-100 p-5">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-lg bg-pacific-blue-500 text-white flex items-center justify-center">
               <Network size={19} />

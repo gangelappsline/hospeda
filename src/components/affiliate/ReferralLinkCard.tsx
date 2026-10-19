@@ -57,7 +57,7 @@ export default function ReferralLinkCard({
 
   return (
     <div
-      className={`rounded-xl border border-parchment-200 bg-gradient-to-br from-parchment-50 to-white ${compact ? 'p-4' : 'p-5'}`}
+      className={`rounded-xl border border-parchment-200 bg-gradient-to-br from-parchment-50 to-parchment-100 ${compact ? 'p-4' : 'p-5'}`}
     >
       <div className="flex items-center gap-2 mb-3">
         <div className="w-8 h-8 rounded-lg bg-parchment-500/10 flex items-center justify-center text-parchment-600">

@@ -79,7 +79,7 @@ export default function Search() {
   const hasFilters = Object.keys(filters).length > 0
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-surface-warm">
       <LandingNavbar />
 
       <div className="pt-16">

@@ -191,7 +191,7 @@ export default function Login() {
       </div>
 
       {/* Panel derecho - Formulario */}
-      <div className="flex-1 flex items-center justify-center p-6 sm:p-12 bg-white">
+      <div className="flex-1 flex items-center justify-center p-6 sm:p-12 bg-surface-warm">
         <div className="w-full max-w-md">
           <Link
             to="/"

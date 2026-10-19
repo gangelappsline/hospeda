@@ -40,27 +40,29 @@ export default function RevenueChart() {
           <AreaChart data={data} margin={{ top: 5, right: 5, left: -20, bottom: 0 }}>
             <defs>
               <linearGradient id="colorIngresos" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#fb6b04" stopOpacity={0.3} />
-                <stop offset="95%" stopColor="#fb6b04" stopOpacity={0} />
+                <stop offset="5%" stopColor="var(--color-brand)" stopOpacity={0.3} />
+                <stop offset="95%" stopColor="var(--color-brand)" stopOpacity={0} />
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="#e0e7eb" vertical={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--color-line-soft)" vertical={false} />
             <XAxis
               dataKey="month"
               axisLine={false}
               tickLine={false}
-              tick={{ fill: '#829fb0', fontSize: 12 }}
+              tick={{ fill: 'var(--color-subtle)', fontSize: 12 }}
             />
             <YAxis
               axisLine={false}
               tickLine={false}
-              tick={{ fill: '#829fb0', fontSize: 12 }}
+              tick={{ fill: 'var(--color-subtle)', fontSize: 12 }}
               tickFormatter={(v) => `$${v / 1000}k`}
             />
             <Tooltip
               contentStyle={{
                 borderRadius: '8px',
-                border: '1px solid #c0cfd8',
+                border: '1px solid var(--color-line)',
+                backgroundColor: 'var(--color-surface)',
+                color: 'var(--color-ink)',
                 fontSize: '13px',
               }}
               formatter={(value) => [`$${Number(value).toLocaleString()}`, 'Ingresos']}
@@ -68,7 +70,7 @@ export default function RevenueChart() {
             <Area
               type="monotone"
               dataKey="ingresos"
-              stroke="#fb6b04"
+              stroke="var(--color-brand)"
               strokeWidth={2}
               fill="url(#colorIngresos)"
             />
