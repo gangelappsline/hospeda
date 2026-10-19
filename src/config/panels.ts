@@ -13,6 +13,8 @@ import {
   Users,
   Settings,
   Home,
+  Compass,
+  ConciergeBell,
 } from 'lucide-react'
 import type { Role } from '@/types/auth'
 
@@ -54,6 +56,22 @@ export const PANELS: Record<Role, PanelConfig> = {
           { label: 'Tipos', to: '/admin/lodging-types' },
         ],
       },
+      {
+        label: 'Experiencias',
+        icon: Compass,
+        children: [
+          { label: 'Lista', to: '/admin/experiences' },
+          { label: 'Categorías', to: '/admin/experience-categories' },
+        ],
+      },
+      {
+        label: 'Servicios',
+        icon: ConciergeBell,
+        children: [
+          { label: 'Lista', to: '/admin/services' },
+          { label: 'Categorías', to: '/admin/service-categories' },
+        ],
+      },
       { label: 'Usuarios', icon: Users, to: '/admin/users' },
       {
         label: 'Configuraciones',
@@ -61,7 +79,6 @@ export const PANELS: Record<Role, PanelConfig> = {
         children: [
           { label: 'Colonia', to: '/admin/settings/settlements' },
           { label: 'Amenidades', to: '/admin/settings/amenities' },
-          { label: 'Servicios', to: '/admin/settings/services' },
         ],
       },
     ],
