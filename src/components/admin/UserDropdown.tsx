@@ -64,7 +64,7 @@ export default function UserDropdown() {
       <div className="relative" ref={dropdownRef}>
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="flex items-center gap-2 pl-1 pr-2 py-1 rounded-lg hover:bg-gray-50 transition-colors"
+          className="flex items-center gap-2 pl-1 pr-2 py-1 rounded-lg hover:bg-cool-steel-50 transition-colors"
         >
           {/* Avatar */}
           {user?.photo ? (
@@ -74,34 +74,34 @@ export default function UserDropdown() {
               className="w-9 h-9 rounded-full object-cover"
             />
           ) : (
-            <div className="w-9 h-9 rounded-full bg-orange-500 flex items-center justify-center text-white text-sm font-semibold">
+            <div className="w-9 h-9 rounded-full bg-vivid-tangerine-500 flex items-center justify-center text-white text-sm font-semibold">
               {initials}
             </div>
           )}
 
           <div className="hidden sm:block text-left">
-            <p className="text-sm font-medium text-gray-900 leading-tight">
+            <p className="text-sm font-medium text-cool-steel-900 leading-tight">
               {displayName}
             </p>
-            <p className="text-xs text-gray-500 leading-tight">{user?.role ? DEFAULT_ROLE_LABELS[user.role as Role] : ''}</p>
+            <p className="text-xs text-cool-steel-500 leading-tight">{user?.role ? DEFAULT_ROLE_LABELS[user.role as Role] : ''}</p>
           </div>
 
           <ChevronDown
             size={16}
-            className={`text-gray-400 transition-transform ${
+            className={`text-cool-steel-400 transition-transform ${
               isOpen ? 'rotate-180' : ''
             }`}
           />
         </button>
 
         {isOpen && (
-          <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 py-1.5 z-50">
+          <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-cool-steel-200 py-1.5 z-50">
             {/* Info del usuario */}
-            <div className="px-4 py-3 border-b border-gray-100">
-              <p className="text-sm font-semibold text-gray-900 truncate">
+            <div className="px-4 py-3 border-b border-cool-steel-100">
+              <p className="text-sm font-semibold text-cool-steel-900 truncate">
                 {displayName}
               </p>
-              <p className="text-xs text-gray-500 truncate">
+              <p className="text-xs text-cool-steel-500 truncate">
                 {user?.email || 'usuario@hospeda.com'}
               </p>
             </div>
@@ -110,9 +110,9 @@ export default function UserDropdown() {
             <div className="py-1">
               <button
                 onClick={handleOpenProfile}
-                className="w-full flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                className="w-full flex items-center gap-3 px-4 py-2 text-sm text-cool-steel-700 hover:bg-cool-steel-50 transition-colors"
               >
-                <User size={16} className="text-gray-400" />
+                <User size={16} className="text-cool-steel-400" />
                 Ver perfil
               </button>
               <button
@@ -120,18 +120,18 @@ export default function UserDropdown() {
                   setIsOpen(false)
                   navigate('/admin/settings')
                 }}
-                className="w-full flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                className="w-full flex items-center gap-3 px-4 py-2 text-sm text-cool-steel-700 hover:bg-cool-steel-50 transition-colors"
               >
-                <Settings size={16} className="text-gray-400" />
+                <Settings size={16} className="text-cool-steel-400" />
                 Configuración
               </button>
             </div>
 
             {/* Logout */}
-            <div className="border-t border-gray-100 pt-1">
+            <div className="border-t border-cool-steel-100 pt-1">
               <button
                 onClick={handleLogout}
-                className="w-full flex items-center gap-3 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                className="w-full flex items-center gap-3 px-4 py-2 text-sm text-vivid-tangerine-600 hover:bg-vivid-tangerine-50 transition-colors"
               >
                 <LogOut size={16} />
                 Cerrar sesión

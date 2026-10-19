@@ -103,12 +103,12 @@ export default function SettlementModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
       <div className="bg-white rounded-xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="flex items-start justify-between p-6 pb-4 border-b border-gray-100">
+        <div className="flex items-start justify-between p-6 pb-4 border-b border-cool-steel-100">
           <div>
-            <h2 className="text-lg font-bold text-gray-900">
+            <h2 className="text-lg font-bold text-cool-steel-900">
               {isEditing ? 'Editar colonia' : 'Nueva colonia'}
             </h2>
-            <p className="text-sm text-gray-500 mt-0.5">
+            <p className="text-sm text-cool-steel-500 mt-0.5">
               {countryName && stateName && cityName
                 ? `${cityName}, ${stateName}, ${countryName}`
                 : 'Completa los datos de la colonia.'}
@@ -116,7 +116,7 @@ export default function SettlementModal({
           </div>
           <button
             onClick={onClose}
-            className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors"
+            className="w-8 h-8 flex items-center justify-center rounded-lg text-cool-steel-400 hover:bg-cool-steel-100 hover:text-cool-steel-600 transition-colors"
           >
             <X size={18} />
           </button>
@@ -126,8 +126,8 @@ export default function SettlementModal({
         <form onSubmit={handleSubmit} className="p-6 space-y-5">
           {/* Nombre */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">
-              Nombre de la colonia <span className="text-orange-500">*</span>
+            <label className="block text-sm font-medium text-cool-steel-700 mb-1.5">
+              Nombre de la colonia <span className="text-vivid-tangerine-500">*</span>
             </label>
             <input
               type="text"
@@ -137,19 +137,19 @@ export default function SettlementModal({
               autoFocus
               className={`w-full rounded-lg border py-2.5 px-3.5 text-sm transition-colors focus:outline-none focus:ring-2 ${
                 errors.name
-                  ? 'border-red-400 focus:border-red-500 focus:ring-red-100'
-                  : 'border-gray-300 focus:border-orange-500 focus:ring-orange-100'
+                  ? 'border-vivid-tangerine-400 focus:border-vivid-tangerine-500 focus:ring-vivid-tangerine-100'
+                  : 'border-cool-steel-300 focus:border-vivid-tangerine-500 focus:ring-vivid-tangerine-100'
               }`}
             />
             {errors.name && (
-              <p className="mt-1 text-xs text-red-500">{errors.name}</p>
+              <p className="mt-1 text-xs text-vivid-tangerine-500">{errors.name}</p>
             )}
           </div>
 
           {/* Código postal */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">
-              Código postal <span className="text-orange-500">*</span>
+            <label className="block text-sm font-medium text-cool-steel-700 mb-1.5">
+              Código postal <span className="text-vivid-tangerine-500">*</span>
             </label>
             <input
               type="text"
@@ -159,56 +159,56 @@ export default function SettlementModal({
               maxLength={6}
               className={`w-full rounded-lg border py-2.5 px-3.5 text-sm font-mono transition-colors focus:outline-none focus:ring-2 ${
                 errors.zip_code
-                  ? 'border-red-400 focus:border-red-500 focus:ring-red-100'
-                  : 'border-gray-300 focus:border-orange-500 focus:ring-orange-100'
+                  ? 'border-vivid-tangerine-400 focus:border-vivid-tangerine-500 focus:ring-vivid-tangerine-100'
+                  : 'border-cool-steel-300 focus:border-vivid-tangerine-500 focus:ring-vivid-tangerine-100'
               }`}
             />
             {errors.zip_code && (
-              <p className="mt-1 text-xs text-red-500">{errors.zip_code}</p>
+              <p className="mt-1 text-xs text-vivid-tangerine-500">{errors.zip_code}</p>
             )}
           </div>
 
           {/* Info de ubicación */}
           {(countryName || stateName || cityName) && (
-            <div className="rounded-lg bg-gray-50 border border-gray-100 p-4 space-y-2">
-              <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+            <div className="rounded-lg bg-cool-steel-50 border border-cool-steel-100 p-4 space-y-2">
+              <p className="text-xs font-semibold text-cool-steel-500 uppercase tracking-wider mb-2">
                 Ubicación
               </p>
               {countryName && (
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-gray-500">País</span>
-                  <span className="font-medium text-gray-900">{countryName}</span>
+                  <span className="text-cool-steel-500">País</span>
+                  <span className="font-medium text-cool-steel-900">{countryName}</span>
                 </div>
               )}
               {stateName && (
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-gray-500">Estado</span>
-                  <span className="font-medium text-gray-900">{stateName}</span>
+                  <span className="text-cool-steel-500">Estado</span>
+                  <span className="font-medium text-cool-steel-900">{stateName}</span>
                 </div>
               )}
               {cityName && (
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-gray-500">Ciudad</span>
-                  <span className="font-medium text-gray-900">{cityName}</span>
+                  <span className="text-cool-steel-500">Ciudad</span>
+                  <span className="font-medium text-cool-steel-900">{cityName}</span>
                 </div>
               )}
             </div>
           )}
 
           {/* Footer */}
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-100">
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-cool-steel-100">
             <button
               type="button"
               onClick={onClose}
               disabled={mutation.isPending}
-              className="px-4 py-2.5 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 transition-colors disabled:opacity-50"
+              className="px-4 py-2.5 rounded-lg text-sm font-medium text-cool-steel-700 hover:bg-cool-steel-100 transition-colors disabled:opacity-50"
             >
               Cancelar
             </button>
             <button
               type="submit"
               disabled={mutation.isPending}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-orange-500 text-sm font-medium text-white hover:bg-orange-600 transition-colors disabled:opacity-60"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-vivid-tangerine-500 text-sm font-medium text-white hover:bg-vivid-tangerine-600 transition-colors disabled:opacity-60"
             >
               {mutation.isPending ? (
                 <Loader2 size={16} className="animate-spin" />

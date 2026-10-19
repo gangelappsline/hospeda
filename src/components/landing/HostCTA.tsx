@@ -17,10 +17,10 @@ export default function HostCTA() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 0.6 }}
-          className="relative rounded-3xl overflow-hidden bg-[#1a2740] px-8 py-12 sm:px-12 sm:py-16"
+          className="relative rounded-3xl overflow-hidden bg-cool-steel-900 px-8 py-12 sm:px-12 sm:py-16"
         >
           {/* Patrón decorativo sutil */}
-          <div className="absolute top-0 right-0 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute top-0 right-0 w-96 h-96 bg-vivid-tangerine-500/10 rounded-full blur-3xl pointer-events-none" />
 
           <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             {/* Columna izquierda */}
@@ -39,7 +39,7 @@ export default function HostCTA() {
                 la comisión más baja del mercado y pagos en 24 horas.
               </p>
 
-              <button className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-orange-500 text-sm font-semibold text-white hover:bg-orange-600 transition-all hover:shadow-lg hover:shadow-orange-500/30 group">
+              <button className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-vivid-tangerine-500 text-sm font-semibold text-white hover:bg-vivid-tangerine-600 transition-all hover:shadow-lg hover:shadow-vivid-tangerine-500/30 group">
                 Comenzar ahora
                 <ArrowRight
                   size={16}

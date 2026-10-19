@@ -40,11 +40,11 @@ export default function ActiveFilterChips({ filters, onRemove, onClearAll }: Pro
   if (chips.length === 0) return null
 
   return (
-    <div className="bg-white border-b border-gray-100">
+    <div className="bg-white border-b border-cool-steel-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center gap-2 overflow-x-auto">
         <button
           onClick={onClearAll}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-900 text-white text-xs font-medium shrink-0 hover:bg-black transition-colors"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-cool-steel-900 text-white text-xs font-medium shrink-0 hover:bg-cool-steel-950 transition-colors"
         >
           <SlidersHorizontal size={12} />
           Filtros ({chips.length})
@@ -54,12 +54,12 @@ export default function ActiveFilterChips({ filters, onRemove, onClearAll }: Pro
           <button
             key={`${chip.key}-${chip.value ?? ''}-${i}`}
             onClick={() => onRemove(chip.key, chip.value)}
-            className="group flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-gray-300 hover:border-gray-400 text-xs text-gray-700 shrink-0 transition-colors"
+            className="group flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-cool-steel-300 hover:border-cool-steel-400 text-xs text-cool-steel-700 shrink-0 transition-colors"
           >
             {chip.label}
             <X
               size={12}
-              className="text-gray-400 group-hover:text-gray-700"
+              className="text-cool-steel-400 group-hover:text-cool-steel-700"
             />
           </button>
         ))}

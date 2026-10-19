@@ -119,19 +119,19 @@ export default function Settlements() {
   return (
     <div className="space-y-6">
       {/* Breadcrumb */}
-      <nav className="flex items-center gap-1.5 text-sm text-gray-500">
-        <Link to="/admin/settings" className="hover:text-gray-700">
+      <nav className="flex items-center gap-1.5 text-sm text-cool-steel-500">
+        <Link to="/admin/settings" className="hover:text-cool-steel-700">
           Configuración
         </Link>
-        <ChevronRight size={14} className="text-gray-400" />
-        <span className="text-gray-900 font-medium">Colonias</span>
+        <ChevronRight size={14} className="text-cool-steel-400" />
+        <span className="text-cool-steel-900 font-medium">Colonias</span>
       </nav>
 
       {/* Encabezado */}
       <div className="flex items-start justify-between flex-wrap gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Colonias</h1>
-          <p className="text-sm text-gray-500 mt-1">
+          <h1 className="text-2xl font-bold text-cool-steel-900">Colonias</h1>
+          <p className="text-sm text-cool-steel-500 mt-1">
             Administra las colonias donde se encuentran tus alojamientos.
           </p>
         </div>
@@ -144,7 +144,7 @@ export default function Settlements() {
               ? 'Selecciona país, estado y ciudad primero'
               : 'Crear nueva colonia'
           }
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-orange-500 text-sm font-medium text-white hover:bg-orange-600 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-vivid-tangerine-500 text-sm font-medium text-white hover:bg-vivid-tangerine-600 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
         >
           <Plus size={16} />
           Nueva colonia
@@ -152,16 +152,16 @@ export default function Settlements() {
       </div>
 
       {/* Banner del catálogo */}
-      <div className="flex items-center justify-between rounded-xl border border-orange-100 bg-orange-50/50 px-5 py-4 flex-wrap gap-3">
+      <div className="flex items-center justify-between rounded-xl border border-vivid-tangerine-100 bg-vivid-tangerine-50/50 px-5 py-4 flex-wrap gap-3">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-white border border-orange-100 flex items-center justify-center">
-            <MapPin size={18} className="text-orange-500" />
+          <div className="w-10 h-10 rounded-lg bg-white border border-vivid-tangerine-100 flex items-center justify-center">
+            <MapPin size={18} className="text-vivid-tangerine-500" />
           </div>
           <div>
-            <p className="text-sm font-semibold text-gray-900">
+            <p className="text-sm font-semibold text-cool-steel-900">
               Catálogo de colonias
             </p>
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-cool-steel-500">
               {cityId
                 ? `${settlements.length} ${
                     settlements.length === 1
@@ -172,16 +172,16 @@ export default function Settlements() {
             </p>
           </div>
         </div>
-        <p className="text-xs text-gray-500">
-          Los campos con <span className="text-orange-500">*</span> son obligatorios
+        <p className="text-xs text-cool-steel-500">
+          Los campos con <span className="text-vivid-tangerine-500">*</span> son obligatorios
         </p>
       </div>
 
       {/* Panel principal */}
-      <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+      <div className="bg-white rounded-xl border border-cool-steel-100 shadow-sm overflow-hidden">
         {/* Filtros */}
-        <div className="p-5 border-b border-gray-100 space-y-4">
-          <div className="flex items-center gap-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+        <div className="p-5 border-b border-cool-steel-100 space-y-4">
+          <div className="flex items-center gap-2 text-xs font-semibold text-cool-steel-500 uppercase tracking-wider">
             <Search size={13} />
             Filtros de ubicación
           </div>
@@ -189,7 +189,7 @@ export default function Settlements() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             {/* País */}
             <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1.5">
+              <label className="block text-xs font-medium text-cool-steel-500 mb-1.5">
                 País
               </label>
               <select
@@ -197,7 +197,7 @@ export default function Settlements() {
                 onChange={(e) =>
                   setCountryId(e.target.value ? Number(e.target.value) : null)
                 }
-                className="w-full rounded-lg border border-gray-200 bg-white px-3.5 py-2.5 text-sm text-gray-700 focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-100"
+                className="w-full rounded-lg border border-cool-steel-200 bg-white px-3.5 py-2.5 text-sm text-cool-steel-700 focus:border-vivid-tangerine-400 focus:outline-none focus:ring-2 focus:ring-vivid-tangerine-100"
               >
                 <option value="">Todos los países</option>
                 {countries.map((c) => (
@@ -210,7 +210,7 @@ export default function Settlements() {
 
             {/* Estado */}
             <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1.5">
+              <label className="block text-xs font-medium text-cool-steel-500 mb-1.5">
                 Estado
               </label>
               <select
@@ -219,7 +219,7 @@ export default function Settlements() {
                   setStateId(e.target.value ? Number(e.target.value) : null)
                 }
                 disabled={!countryId || loadingStates}
-                className="w-full rounded-lg border border-gray-200 bg-white px-3.5 py-2.5 text-sm text-gray-700 focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-100 disabled:bg-gray-50 disabled:text-gray-400 disabled:cursor-not-allowed"
+                className="w-full rounded-lg border border-cool-steel-200 bg-white px-3.5 py-2.5 text-sm text-cool-steel-700 focus:border-vivid-tangerine-400 focus:outline-none focus:ring-2 focus:ring-vivid-tangerine-100 disabled:bg-cool-steel-50 disabled:text-cool-steel-400 disabled:cursor-not-allowed"
               >
                 <option value="">
                   {loadingStates ? 'Cargando...' : 'Todos los estados'}
@@ -234,7 +234,7 @@ export default function Settlements() {
 
             {/* Ciudad */}
             <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1.5">
+              <label className="block text-xs font-medium text-cool-steel-500 mb-1.5">
                 Ciudad
               </label>
               <select
@@ -243,7 +243,7 @@ export default function Settlements() {
                   setCityId(e.target.value ? Number(e.target.value) : null)
                 }
                 disabled={!stateId || loadingCities}
-                className="w-full rounded-lg border border-gray-200 bg-white px-3.5 py-2.5 text-sm text-gray-700 focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-100 disabled:bg-gray-50 disabled:text-gray-400 disabled:cursor-not-allowed"
+                className="w-full rounded-lg border border-cool-steel-200 bg-white px-3.5 py-2.5 text-sm text-cool-steel-700 focus:border-vivid-tangerine-400 focus:outline-none focus:ring-2 focus:ring-vivid-tangerine-100 disabled:bg-cool-steel-50 disabled:text-cool-steel-400 disabled:cursor-not-allowed"
               >
                 <option value="">
                   {loadingCities ? 'Cargando...' : 'Todas las ciudades'}
@@ -259,9 +259,9 @@ export default function Settlements() {
 
           {/* Mensaje de ayuda si faltan filtros */}
           {!canCreate && (
-            <div className="flex items-start gap-2 rounded-lg bg-blue-50 border border-blue-100 px-3.5 py-2.5">
-              <Info size={14} className="text-blue-500 shrink-0 mt-0.5" />
-              <p className="text-xs text-blue-700">
+            <div className="flex items-start gap-2 rounded-lg bg-pacific-blue-50 border border-pacific-blue-100 px-3.5 py-2.5">
+              <Info size={14} className="text-pacific-blue-500 shrink-0 mt-0.5" />
+              <p className="text-xs text-pacific-blue-700">
                 Selecciona país, estado y ciudad para poder agregar nuevas colonias.
               </p>
             </div>
@@ -273,24 +273,24 @@ export default function Settlements() {
               <div className="relative flex-1 min-w-[240px]">
                 <Search
                   size={16}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-cool-steel-400"
                 />
                 <input
                   type="text"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="Buscar colonia o código postal..."
-                  className="w-full rounded-lg border border-gray-200 bg-gray-50 py-2.5 pl-10 pr-4 text-sm text-gray-700 placeholder-gray-400 focus:border-orange-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-100"
+                  className="w-full rounded-lg border border-cool-steel-200 bg-cool-steel-50 py-2.5 pl-10 pr-4 text-sm text-cool-steel-700 placeholder-cool-steel-400 focus:border-vivid-tangerine-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-vivid-tangerine-100"
                 />
               </div>
               <button
                 onClick={() => refetch()}
                 disabled={fetchingSettlements}
-                className="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-lg border border-gray-200 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors disabled:opacity-50"
+                className="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-lg border border-cool-steel-200 bg-white text-sm font-medium text-cool-steel-700 hover:bg-cool-steel-50 transition-colors disabled:opacity-50"
               >
                 <RefreshCw
                   size={15}
-                  className={fetchingSettlements ? 'animate-spin text-orange-500' : ''}
+                  className={fetchingSettlements ? 'animate-spin text-vivid-tangerine-500' : ''}
                 />
                 Refrescar
               </button>
@@ -301,33 +301,33 @@ export default function Settlements() {
         {/* Tabla */}
         {!cityId ? (
           <div className="flex flex-col items-center justify-center py-20 px-4">
-            <div className="w-14 h-14 rounded-full bg-orange-50 flex items-center justify-center mb-4">
-              <MapPin size={22} className="text-orange-500" />
+            <div className="w-14 h-14 rounded-full bg-vivid-tangerine-50 flex items-center justify-center mb-4">
+              <MapPin size={22} className="text-vivid-tangerine-500" />
             </div>
-            <h3 className="text-base font-semibold text-gray-900 mb-1">
+            <h3 className="text-base font-semibold text-cool-steel-900 mb-1">
               Selecciona una ubicación
             </h3>
-            <p className="text-sm text-gray-500 text-center max-w-sm">
+            <p className="text-sm text-cool-steel-500 text-center max-w-sm">
               Elige un país, estado y ciudad para consultar las colonias disponibles.
             </p>
           </div>
         ) : loadingSettlements ? (
           <div className="p-6 space-y-3">
             {Array.from({ length: 5 }).map((_, i) => (
-              <div key={i} className="h-14 bg-gray-50 rounded-lg animate-pulse" />
+              <div key={i} className="h-14 bg-cool-steel-50 rounded-lg animate-pulse" />
             ))}
           </div>
         ) : filteredSettlements.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-16 px-4">
-            <div className="w-14 h-14 rounded-full bg-orange-50 flex items-center justify-center mb-4">
-              <MapPin size={22} className="text-orange-500" />
+            <div className="w-14 h-14 rounded-full bg-vivid-tangerine-50 flex items-center justify-center mb-4">
+              <MapPin size={22} className="text-vivid-tangerine-500" />
             </div>
-            <h3 className="text-base font-semibold text-gray-900 mb-1">
+            <h3 className="text-base font-semibold text-cool-steel-900 mb-1">
               {search
                 ? 'No hay colonias que coincidan con los filtros seleccionados.'
                 : 'No hay colonias registradas en esta ciudad.'}
             </h3>
-            <p className="text-sm text-gray-500 mb-5 text-center max-w-sm">
+            <p className="text-sm text-cool-steel-500 mb-5 text-center max-w-sm">
               {search
                 ? `No se encontraron resultados para "${search}".`
                 : 'Crea la primera colonia para esta ciudad.'}
@@ -335,7 +335,7 @@ export default function Settlements() {
             {!search && (
               <button
                 onClick={handleCreate}
-                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-orange-500 text-sm font-medium text-white hover:bg-orange-600 transition-colors"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-vivid-tangerine-500 text-sm font-medium text-white hover:bg-vivid-tangerine-600 transition-colors"
               >
                 <Plus size={16} />
                 Crear primera colonia
@@ -347,23 +347,23 @@ export default function Settlements() {
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="bg-gray-50 border-b border-gray-100">
-                    <th className="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                  <tr className="bg-cool-steel-50 border-b border-cool-steel-100">
+                    <th className="text-left px-5 py-3 text-xs font-semibold text-cool-steel-500 uppercase tracking-wider">
                       Colonia
                     </th>
-                    <th className="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                    <th className="text-left px-5 py-3 text-xs font-semibold text-cool-steel-500 uppercase tracking-wider">
                       Código postal
                     </th>
-                    <th className="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                    <th className="text-left px-5 py-3 text-xs font-semibold text-cool-steel-500 uppercase tracking-wider">
                       Ciudad
                     </th>
-                    <th className="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                    <th className="text-left px-5 py-3 text-xs font-semibold text-cool-steel-500 uppercase tracking-wider">
                       Estado
                     </th>
-                    <th className="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                    <th className="text-left px-5 py-3 text-xs font-semibold text-cool-steel-500 uppercase tracking-wider">
                       País
                     </th>
-                    <th className="text-right px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                    <th className="text-right px-5 py-3 text-xs font-semibold text-cool-steel-500 uppercase tracking-wider">
                       Acciones
                     </th>
                   </tr>
@@ -383,8 +383,8 @@ export default function Settlements() {
             </div>
 
             {/* Footer con contador */}
-            <div className="px-5 py-3 border-t border-gray-100 bg-gray-50/50">
-              <p className="text-xs text-gray-500">
+            <div className="px-5 py-3 border-t border-cool-steel-100 bg-cool-steel-50/50">
+              <p className="text-xs text-cool-steel-500">
                 Mostrando {filteredSettlements.length}{' '}
                 {filteredSettlements.length === 1 ? 'registro' : 'registros'}
                 {search && settlements.length !== filteredSettlements.length && (

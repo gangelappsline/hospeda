@@ -38,24 +38,24 @@ const bookings: Booking[] = [
 ]
 
 const statusStyles: Record<Booking['status'], string> = {
-  Confirmada: 'bg-emerald-50 text-emerald-600',
-  Pendiente: 'bg-amber-50 text-amber-600',
-  Cancelada: 'bg-red-50 text-red-500',
+  Confirmada: 'bg-pacific-blue-50 text-pacific-blue-600',
+  Pendiente: 'bg-tangerine-dream-50 text-tangerine-dream-600',
+  Cancelada: 'bg-vivid-tangerine-50 text-vivid-tangerine-500',
 }
 
 export default function RecentBookings() {
   return (
-    <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
-      <div className="flex items-center justify-between p-5 border-b border-gray-100">
+    <div className="bg-white rounded-xl border border-cool-steel-100 shadow-sm overflow-hidden">
+      <div className="flex items-center justify-between p-5 border-b border-cool-steel-100">
         <div>
-          <h3 className="text-base font-semibold text-gray-900">
+          <h3 className="text-base font-semibold text-cool-steel-900">
             Reservaciones recientes
           </h3>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-cool-steel-500">
             Últimos movimientos en tus propiedades
           </p>
         </div>
-        <button className="text-sm font-medium text-orange-600 hover:text-orange-700">
+        <button className="text-sm font-medium text-vivid-tangerine-600 hover:text-vivid-tangerine-700">
           Ver todas
         </button>
       </div>
@@ -63,20 +63,20 @@ export default function RecentBookings() {
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-gray-100">
-              <th className="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+            <tr className="border-b border-cool-steel-100">
+              <th className="text-left px-5 py-3 text-xs font-semibold text-cool-steel-500 uppercase tracking-wider">
                 Huésped
               </th>
-              <th className="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              <th className="text-left px-5 py-3 text-xs font-semibold text-cool-steel-500 uppercase tracking-wider">
                 Propiedad
               </th>
-              <th className="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              <th className="text-left px-5 py-3 text-xs font-semibold text-cool-steel-500 uppercase tracking-wider">
                 Fechas
               </th>
-              <th className="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              <th className="text-left px-5 py-3 text-xs font-semibold text-cool-steel-500 uppercase tracking-wider">
                 Total
               </th>
-              <th className="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              <th className="text-left px-5 py-3 text-xs font-semibold text-cool-steel-500 uppercase tracking-wider">
                 Estado
               </th>
             </tr>
@@ -85,14 +85,14 @@ export default function RecentBookings() {
             {bookings.map((booking, i) => (
               <tr
                 key={i}
-                className="border-b border-gray-50 last:border-0 hover:bg-gray-50 transition-colors"
+                className="border-b border-cool-steel-50 last:border-0 hover:bg-cool-steel-50 transition-colors"
               >
-                <td className="px-5 py-3.5 font-medium text-gray-900">
+                <td className="px-5 py-3.5 font-medium text-cool-steel-900">
                   {booking.guest}
                 </td>
-                <td className="px-5 py-3.5 text-gray-600">{booking.property}</td>
-                <td className="px-5 py-3.5 text-gray-600">{booking.dates}</td>
-                <td className="px-5 py-3.5 font-medium text-gray-900">
+                <td className="px-5 py-3.5 text-cool-steel-600">{booking.property}</td>
+                <td className="px-5 py-3.5 text-cool-steel-600">{booking.dates}</td>
+                <td className="px-5 py-3.5 font-medium text-cool-steel-900">
                   {booking.total}
                 </td>
                 <td className="px-5 py-3.5">

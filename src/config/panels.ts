@@ -34,8 +34,8 @@ export interface PanelConfig {
   role: Role
   basePath: string
   label: string
-  /** Nombre de color Tailwind: 'orange' | 'rose' | 'sky' | 'violet' */
-  accent: 'orange' | 'rose' | 'sky' | 'violet'
+  //** Paleta de acento de marca: 'vivid-tangerine' | 'pacific-blue' | 'tangerine-dream' | 'cool-steel' */
+  accent: 'vivid-tangerine' | 'pacific-blue' | 'tangerine-dream' | 'cool-steel'
   sections: PanelSection[]
 }
 
@@ -44,7 +44,7 @@ export const PANELS: Record<Role, PanelConfig> = {
     role: 'administrator',
     basePath: '/admin',
     label: 'Administración',
-    accent: 'orange',
+    accent: 'vivid-tangerine',
     sections: [
       { label: 'Resumen', icon: LayoutDashboard, to: '/admin/dashboard' },
       { label: 'Reservaciones', icon: CalendarCheck, to: '/admin/reservations' },
@@ -88,7 +88,7 @@ export const PANELS: Record<Role, PanelConfig> = {
     role: 'host',
     basePath: '/host',
     label: 'Anfitrión',
-    accent: 'rose',
+    accent: 'pacific-blue',
     sections: [
       { label: 'Resumen', icon: LayoutDashboard, to: '/host/dashboard' },
       { label: 'Mis alojamientos', icon: Home, to: '/host/lodgings' },
@@ -102,7 +102,7 @@ export const PANELS: Record<Role, PanelConfig> = {
     role: 'guest',
     basePath: '/guest',
     label: 'Huésped',
-    accent: 'sky',
+    accent: 'tangerine-dream',
     sections: [
       { label: 'Resumen', icon: LayoutDashboard, to: '/guest/dashboard' },
       { label: 'Mis reservas', icon: CalendarCheck, to: '/guest/reservations' },
@@ -116,7 +116,7 @@ export const PANELS: Record<Role, PanelConfig> = {
     role: 'support',
     basePath: '/support',
     label: 'Soporte',
-    accent: 'violet',
+    accent: 'cool-steel',
     sections: [
       { label: 'Resumen', icon: LayoutDashboard, to: '/support/dashboard' },
       { label: 'Tickets', icon: Ticket, to: '/support/tickets' },

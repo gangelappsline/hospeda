@@ -124,18 +124,18 @@ export default function ServiceModal({ isOpen, onClose, service }: Props) {
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
       <div className="bg-white rounded-xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="flex items-start justify-between p-6 pb-4 border-b border-gray-100">
+        <div className="flex items-start justify-between p-6 pb-4 border-b border-cool-steel-100">
           <div>
-            <h2 className="text-lg font-bold text-gray-900">
+            <h2 className="text-lg font-bold text-cool-steel-900">
               {isEditing ? 'Editar servicio' : 'Nuevo servicio'}
             </h2>
-            <p className="text-sm text-gray-500 mt-0.5">
+            <p className="text-sm text-cool-steel-500 mt-0.5">
               La información se reflejará en el catálogo.
             </p>
           </div>
           <button
             onClick={onClose}
-            className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors"
+            className="w-8 h-8 flex items-center justify-center rounded-lg text-cool-steel-400 hover:bg-cool-steel-100 hover:text-cool-steel-600 transition-colors"
           >
             <X size={18} />
           </button>
@@ -145,8 +145,8 @@ export default function ServiceModal({ isOpen, onClose, service }: Props) {
         <form onSubmit={handleSubmit} className="p-6 space-y-5">
           {/* Nombre */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">
-              Nombre <span className="text-orange-500">*</span>
+            <label className="block text-sm font-medium text-cool-steel-700 mb-1.5">
+              Nombre <span className="text-vivid-tangerine-500">*</span>
             </label>
             <input
               type="text"
@@ -155,31 +155,31 @@ export default function ServiceModal({ isOpen, onClose, service }: Props) {
               placeholder="Ej. Traslado al aeropuerto"
               className={`w-full rounded-lg border py-2.5 px-3.5 text-sm transition-colors focus:outline-none focus:ring-2 ${
                 errors.name
-                  ? 'border-red-400 focus:border-red-500 focus:ring-red-100'
-                  : 'border-gray-300 focus:border-orange-500 focus:ring-orange-100'
+                  ? 'border-vivid-tangerine-400 focus:border-vivid-tangerine-500 focus:ring-vivid-tangerine-100'
+                  : 'border-cool-steel-300 focus:border-vivid-tangerine-500 focus:ring-vivid-tangerine-100'
               }`}
             />
-            {errors.name && <p className="mt-1 text-xs text-red-500">{errors.name}</p>}
+            {errors.name && <p className="mt-1 text-xs text-vivid-tangerine-500">{errors.name}</p>}
           </div>
 
           {/* Descripción */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">
-              Descripción <span className="text-gray-400 font-normal">(opcional)</span>
+            <label className="block text-sm font-medium text-cool-steel-700 mb-1.5">
+              Descripción <span className="text-cool-steel-400 font-normal">(opcional)</span>
             </label>
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Describe brevemente este servicio..."
               rows={3}
-              className="w-full rounded-lg border border-gray-300 py-2.5 px-3.5 text-sm transition-colors focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-100 resize-none"
+              className="w-full rounded-lg border border-cool-steel-300 py-2.5 px-3.5 text-sm transition-colors focus:border-vivid-tangerine-500 focus:outline-none focus:ring-2 focus:ring-vivid-tangerine-100 resize-none"
             />
           </div>
 
           {/* Precio */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">
-              Precio (MXN) <span className="text-orange-500">*</span>
+            <label className="block text-sm font-medium text-cool-steel-700 mb-1.5">
+              Precio (MXN) <span className="text-vivid-tangerine-500">*</span>
             </label>
             <input
               type="number"
@@ -190,22 +190,22 @@ export default function ServiceModal({ isOpen, onClose, service }: Props) {
               placeholder="0.00"
               className={`w-full rounded-lg border py-2.5 px-3.5 text-sm transition-colors focus:outline-none focus:ring-2 ${
                 errors.price
-                  ? 'border-red-400 focus:border-red-500 focus:ring-red-100'
-                  : 'border-gray-300 focus:border-orange-500 focus:ring-orange-100'
+                  ? 'border-vivid-tangerine-400 focus:border-vivid-tangerine-500 focus:ring-vivid-tangerine-100'
+                  : 'border-cool-steel-300 focus:border-vivid-tangerine-500 focus:ring-vivid-tangerine-100'
               }`}
             />
-            {errors.price && <p className="mt-1 text-xs text-red-500">{errors.price}</p>}
+            {errors.price && <p className="mt-1 text-xs text-vivid-tangerine-500">{errors.price}</p>}
           </div>
 
           {/* Categoría */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">
+            <label className="block text-sm font-medium text-cool-steel-700 mb-1.5">
               Categoría
             </label>
             <select
               value={categoryId ?? ''}
               onChange={(e) => setCategoryId(e.target.value ? Number(e.target.value) : null)}
-              className="w-full rounded-lg border border-gray-300 py-2.5 px-3.5 text-sm transition-colors focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-100 bg-white"
+              className="w-full rounded-lg border border-cool-steel-300 py-2.5 px-3.5 text-sm transition-colors focus:border-vivid-tangerine-500 focus:outline-none focus:ring-2 focus:ring-vivid-tangerine-100 bg-white"
             >
               <option value="">Sin categoría</option>
               {categories.map((cat) => (
@@ -218,7 +218,7 @@ export default function ServiceModal({ isOpen, onClose, service }: Props) {
 
           {/* Imagen */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">
+            <label className="block text-sm font-medium text-cool-steel-700 mb-1.5">
               Imagen
             </label>
             <input
@@ -230,9 +230,9 @@ export default function ServiceModal({ isOpen, onClose, service }: Props) {
             />
             <div
               onClick={() => fileInputRef.current?.click()}
-              className="border-2 border-dashed rounded-xl p-4 flex items-center gap-4 cursor-pointer transition-colors border-gray-200 hover:border-orange-300 hover:bg-orange-50/30"
+              className="border-2 border-dashed rounded-xl p-4 flex items-center gap-4 cursor-pointer transition-colors border-cool-steel-200 hover:border-vivid-tangerine-300 hover:bg-vivid-tangerine-50/30"
             >
-              <div className="w-14 h-14 rounded-lg bg-white border border-gray-200 flex items-center justify-center shrink-0 overflow-hidden">
+              <div className="w-14 h-14 rounded-lg bg-white border border-cool-steel-200 flex items-center justify-center shrink-0 overflow-hidden">
                 {imagePreview ? (
                   <img
                     src={imagePreview}
@@ -240,32 +240,32 @@ export default function ServiceModal({ isOpen, onClose, service }: Props) {
                     className="w-full h-full object-cover"
                   />
                 ) : (
-                  <Upload size={20} className="text-orange-500" />
+                  <Upload size={20} className="text-vivid-tangerine-500" />
                 )}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-gray-900">
+                <p className="text-sm font-medium text-cool-steel-900">
                   {image ? image.name : 'Haz clic para seleccionar una imagen'}
                 </p>
-                <p className="text-xs text-gray-500 mt-0.5">
+                <p className="text-xs text-cool-steel-500 mt-0.5">
                   JPG, PNG o WebP. Máximo 5 MB.
                 </p>
               </div>
             </div>
-            {errors.image && <p className="mt-1 text-xs text-red-500">{errors.image}</p>}
+            {errors.image && <p className="mt-1 text-xs text-vivid-tangerine-500">{errors.image}</p>}
           </div>
 
           {/* Estado */}
           <div className="flex items-center justify-between py-2">
             <div>
-              <p className="text-sm font-medium text-gray-700">Estado</p>
-              <p className="text-xs text-gray-500">Activa o desactiva este servicio.</p>
+              <p className="text-sm font-medium text-cool-steel-700">Estado</p>
+              <p className="text-xs text-cool-steel-500">Activa o desactiva este servicio.</p>
             </div>
             <button
               type="button"
               onClick={() => setActive(!active)}
               className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                active ? 'bg-orange-500' : 'bg-gray-200'
+                active ? 'bg-vivid-tangerine-500' : 'bg-cool-steel-200'
               }`}
             >
               <span
@@ -277,19 +277,19 @@ export default function ServiceModal({ isOpen, onClose, service }: Props) {
           </div>
 
           {/* Footer */}
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-100">
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-cool-steel-100">
             <button
               type="button"
               onClick={onClose}
               disabled={mutation.isPending}
-              className="px-4 py-2.5 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 transition-colors disabled:opacity-50"
+              className="px-4 py-2.5 rounded-lg text-sm font-medium text-cool-steel-700 hover:bg-cool-steel-100 transition-colors disabled:opacity-50"
             >
               Cancelar
             </button>
             <button
               type="submit"
               disabled={mutation.isPending}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-orange-500 text-sm font-medium text-white hover:bg-orange-600 transition-colors disabled:opacity-60"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-vivid-tangerine-500 text-sm font-medium text-white hover:bg-vivid-tangerine-600 transition-colors disabled:opacity-60"
             >
               {mutation.isPending ? (
                 <Loader2 size={16} className="animate-spin" />

@@ -24,7 +24,7 @@ const FEATURES = [
 
 export default function Features() {
   return (
-    <section id="por-que" className="bg-gray-50/70 py-16 scroll-mt-20">
+    <section id="por-que" className="bg-parchment-100/60 py-16 scroll-mt-20">
       <div className="max-w-7xl mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -33,10 +33,10 @@ export default function Features() {
           transition={{ duration: 0.5 }}
           className="mb-10 max-w-2xl"
         >
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">
+          <h2 className="text-2xl sm:text-3xl font-bold text-cool-steel-900 mb-3">
             Lo que hacemos diferente
           </h2>
-          <p className="text-base text-gray-500 leading-relaxed">
+          <p className="text-base text-cool-steel-500 leading-relaxed">
             Tomamos lo mejor del hospedaje entre particulares y arreglamos lo que
             siempre incomodó a viajeros y anfitriones.
           </p>
@@ -52,15 +52,15 @@ export default function Features() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-50px' }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-white rounded-xl border border-gray-100 p-6 hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
+                className="bg-white rounded-xl border border-cool-steel-100 p-6 hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
               >
-                <div className="w-10 h-10 rounded-lg bg-orange-50 flex items-center justify-center mb-4">
-                  <Icon size={20} className="text-orange-500" />
+                <div className="w-10 h-10 rounded-lg bg-vivid-tangerine-50 flex items-center justify-center mb-4">
+                  <Icon size={20} className="text-vivid-tangerine-500" />
                 </div>
-                <h3 className="text-base font-semibold text-gray-900 mb-2">
+                <h3 className="text-base font-semibold text-cool-steel-900 mb-2">
                   {feature.title}
                 </h3>
-                <p className="text-sm text-gray-500 leading-relaxed">
+                <p className="text-sm text-cool-steel-500 leading-relaxed">
                   {feature.description}
                 </p>
               </motion.div>

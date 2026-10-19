@@ -4,7 +4,7 @@ import Header from '@/components/admin/Header'
 
 export default function AdminLayout() {
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="min-h-screen bg-cool-steel-50 flex">
       {/* Sidebar fijo */}
       <Sidebar />
 

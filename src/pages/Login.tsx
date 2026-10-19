@@ -120,7 +120,7 @@ export default function Login() {
   return (
     <div className="min-h-screen flex">
       {/* Panel izquierdo - Branding */}
-      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-gradient-to-br from-orange-600 via-orange-700 to-orange-900">
+      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-gradient-to-br from-vivid-tangerine-600 via-vivid-tangerine-700 to-vivid-tangerine-900">
         {/* Imagen de fondo */}
         <div
           className="absolute inset-0 bg-cover bg-center opacity-30 mix-blend-overlay"
@@ -129,7 +129,7 @@ export default function Login() {
               "url(https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80)",
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-orange-900/90 via-orange-800/60 to-orange-600/40" />
+        <div className="absolute inset-0 bg-gradient-to-t from-vivid-tangerine-900/90 via-vivid-tangerine-800/60 to-vivid-tangerine-600/40" />
 
         {/* Contenido */}
         <div className="relative z-10 flex flex-col justify-between p-12 text-white w-full">
@@ -193,24 +193,24 @@ export default function Login() {
         <div className="w-full max-w-md">
           <Link
             to="/"
-            className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-800 transition-colors mb-8"
+            className="inline-flex items-center gap-1.5 text-sm text-cool-steel-500 hover:text-cool-steel-800 transition-colors mb-8"
           >
             <ArrowLeft size={16} />
             Volver al inicio
           </Link>
 
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          <h1 className="text-3xl font-bold text-cool-steel-900 mb-2">
             Bienvenido de vuelta
           </h1>
-          <p className="text-sm text-gray-500 mb-8">
+          <p className="text-sm text-cool-steel-500 mb-8">
             Ingresa tus credenciales para entrar al panel administrativo.
           </p>
 
           {/* Alerta de error general */}
           {mutation.isError && (
-            <div className="flex items-start gap-2.5 rounded-lg border border-red-200 bg-red-50 p-3.5 mb-6">
-              <AlertCircle size={18} className="text-red-500 shrink-0 mt-0.5" />
-              <p className="text-sm text-red-700">
+            <div className="flex items-start gap-2.5 rounded-lg border border-vivid-tangerine-200 bg-vivid-tangerine-50 p-3.5 mb-6">
+              <AlertCircle size={18} className="text-vivid-tangerine-500 shrink-0 mt-0.5" />
+              <p className="text-sm text-vivid-tangerine-700">
                 {(mutation.error as ApiError)?.message ||
                   "No se pudo conectar con el servidor de Hospeda."}
               </p>
@@ -241,7 +241,7 @@ export default function Login() {
               action={
                 <Link
                   to="/forgot-password"
-                  className="text-sm text-orange-600 hover:text-orange-700 font-medium"
+                  className="text-sm text-vivid-tangerine-600 hover:text-vivid-tangerine-700 font-medium"
                 >
                   ¿Olvidaste tu contraseña?
                 </Link>
@@ -253,9 +253,9 @@ export default function Login() {
                 type="checkbox"
                 checked={remember}
                 onChange={(e) => setRemember(e.target.checked)}
-                className="w-4 h-4 rounded border-gray-300 text-orange-600 focus:ring-orange-500"
+                className="w-4 h-4 rounded border-cool-steel-300 text-vivid-tangerine-600 focus:ring-vivid-tangerine-500"
               />
-              <span className="text-sm text-gray-700">
+              <span className="text-sm text-cool-steel-700">
                 Mantener sesión iniciada
               </span>
             </label>
@@ -263,17 +263,17 @@ export default function Login() {
             <button
               type="submit"
               disabled={mutation.isPending}
-              className="w-full rounded-lg bg-orange-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed"
+              className="w-full rounded-lg bg-vivid-tangerine-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-vivid-tangerine-700 focus:outline-none focus:ring-2 focus:ring-vivid-tangerine-500 focus:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {mutation.isPending ? "Iniciando sesión..." : "Iniciar sesión"}
             </button>
           </form>
 
-          <p className="text-center text-sm text-gray-500 mt-6">
+          <p className="text-center text-sm text-cool-steel-500 mt-6">
             ¿Aún no tienes cuenta?{" "}
             <Link
               to="/register"
-              className="text-orange-600 hover:text-orange-700 font-medium"
+              className="text-vivid-tangerine-600 hover:text-vivid-tangerine-700 font-medium"
             >
               Regístrate gratis
             </Link>
