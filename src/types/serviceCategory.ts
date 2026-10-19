@@ -1,14 +1,19 @@
 export interface ServiceCategory {
   id: number
   name: string
-  description: string | null
+  icon: string | null
   icon_url: string | null
+  logo?: string | null
+  logo_url?: string | null
+  hint: string
+  example: string
   active: boolean
 }
 
 export interface ServiceCategoryPayload {
   name: string
-  description?: string
-  icon: File
-  active?: boolean
+  icon?: File | null
+  hint: string
+  example: string
+  active: boolean
 }

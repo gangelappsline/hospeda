@@ -16,6 +16,7 @@ export default function DeleteServiceCategoryModal({ isOpen, onClose, category }
   const mutation = useMutation({
     mutationFn: () => deleteServiceCategory(category!.id),
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['service-categories'] })
       queryClient.invalidateQueries({ queryKey: ['service-categories-new'] })
       toast.success('Categoría eliminada', {
         description: `"${category?.name}" se eliminó del catálogo.`,

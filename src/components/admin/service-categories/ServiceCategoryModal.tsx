@@ -2,8 +2,14 @@ import { useState, useEffect, useRef } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { X, Upload, Check, Loader2 } from 'lucide-react'
-import { createServiceCategory, updateServiceCategory } from '@/api/serviceCategories'
-import type { ServiceCategory, ServiceCategoryPayload } from '@/types/serviceCategory'
+import {
+  createServiceCategory,
+  updateServiceCategory,
+} from '@/api/serviceCategories'
+import type {
+  ServiceCategory,
+  ServiceCategoryPayload,
+} from '@/types/serviceCategory'
 
 interface Props {
   isOpen: boolean
@@ -11,12 +17,18 @@ interface Props {
   category?: ServiceCategory | null
 }
 
-export default function ServiceCategoryModal({ isOpen, onClose, category }: Props) {
+export default function ServiceCategoryModal({
+  isOpen,
+  onClose,
+  category,
+}: Props) {
   const queryClient = useQueryClient()
   const isEditing = !!category
 
   const [name, setName] = useState('')
-  const [description, setDescription] = useState('')
+  const [hint, setHint] = useState('')
+  const [example, setExample] = useState('')
+  const [active, setActive] = useState(true)
   const [icon, setIcon] = useState<File | null>(null)
   const [iconPreview, setIconPreview] = useState<string | null>(null)
   const [errors, setErrors] = useState<Record<string, string>>({})
@@ -26,9 +38,11 @@ export default function ServiceCategoryModal({ isOpen, onClose, category }: Prop
   useEffect(() => {
     if (isOpen) {
       setName(category?.name || '')
-      setDescription(category?.description || '')
+      setHint(category?.hint || '')
+      setExample(category?.example || '')
+      setActive(category ? Boolean(category.active) : true)
       setIcon(null)
-      setIconPreview(category?.icon_url || null)
+      setIconPreview(category?.icon_url || category?.logo_url || null)
       setErrors({})
     }
   }, [isOpen, category])
@@ -39,6 +53,7 @@ export default function ServiceCategoryModal({ isOpen, onClose, category }: Prop
         ? updateServiceCategory(category!.id, payload)
         : createServiceCategory(payload),
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['service-categories'] })
       queryClient.invalidateQueries({ queryKey: ['service-categories-new'] })
       toast.success(
         isEditing ? 'Categoría actualizada' : 'Categoría creada',
@@ -54,8 +69,11 @@ export default function ServiceCategoryModal({ isOpen, onClose, category }: Prop
       if (error.status === 422 && error.errors) {
         const fieldErrors: Record<string, string> = {}
         Object.entries(error.errors).forEach(([key, messages]: any) => {
-          fieldErrors[key] = messages[0]
+          fieldErrors[key] = Array.isArray(messages) ? messages[0] : String(messages)
         })
+        if (fieldErrors.logo && !fieldErrors.icon) {
+          fieldErrors.icon = fieldErrors.logo
+        }
         setErrors(fieldErrors)
         toast.error('Datos incompletos', {
           description: 'Verifique los campos marcados en rojo.',
@@ -89,7 +107,8 @@ export default function ServiceCategoryModal({ isOpen, onClose, category }: Prop
     const newErrors: Record<string, string> = {}
 
     if (!name.trim()) newErrors.name = 'El nombre es obligatorio'
-    if (!isEditing && !icon) newErrors.icon = 'El icono es obligatorio'
+    if (!hint.trim()) newErrors.hint = 'El hint es obligatorio'
+    if (!example.trim()) newErrors.example = 'El ejemplo es obligatorio'
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors)
@@ -98,8 +117,10 @@ export default function ServiceCategoryModal({ isOpen, onClose, category }: Prop
 
     mutation.mutate({
       name: name.trim(),
-      description: description.trim(),
-      icon: icon as File,
+      hint: hint.trim(),
+      example: example.trim(),
+      icon: icon ?? undefined,
+      active,
     })
   }
 
@@ -119,6 +140,7 @@ export default function ServiceCategoryModal({ isOpen, onClose, category }: Prop
             </p>
           </div>
           <button
+            type="button"
             onClick={onClose}
             className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors"
           >
@@ -135,8 +157,12 @@ export default function ServiceCategoryModal({ isOpen, onClose, category }: Prop
             </label>
             <input
               type="text"
+              maxLength={255}
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => {
+                setName(e.target.value)
+                if (errors.name) setErrors((prev) => ({ ...prev, name: '' }))
+              }}
               placeholder="Ej. Transporte"
               className={`w-full rounded-lg border py-2.5 px-3.5 text-sm transition-colors focus:outline-none focus:ring-2 ${
                 errors.name
@@ -149,24 +175,62 @@ export default function ServiceCategoryModal({ isOpen, onClose, category }: Prop
             )}
           </div>
 
-          {/* Descripción */}
+          {/* Hint */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1.5">
-              Descripción <span className="text-gray-400 font-normal">(opcional)</span>
+              Hint <span className="text-orange-500">*</span>
             </label>
-            <textarea
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Describe brevemente esta categoría..."
-              rows={3}
-              className="w-full rounded-lg border border-gray-300 py-2.5 px-3.5 text-sm transition-colors focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-100 resize-none"
+            <input
+              type="text"
+              maxLength={255}
+              value={hint}
+              onChange={(e) => {
+                setHint(e.target.value)
+                if (errors.hint) setErrors((prev) => ({ ...prev, hint: '' }))
+              }}
+              placeholder="Ej. Indica el tipo de servicio de transporte"
+              className={`w-full rounded-lg border py-2.5 px-3.5 text-sm transition-colors focus:outline-none focus:ring-2 ${
+                errors.hint
+                  ? 'border-red-400 focus:border-red-500 focus:ring-red-100'
+                  : 'border-gray-300 focus:border-orange-500 focus:ring-orange-100'
+              }`}
             />
+            {errors.hint && (
+              <p className="mt-1 text-xs text-red-500">{errors.hint}</p>
+            )}
+          </div>
+
+          {/* Ejemplo */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1.5">
+              Ejemplo <span className="text-orange-500">*</span>
+            </label>
+            <input
+              type="text"
+              maxLength={255}
+              value={example}
+              onChange={(e) => {
+                setExample(e.target.value)
+                if (errors.example)
+                  setErrors((prev) => ({ ...prev, example: '' }))
+              }}
+              placeholder="Ej. Traslado privado al aeropuerto"
+              className={`w-full rounded-lg border py-2.5 px-3.5 text-sm transition-colors focus:outline-none focus:ring-2 ${
+                errors.example
+                  ? 'border-red-400 focus:border-red-500 focus:ring-red-100'
+                  : 'border-gray-300 focus:border-orange-500 focus:ring-orange-100'
+              }`}
+            />
+            {errors.example && (
+              <p className="mt-1 text-xs text-red-500">{errors.example}</p>
+            )}
           </div>
 
           {/* Icono */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1.5">
-              Icono {!isEditing && <span className="text-orange-500">*</span>}
+              Icono{' '}
+              <span className="text-gray-400 font-normal">(opcional)</span>
             </label>
             <input
               ref={fileInputRef}
@@ -195,17 +259,42 @@ export default function ServiceCategoryModal({ isOpen, onClose, category }: Prop
                 )}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-gray-900">
+                <p className="text-sm font-medium text-gray-900 truncate">
                   {icon ? icon.name : 'Haz clic para seleccionar el icono'}
                 </p>
                 <p className="text-xs text-gray-500 mt-0.5">
-                  Se recomienda un archivo cuadrado. Máximo 2 MB.
+                  Se recomienda un archivo cuadrado (WebP, PNG, SVG). Máximo 2 MB.
                 </p>
               </div>
             </div>
             {errors.icon && (
               <p className="mt-1 text-xs text-red-500">{errors.icon}</p>
             )}
+          </div>
+
+          {/* Estado activo */}
+          <div className="flex items-center justify-between rounded-lg border border-gray-200 p-4">
+            <div>
+              <p className="text-sm font-medium text-gray-900">Estado activo</p>
+              <p className="text-xs text-gray-500 mt-0.5">
+                Activa o desactiva esta categoría para nuevos servicios.
+              </p>
+            </div>
+            <button
+              type="button"
+              role="switch"
+              aria-checked={active}
+              onClick={() => setActive(!active)}
+              className={`relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition-colors cursor-pointer ${
+                active ? 'bg-orange-500' : 'bg-gray-200'
+              }`}
+            >
+              <span
+                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                  active ? 'translate-x-6' : 'translate-x-1'
+                }`}
+              />
+            </button>
           </div>
 
           {/* Footer */}

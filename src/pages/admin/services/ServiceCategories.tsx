@@ -14,9 +14,11 @@ export default function ServiceCategories() {
   const [deletingCategory, setDeletingCategory] = useState<ServiceCategory | null>(null)
 
   const { data: categories = [], isLoading, isFetching, refetch } = useQuery({
-    queryKey: ['service-categories-new'],
+    queryKey: ['service-categories'],
     queryFn: getServiceCategories,
   })
+
+  const activeCount = categories.filter((c) => Boolean(c.active)).length
 
   const handleCreate = () => {
     setEditingCategory(null)
@@ -97,7 +99,9 @@ export default function ServiceCategories() {
         </div>
         <div className="flex items-center gap-1.5">
           <Check size={16} className="text-emerald-500" />
-          <span className="text-sm font-semibold text-orange-600">Activo</span>
+          <span className="text-sm font-semibold text-orange-600">
+            {activeCount} {activeCount === 1 ? 'activa' : 'activas'}
+          </span>
         </div>
       </div>
 

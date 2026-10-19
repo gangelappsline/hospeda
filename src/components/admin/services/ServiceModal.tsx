@@ -28,7 +28,7 @@ export default function ServiceModal({ isOpen, onClose, service }: Props) {
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const { data: categories = [] } = useQuery({
-    queryKey: ['service-categories-new'],
+    queryKey: ['service-categories'],
     queryFn: getServiceCategories,
   })
 
