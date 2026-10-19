@@ -1,6 +1,6 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { getAuth } from '@/utils/authStorage'
-import { PANELS, getDefaultPanel } from '@/config/panels'
+import { getDefaultPanel } from '@/config/panels'
 import type { Role } from '@/types/auth'
 
 interface Props {
@@ -18,9 +18,9 @@ export default function ProtectedRoute({ allowedRoles }: Props) {
   }
 
   // 2. Autenticado pero sin el rol requerido → a su panel por defecto
-  /*if (allowedRoles && !allowedRoles.some((r) => user.role === r)) {
+  if (allowedRoles && !allowedRoles.some((r) => user.role === r)) {
     return <Navigate to={getDefaultPanel(user.role)} replace />
-  }*/
+  }
 
   return <Outlet />
 }

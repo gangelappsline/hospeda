@@ -5,6 +5,10 @@ import Login from '@/pages/Login'
 import LodgingDetail from '@/pages/LodgingDetail'
 import Search from '@/pages/Search'
 
+// Afiliados (público)
+import AffiliatesLanding from '@/pages/affiliates/AffiliatesLanding'
+import AffiliateRegister from '@/pages/affiliates/AffiliateRegister'
+
 // Layout compartido (admin puede seguir usando el suyo si ya lo tiene muy custom)
 import AdminLayout from '@/layouts/AdminLayout'
 
@@ -22,6 +26,8 @@ import ExperienceList from '@/pages/admin/experiences/ExperienceList'
 import ExperienceCategories from '@/pages/admin/experiences/ExperienceCategories'
 import ServiceList from '@/pages/admin/services/ServiceList'
 import ServiceCategories from '@/pages/admin/services/ServiceCategories'
+import AffiliateList from '@/pages/admin/affiliates/AffiliateList'
+import AffiliateSettingsPage from '@/pages/admin/affiliates/AffiliateSettingsPage'
 import AdminNotFound from '@/pages/admin/NotFound'
 import { useLocation } from 'react-router-dom'
 
@@ -36,6 +42,13 @@ import GuestDashboard from '@/pages/guest/Dashboard'
 // Support
 import SupportDashboard from '@/pages/support/Dashboard'
 
+// Affiliate panel
+import AffiliateDashboard from '@/pages/affiliate/Dashboard'
+import AffiliateReferrals from '@/pages/affiliate/Referrals'
+import AffiliateCommissions from '@/pages/affiliate/Commissions'
+import AffiliatePayouts from '@/pages/affiliate/Payouts'
+import AffiliateProfile from '@/pages/affiliate/Profile'
+
 export default function App() {
 
   const location = useLocation()
@@ -47,6 +60,10 @@ export default function App() {
       <Route path="/buscar" element={<Search />} />
       <Route path="/alojamiento/:slug" element={<LodgingDetail />} />
       <Route path="/login" element={<Login />} />
+
+      {/* Programa de afiliados (público) */}
+      <Route path="/afiliados" element={<AffiliatesLanding />} />
+      <Route path="/afiliados/registro" element={<AffiliateRegister />} />
 
       {/* ============ ADMIN ============ */}
       <Route element={<ProtectedRoute allowedRoles={['administrator']} />}>
@@ -61,6 +78,8 @@ export default function App() {
     <Route path="services" element={<ServiceList />} />
     <Route path="service-categories" element={<ServiceCategories />} />
     <Route path="users" element={<Users />} />
+    <Route path="affiliates" element={<AffiliateList />} />
+    <Route path="affiliates/settings" element={<AffiliateSettingsPage />} />
     <Route path="settings" element={<Settings />} />
     <Route path="settings/amenities" element={<Amenities />} />
     <Route path="settings/settlements" element={<Settlements />} />
@@ -92,6 +111,18 @@ export default function App() {
         <Route path="/support" element={<AdminLayout />}>
           <Route index element={<Navigate to="/support/dashboard" replace />} />
           <Route path="dashboard" element={<SupportDashboard />} />
+        </Route>
+      </Route>
+
+      {/* ============ AFILIADO ============ */}
+      <Route element={<ProtectedRoute allowedRoles={['affiliate']} />}>
+        <Route path="/affiliate" element={<AdminLayout />}>
+          <Route index element={<Navigate to="/affiliate/dashboard" replace />} />
+          <Route path="dashboard" element={<AffiliateDashboard />} />
+          <Route path="referrals" element={<AffiliateReferrals />} />
+          <Route path="commissions" element={<AffiliateCommissions />} />
+          <Route path="payouts" element={<AffiliatePayouts />} />
+          <Route path="profile" element={<AffiliateProfile />} />
         </Route>
       </Route>
 

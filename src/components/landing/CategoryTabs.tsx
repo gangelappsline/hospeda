@@ -6,14 +6,15 @@ interface Props {
 }
 
 const CATEGORIES: { value: StayCategory; label: string }[] = [
-  { value: 'all', label: 'Frente al mar' },
-  { value: 'cabins', label: 'Cabañas' },
-  { value: 'incredible', label: 'Albercas increíbles' },
-  { value: 'design', label: 'Diseño' },
-  { value: 'city', label: 'Ciudad' },
-  { value: 'haciendas', label: 'Haciendas' },
-  { value: 'views', label: 'Vistas panorámicas' },
-  { value: 'pets', label: 'Mascotas bienvenidas' },
+  { value: 'all', label: 'Todos' },
+  { value: 'Casa', label: 'Casas' },
+  { value: 'Cabaña', label: 'Cabañas' },
+  { value: 'Villa', label: 'Villas' },
+  { value: 'Apartamento', label: 'Apartamentos' },
+  { value: 'Loft', label: 'Lofts' },
+  { value: 'Glamping', label: 'Glamping' },
+  { value: 'Estudio', label: 'Estudios' },
+  { value: 'Oficina', label: 'Oficinas' },
 ]
 
 export default function CategoryTabs({ active, onChange }: Props) {

@@ -4,11 +4,6 @@ import { useQuery } from '@tanstack/react-query'
 import {
   Star,
   Heart,
-  Share2,
-  Users,
-  DoorOpen,
-  BedDouble,
-  Bath,
   ChevronRight,
   ChevronLeft,
   ChevronDown,
@@ -23,12 +18,10 @@ import {
   Award,
   MapPin,
   BadgeCheck,
-  Medal,
-  ThumbsUp,
   Sparkles,
 } from 'lucide-react'
 import { getLodgingBySlug } from '@/api/public'
-import type { LodgingAmenity } from '@/types/public'
+import type { LodgingAmenity, LodgingDetail as LodgingDetailType } from '@/types/public'
 import Skeleton from '@/components/ui/Skeleton'
 import LandingNavbar from '@/components/landing/LandingNavbar'
 import { Home as HomeIcon } from 'lucide-react'
@@ -618,7 +611,7 @@ function NearbyItem({
   )
 }
 
-function BookingCard({ detail }: { detail: LodgingDetail }) {
+function BookingCard({ detail }: { detail: LodgingDetailType }) {
   const [guests, setGuests] = useState(1)
   // Precio total estimado (1 noche, sin impuestos):
   const subtotal = detail.base_price

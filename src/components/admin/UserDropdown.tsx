@@ -33,6 +33,7 @@ export default function UserDropdown() {
   'administrator': 'Administrador',
   'support': 'Soporte',
   'guest': 'Invitado',
+  'affiliate': 'Afiliado',
 }
 
   // Cerrar dropdown al hacer clic fuera

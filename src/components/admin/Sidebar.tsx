@@ -47,6 +47,13 @@ const ACCENT_CLASSES: Record<
     border: 'border-cool-steel-200',
     ring: 'focus:ring-cool-steel-500',
   },
+  parchment: {
+    bg: 'bg-parchment-500',
+    bgSoft: 'bg-parchment-50',
+    text: 'text-parchment-600',
+    border: 'border-parchment-200',
+    ring: 'focus:ring-parchment-500',
+  },
 }
 
 export default function Sidebar() {
