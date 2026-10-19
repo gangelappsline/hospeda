@@ -1,5 +1,72 @@
 @import "tailwindcss";
 
+@theme {
+  /* ── Cool Steel · neutro frío principal ─────────────────────── */
+  --color-cool-steel-50: #eff3f5;
+  --color-cool-steel-100: #e0e7eb;
+  --color-cool-steel-200: #c0cfd8;
+  --color-cool-steel-300: #a1b7c4;
+  --color-cool-steel-400: #829fb0;
+  --color-cool-steel-500: #62879d;
+  --color-cool-steel-600: #4f6c7d;
+  --color-cool-steel-700: #3b515e;
+  --color-cool-steel-800: #27363f;
+  --color-cool-steel-900: #141b1f;
+  --color-cool-steel-950: #0e1316;
+
+  /* ── Vivid Tangerine · acento primario de marca ─────────────── */
+  --color-vivid-tangerine-50: #fff0e6;
+  --color-vivid-tangerine-100: #fee1cd;
+  --color-vivid-tangerine-200: #fdc49b;
+  --color-vivid-tangerine-300: #fda668;
+  --color-vivid-tangerine-400: #fc8936;
+  --color-vivid-tangerine-500: #fb6b04;
+  --color-vivid-tangerine-600: #c95603;
+  --color-vivid-tangerine-700: #974002;
+  --color-vivid-tangerine-800: #642b02;
+  --color-vivid-tangerine-900: #321501;
+  --color-vivid-tangerine-950: #230f01;
+
+  /* ── Tangerine Dream · acento cálido secundario ─────────────── */
+  --color-tangerine-dream-50: #fef0e6;
+  --color-tangerine-dream-100: #fee1cd;
+  --color-tangerine-dream-200: #fdc29b;
+  --color-tangerine-dream-300: #fca469;
+  --color-tangerine-dream-400: #fb8537;
+  --color-tangerine-dream-500: #fa6705;
+  --color-tangerine-dream-600: #c85204;
+  --color-tangerine-dream-700: #963e03;
+  --color-tangerine-dream-800: #642902;
+  --color-tangerine-dream-900: #321501;
+  --color-tangerine-dream-950: #230e01;
+
+  /* ── Pacific Blue · acento fresco (info / éxito) ────────────── */
+  --color-pacific-blue-50: #e8fbfd;
+  --color-pacific-blue-100: #d0f7fb;
+  --color-pacific-blue-200: #a1f0f7;
+  --color-pacific-blue-300: #72e8f3;
+  --color-pacific-blue-400: #43e0ef;
+  --color-pacific-blue-500: #14d9eb;
+  --color-pacific-blue-600: #10adbc;
+  --color-pacific-blue-700: #0c828d;
+  --color-pacific-blue-800: #08575e;
+  --color-pacific-blue-900: #042b2f;
+  --color-pacific-blue-950: #031e21;
+
+  /* ── Parchment · neutro cálido (superficies terrosas) ───────── */
+  --color-parchment-50: #f5f3f0;
+  --color-parchment-100: #ebe7e0;
+  --color-parchment-200: #d7d0c1;
+  --color-parchment-300: #c3b8a2;
+  --color-parchment-400: #aea084;
+  --color-parchment-500: #9a8865;
+  --color-parchment-600: #7b6d51;
+  --color-parchment-700: #5d523c;
+  --color-parchment-800: #3e3728;
+  --color-parchment-900: #1f1b14;
+  --color-parchment-950: #16130e;
+}
+
 @layer utilities {
   .scrollbar-hide::-webkit-scrollbar {
     display: none;

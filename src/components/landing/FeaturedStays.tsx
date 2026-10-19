@@ -39,16 +39,16 @@ export default function FeaturedStays() {
         className="flex items-end justify-between mb-6"
       >
         <div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-1">
+          <h2 className="text-2xl font-bold text-cool-steel-900 mb-1">
             Estancias destacadas
           </h2>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-cool-steel-500">
             Seleccionadas por su calificación y calidad de anfitrión.
           </p>
         </div>
         <a
           href="#"
-          className="text-sm font-medium text-orange-500 hover:text-orange-600 transition-colors shrink-0"
+          className="text-sm font-medium text-vivid-tangerine-500 hover:text-vivid-tangerine-600 transition-colors shrink-0"
         >
           Ver todas
         </a>
@@ -64,7 +64,7 @@ export default function FeaturedStays() {
 
       {isError && (
         <div className="text-center py-16">
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-cool-steel-500">
             No pudimos cargar las estancias. Intenta de nuevo más tarde.
           </p>
         </div>
@@ -72,7 +72,7 @@ export default function FeaturedStays() {
 
       {!isLoading && !isError && stays.length === 0 && (
         <div className="text-center py-16">
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-cool-steel-500">
             No hay estancias disponibles en esta categoría.
           </p>
         </div>

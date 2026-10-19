@@ -113,18 +113,18 @@ export default function AmenityModal({ isOpen, onClose, amenity }: Props) {
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
       <div className="bg-white rounded-xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="flex items-start justify-between p-6 pb-4 border-b border-gray-100">
+        <div className="flex items-start justify-between p-6 pb-4 border-b border-cool-steel-100">
           <div>
-            <h2 className="text-lg font-bold text-gray-900">
+            <h2 className="text-lg font-bold text-cool-steel-900">
               {isEditing ? 'Editar amenidad' : 'Nueva amenidad'}
             </h2>
-            <p className="text-sm text-gray-500 mt-0.5">
+            <p className="text-sm text-cool-steel-500 mt-0.5">
               Define el nombre, icono y disponibilidad.
             </p>
           </div>
           <button
             onClick={onClose}
-            className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors"
+            className="w-8 h-8 flex items-center justify-center rounded-lg text-cool-steel-400 hover:bg-cool-steel-100 hover:text-cool-steel-600 transition-colors"
           >
             <X size={18} />
           </button>
@@ -134,8 +134,8 @@ export default function AmenityModal({ isOpen, onClose, amenity }: Props) {
         <form onSubmit={handleSubmit} className="p-6 space-y-5">
           {/* Nombre */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">
-              Nombre <span className="text-orange-500">*</span>
+            <label className="block text-sm font-medium text-cool-steel-700 mb-1.5">
+              Nombre <span className="text-vivid-tangerine-500">*</span>
             </label>
             <input
               type="text"
@@ -145,19 +145,19 @@ export default function AmenityModal({ isOpen, onClose, amenity }: Props) {
               autoFocus
               className={`w-full rounded-lg border py-2.5 px-3.5 text-sm transition-colors focus:outline-none focus:ring-2 ${
                 errors.name
-                  ? 'border-red-400 focus:border-red-500 focus:ring-red-100'
-                  : 'border-gray-300 focus:border-orange-500 focus:ring-orange-100'
+                  ? 'border-vivid-tangerine-400 focus:border-vivid-tangerine-500 focus:ring-vivid-tangerine-100'
+                  : 'border-cool-steel-300 focus:border-vivid-tangerine-500 focus:ring-vivid-tangerine-100'
               }`}
             />
             {errors.name && (
-              <p className="mt-1 text-xs text-red-500">{errors.name}</p>
+              <p className="mt-1 text-xs text-vivid-tangerine-500">{errors.name}</p>
             )}
           </div>
 
           {/* Icono */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">
-              Icono <span className="text-orange-500">*</span>
+            <label className="block text-sm font-medium text-cool-steel-700 mb-1.5">
+              Icono <span className="text-vivid-tangerine-500">*</span>
             </label>
 
             <input
@@ -172,11 +172,11 @@ export default function AmenityModal({ isOpen, onClose, amenity }: Props) {
               onClick={() => fileInputRef.current?.click()}
               className={`border-2 border-dashed rounded-xl p-4 flex items-center gap-4 cursor-pointer transition-colors ${
                 errors.icon
-                  ? 'border-red-300 bg-red-50/50 hover:bg-red-50'
-                  : 'border-gray-200 hover:border-orange-300 hover:bg-orange-50/30'
+                  ? 'border-vivid-tangerine-300 bg-vivid-tangerine-50/50 hover:bg-vivid-tangerine-50'
+                  : 'border-cool-steel-200 hover:border-vivid-tangerine-300 hover:bg-vivid-tangerine-50/30'
               }`}
             >
-              <div className="w-14 h-14 rounded-lg bg-white border border-gray-200 flex items-center justify-center shrink-0 overflow-hidden">
+              <div className="w-14 h-14 rounded-lg bg-white border border-cool-steel-200 flex items-center justify-center shrink-0 overflow-hidden">
                 {iconPreview ? (
                   <img
                     src={iconPreview}
@@ -184,32 +184,32 @@ export default function AmenityModal({ isOpen, onClose, amenity }: Props) {
                     className="w-full h-full object-contain p-1.5"
                   />
                 ) : (
-                  <Upload size={20} className="text-orange-500" />
+                  <Upload size={20} className="text-vivid-tangerine-500" />
                 )}
               </div>
 
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-gray-900">
+                <p className="text-sm font-medium text-cool-steel-900">
                   {icon ? icon.name : 'Selecciona el icono'}
                 </p>
-                <p className="text-xs text-gray-500 mt-0.5">
+                <p className="text-xs text-cool-steel-500 mt-0.5">
                   Solo archivos WebP (.webp). Máximo 1 MB.
                 </p>
               </div>
             </div>
             {errors.icon && (
-              <p className="mt-1 text-xs text-red-500">{errors.icon}</p>
+              <p className="mt-1 text-xs text-vivid-tangerine-500">{errors.icon}</p>
             )}
           </div>
 
           {/* Estado activo */}
-          <div className="rounded-lg border border-gray-200 p-4">
+          <div className="rounded-lg border border-cool-steel-200 p-4">
             <label className="flex items-start justify-between gap-4 cursor-pointer">
               <div>
-                <p className="text-sm font-semibold text-gray-900">
+                <p className="text-sm font-semibold text-cool-steel-900">
                   Amenidad activa
                 </p>
-                <p className="text-xs text-gray-500 mt-0.5">
+                <p className="text-xs text-cool-steel-500 mt-0.5">
                   Disponible para nuevos alojamientos.
                 </p>
               </div>
@@ -217,25 +217,25 @@ export default function AmenityModal({ isOpen, onClose, amenity }: Props) {
                 type="checkbox"
                 checked={active}
                 onChange={(e) => setActive(e.target.checked)}
-                className="mt-0.5 w-5 h-5 rounded border-gray-300 text-orange-500 focus:ring-orange-500 cursor-pointer"
+                className="mt-0.5 w-5 h-5 rounded border-cool-steel-300 text-vivid-tangerine-500 focus:ring-vivid-tangerine-500 cursor-pointer"
               />
             </label>
           </div>
 
           {/* Footer */}
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-100">
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-cool-steel-100">
             <button
               type="button"
               onClick={onClose}
               disabled={mutation.isPending}
-              className="px-4 py-2.5 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 transition-colors disabled:opacity-50"
+              className="px-4 py-2.5 rounded-lg text-sm font-medium text-cool-steel-700 hover:bg-cool-steel-100 transition-colors disabled:opacity-50"
             >
               Cancelar
             </button>
             <button
               type="submit"
               disabled={mutation.isPending}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-orange-500 text-sm font-medium text-white hover:bg-orange-600 transition-colors disabled:opacity-60"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-vivid-tangerine-500 text-sm font-medium text-white hover:bg-vivid-tangerine-600 transition-colors disabled:opacity-60"
             >
               {mutation.isPending ? (
                 <Loader2 size={16} className="animate-spin" />

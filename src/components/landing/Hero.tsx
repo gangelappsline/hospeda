@@ -15,7 +15,7 @@ export default function Hero() {
           alt="Hospedaje de lujo"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/60" />
+        <div className="absolute inset-0 bg-gradient-to-b from-cool-steel-950/50 via-cool-steel-950/30 to-cool-steel-950/60" />
       </div>
 
       {/* Contenido */}
@@ -60,39 +60,39 @@ export default function Hero() {
           className="bg-white rounded-2xl shadow-2xl p-2 flex flex-col md:flex-row items-stretch gap-1 max-w-3xl mx-auto"
         >
           {/* Destino */}
-          <div className="flex-1 flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-50 transition-colors">
-            <MapPin size={18} className="text-orange-500 shrink-0" />
+          <div className="flex-1 flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-cool-steel-50 transition-colors">
+            <MapPin size={18} className="text-vivid-tangerine-500 shrink-0" />
             <div className="flex-1 text-left min-w-0">
-              <p className="text-xs font-semibold text-gray-700">Destino</p>
+              <p className="text-xs font-semibold text-cool-steel-700">Destino</p>
               <input
                 type="text"
                 placeholder="¿A dónde vas?"
-                className="w-full text-sm text-gray-900 placeholder-gray-400 bg-transparent focus:outline-none"
+                className="w-full text-sm text-cool-steel-900 placeholder-cool-steel-400 bg-transparent focus:outline-none"
               />
             </div>
           </div>
 
-          <div className="hidden md:block w-px bg-gray-200 my-2" />
+          <div className="hidden md:block w-px bg-cool-steel-200 my-2" />
 
           {/* Fechas */}
-          <div className="flex-1 flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-50 transition-colors">
-            <Calendar size={18} className="text-orange-500 shrink-0" />
+          <div className="flex-1 flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-cool-steel-50 transition-colors">
+            <Calendar size={18} className="text-vivid-tangerine-500 shrink-0" />
             <div className="flex-1 text-left min-w-0">
-              <p className="text-xs font-semibold text-gray-700">Fechas</p>
-              <button className="text-sm text-gray-400 text-left">
+              <p className="text-xs font-semibold text-cool-steel-700">Fechas</p>
+              <button className="text-sm text-cool-steel-400 text-left">
                 Llegada — Salida
               </button>
             </div>
           </div>
 
-          <div className="hidden md:block w-px bg-gray-200 my-2" />
+          <div className="hidden md:block w-px bg-cool-steel-200 my-2" />
 
           {/* Huéspedes */}
-          <div className="flex-1 flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-50 transition-colors">
-            <Users size={18} className="text-orange-500 shrink-0" />
+          <div className="flex-1 flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-cool-steel-50 transition-colors">
+            <Users size={18} className="text-vivid-tangerine-500 shrink-0" />
             <div className="flex-1 text-left min-w-0">
-              <p className="text-xs font-semibold text-gray-700">Huéspedes</p>
-              <button className="text-sm text-gray-400 text-left">
+              <p className="text-xs font-semibold text-cool-steel-700">Huéspedes</p>
+              <button className="text-sm text-cool-steel-400 text-left">
                 Agrega huéspedes
               </button>
             </div>
@@ -101,7 +101,7 @@ export default function Hero() {
           {/* Botón buscar */}
           <button
             onClick={scrollToStays}
-            className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-orange-500 text-sm font-semibold text-white hover:bg-orange-600 transition-all hover:shadow-lg hover:shadow-orange-500/30 shrink-0"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-vivid-tangerine-500 text-sm font-semibold text-white hover:bg-vivid-tangerine-600 transition-all hover:shadow-lg hover:shadow-vivid-tangerine-500/30 shrink-0"
           >
             <Search size={16} />
             Buscar

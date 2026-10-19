@@ -59,10 +59,10 @@ export default function LodgingDetail() {
   if (isError || !data) {
     return (
       <div className="max-w-6xl mx-auto px-6 py-20 text-center">
-        <p className="text-gray-500 mb-4">No pudimos cargar este alojamiento.</p>
+        <p className="text-cool-steel-500 mb-4">No pudimos cargar este alojamiento.</p>
         <Link
           to="/"
-          className="text-sm font-medium text-orange-500 hover:text-orange-600"
+          className="text-sm font-medium text-vivid-tangerine-500 hover:text-vivid-tangerine-600"
         >
           Volver al inicio
         </Link>
@@ -87,28 +87,28 @@ export default function LodgingDetail() {
       <div className="max-w-6xl mx-auto px-6 py-6">
         {/* ---------- Título + meta ---------- */}
         <header className="mb-6">
-          <h1 className="text-3xl font-semibold text-gray-900 mb-2">
+          <h1 className="text-3xl font-semibold text-cool-steel-900 mb-2">
             {data.title}
           </h1>
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-gray-700">
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-cool-steel-700">
             <span className="flex items-center gap-1">
-              <Star size={14} className="fill-gray-900 text-gray-900" />
+              <Star size={14} className="fill-cool-steel-900 text-cool-steel-900" />
               <span className="font-medium">{data.rating.toFixed(2)}</span>
-              <span className="text-gray-500">·</span>
+              <span className="text-cool-steel-500">·</span>
               <span className="underline">{data.reviews} reseñas</span>
             </span>
             {data.is_superhost && (
               <>
-                <span className="text-gray-400">·</span>
+                <span className="text-cool-steel-400">·</span>
                 <span className="flex items-center gap-1">
-                  <Award size={14} className="text-gray-900" />
+                  <Award size={14} className="text-cool-steel-900" />
                   <span className="underline">Superanfitrión</span>
                 </span>
               </>
             )}
             {data.address && (
               <>
-                <span className="text-gray-400">·</span>
+                <span className="text-cool-steel-400">·</span>
                 <span className="underline">
                   {data.address.city}, {data.address.state}, {data.address.country}
                 </span>
@@ -130,12 +130,12 @@ export default function LodgingDetail() {
           {/* ============ COLUMNA IZQUIERDA ============ */}
           <div className="space-y-8">
             {/* --- Encabezado del tipo + specs --- */}
-            <div className="flex items-start justify-between gap-4 pb-6 border-b border-gray-200">
+            <div className="flex items-start justify-between gap-4 pb-6 border-b border-cool-steel-200">
               <div>
-                <h2 className="text-xl font-semibold text-gray-900">
+                <h2 className="text-xl font-semibold text-cool-steel-900">
                   {data.type.name} entero en {data.address?.city ?? 'ubicación desconocida'}
                 </h2>
-                <p className="text-sm text-gray-600 mt-1">
+                <p className="text-sm text-cool-steel-600 mt-1">
                   {data.guests} huéspedes · {data.bedrooms} recámaras ·{' '}
                   {data.beds} camas · {data.bathrooms} baño{data.bathrooms !== 1 ? 's' : ''}
                 </p>
@@ -150,7 +150,7 @@ export default function LodgingDetail() {
             </div>
 
             {/* --- Badges destacados --- */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pb-6 border-b border-gray-200">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pb-6 border-b border-cool-steel-200">
               <Badge
                 icon={<KeyRound size={20} />}
                 title="Llegada autónoma"
@@ -169,14 +169,14 @@ export default function LodgingDetail() {
             </div>
 
             {/* --- Descripción --- */}
-            <div className="pb-6 border-b border-gray-200">
-              <p className="text-gray-700 whitespace-pre-line leading-relaxed">
+            <div className="pb-6 border-b border-cool-steel-200">
+              <p className="text-cool-steel-700 whitespace-pre-line leading-relaxed">
                 {description}
               </p>
               {data.description.length > 400 && (
                 <button
                   onClick={() => setShowFullDescription((v) => !v)}
-                  className="mt-3 text-sm font-semibold text-gray-900 underline hover:text-gray-700"
+                  className="mt-3 text-sm font-semibold text-cool-steel-900 underline hover:text-cool-steel-700"
                 >
                   {showFullDescription ? 'Mostrar menos' : 'Mostrar más'}
                 </button>
@@ -185,15 +185,15 @@ export default function LodgingDetail() {
 
             {/* --- Amenidades --- */}
             {data.amenities.length > 0 && (
-              <div className="pb-6 border-b border-gray-200">
+              <div className="pb-6 border-b border-cool-steel-200">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-xl font-semibold text-gray-900">
+                  <h3 className="text-xl font-semibold text-cool-steel-900">
                     Lo que ofrece este lugar
                   </h3>
                   {data.amenities.length > 6 && (
                     <button
                       onClick={() => setShowAllAmenities((v) => !v)}
-                      className="text-xs font-medium px-3 py-1.5 rounded-md bg-gray-100 hover:bg-gray-200 text-gray-800 transition-colors"
+                      className="text-xs font-medium px-3 py-1.5 rounded-md bg-cool-steel-100 hover:bg-cool-steel-200 text-cool-steel-800 transition-colors"
                     >
                       {showAllAmenities
                         ? 'Ver menos'
@@ -209,7 +209,7 @@ export default function LodgingDetail() {
                 {data.amenities.length > 6 && (
                   <button
                     onClick={() => setShowAllAmenities((v) => !v)}
-                    className="mt-5 px-4 py-2.5 rounded-lg border border-gray-300 text-sm font-medium hover:bg-gray-50 transition-colors"
+                    className="mt-5 px-4 py-2.5 rounded-lg border border-cool-steel-300 text-sm font-medium hover:bg-cool-steel-50 transition-colors"
                   >
                     {showAllAmenities
                       ? 'Ver menos amenidades'
@@ -220,17 +220,17 @@ export default function LodgingDetail() {
             )}
 
             {/* --- Calendario --- */}
-            <div className="pb-6 border-b border-gray-200">
+            <div className="pb-6 border-b border-cool-steel-200">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-900">
+                  <h3 className="text-xl font-semibold text-cool-steel-900">
                     Disponibilidad en {data.address?.city ?? 'el alojamiento'}
                   </h3>
-                  <p className="text-sm text-gray-500 mt-1">
+                  <p className="text-sm text-cool-steel-500 mt-1">
                     Estancia mínima: 1 noche
                   </p>
                 </div>
-                <button className="text-xs font-medium px-3 py-1.5 rounded-md bg-gray-100 hover:bg-gray-200 text-gray-800 transition-colors">
+                <button className="text-xs font-medium px-3 py-1.5 rounded-md bg-cool-steel-100 hover:bg-cool-steel-200 text-cool-steel-800 transition-colors">
                   Selecciona tu fecha
                 </button>
               </div>
@@ -238,18 +238,18 @@ export default function LodgingDetail() {
             </div>
 
             {/* --- Rating + reviews --- */}
-            <div className="pb-6 border-b border-gray-200">
+            <div className="pb-6 border-b border-cool-steel-200">
               <div className="flex items-center gap-3 mb-6">
-                <Star size={22} className="fill-gray-900 text-gray-900" />
+                <Star size={22} className="fill-cool-steel-900 text-cool-steel-900" />
                 <span className="text-2xl font-semibold">
                   {data.rating.toFixed(2)}
                 </span>
-                <span className="text-gray-400">·</span>
+                <span className="text-cool-steel-400">·</span>
                 <span className="text-lg font-medium">
                   {data.reviews} reseñas
                 </span>
-                <span className="ml-auto flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-md border border-gray-300">
-                  <BadgeCheck size={14} className="text-gray-700" />
+                <span className="ml-auto flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-md border border-cool-steel-300">
+                  <BadgeCheck size={14} className="text-cool-steel-700" />
                   Solo las reseñas verificadas
                 </span>
               </div>
@@ -272,7 +272,7 @@ export default function LodgingDetail() {
               {data.reviews > 2 && (
                 <button
                   onClick={() => setShowAllReviews((v) => !v)}
-                  className="mt-6 px-4 py-2.5 rounded-lg border border-gray-300 text-sm font-medium hover:bg-gray-50 transition-colors"
+                  className="mt-6 px-4 py-2.5 rounded-lg border border-cool-steel-300 text-sm font-medium hover:bg-cool-steel-50 transition-colors"
                 >
                   {showAllReviews
                     ? 'Mostrar menos reseñas'
@@ -283,20 +283,20 @@ export default function LodgingDetail() {
 
             {/* --- Dónde vas a estar --- */}
             <div className="pb-10">
-              <h3 className="text-xl font-semibold text-gray-900 mb-1">
+              <h3 className="text-xl font-semibold text-cool-steel-900 mb-1">
                 Dónde vas a estar
               </h3>
-              <p className="text-sm text-gray-500 mb-4">
+              <p className="text-sm text-cool-steel-500 mb-4">
                 {data.address?.city}, {data.address?.state}
               </p>
-              <div className="relative w-full h-72 rounded-xl overflow-hidden bg-sky-100 mb-4">
+              <div className="relative w-full h-72 rounded-xl overflow-hidden bg-pacific-blue-100 mb-4">
                 {/* Placeholder de mapa: pon aquí un <Map> real (Leaflet / Google Maps) */}
-                <div className="absolute inset-0 flex items-center justify-center text-sky-700 text-sm font-medium">
+                <div className="absolute inset-0 flex items-center justify-center text-pacific-blue-700 text-sm font-medium">
                   <MapPin size={20} className="mr-2" />
                   {data.address?.formatted_address ?? 'Ubicación aproximada'}
                 </div>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-gray-700">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-cool-steel-700">
                 <NearbyItem icon={<MapPin size={16} />} label="Playa" value="A 5 min caminando" />
                 <NearbyItem icon={<UtensilsCrossed size={16} />} label="Restaurantes" value="A 10 min caminando" />
                 <NearbyItem icon={<Car size={16} />} label="Aeropuerto" value="A 25 min en auto" />
@@ -312,15 +312,15 @@ export default function LodgingDetail() {
       </div>
     </div>
     {/* Footer */}
-      <footer className="border-t border-gray-100 py-8">
+      <footer className="border-t border-cool-steel-100 py-8">
         <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-lg bg-orange-500 flex items-center justify-center">
+            <div className="w-7 h-7 rounded-lg bg-vivid-tangerine-500 flex items-center justify-center">
               <HomeIcon size={14} className="text-white" />
             </div>
-            <span className="text-base font-bold text-gray-900">Hospeda</span>
+            <span className="text-base font-bold text-cool-steel-900">Hospeda</span>
           </div>
-          <p className="text-sm text-gray-400">
+          <p className="text-sm text-cool-steel-400">
             © 2026 Hospeda. Hecho en México.
           </p>
         </div>
@@ -347,7 +347,7 @@ function Gallery({
   return (
     <div className="relative grid grid-cols-4 grid-rows-2 gap-2 rounded-2xl overflow-hidden h-[420px]">
       {/* Imagen grande: ocupa 2x2 */}
-      <div className="col-span-2 row-span-2 bg-gray-100">
+      <div className="col-span-2 row-span-2 bg-cool-steel-100">
         {cover && (
           <img src={cover} alt={title} className="w-full h-full object-cover" />
         )}
@@ -357,7 +357,7 @@ function Gallery({
       {Array.from({ length: 4 }).map((_, i) => {
         const photo = gallery[i]
         return (
-          <div key={i} className="bg-gray-100">
+          <div key={i} className="bg-cool-steel-100">
             {photo && (
               <img
                 src={photo.thumbnail}
@@ -371,7 +371,7 @@ function Gallery({
 
       {/* Botón "Ver todas las fotos" */}
       {totalPhotos > 1 && (
-        <button className="absolute bottom-4 right-4 flex items-center gap-2 px-3 py-2 rounded-lg bg-white border border-gray-900 text-sm font-medium hover:bg-gray-50 shadow-sm">
+        <button className="absolute bottom-4 right-4 flex items-center gap-2 px-3 py-2 rounded-lg bg-white border border-cool-steel-900 text-sm font-medium hover:bg-cool-steel-50 shadow-sm">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
             <path d="M2 3h5v5H2zM9 3h5v5H9zM2 9h5v5H2zM9 9h5v5H9z" />
           </svg>
@@ -393,12 +393,12 @@ function Badge({
 }) {
   return (
     <div className="flex flex-col gap-3">
-      <span className="w-9 h-9 rounded-lg border border-gray-300 flex items-center justify-center text-gray-700">
+      <span className="w-9 h-9 rounded-lg border border-cool-steel-300 flex items-center justify-center text-cool-steel-700">
         {icon}
       </span>
       <div>
-        <p className="text-sm font-semibold text-gray-900">{title}</p>
-        <p className="text-xs text-gray-500 mt-0.5 leading-snug">{subtitle}</p>
+        <p className="text-sm font-semibold text-cool-steel-900">{title}</p>
+        <p className="text-xs text-cool-steel-500 mt-0.5 leading-snug">{subtitle}</p>
       </div>
     </div>
   )
@@ -418,8 +418,8 @@ function AmenityRow({ amenity }: { amenity: LodgingAmenity }) {
 
   return (
     <li className="flex items-center gap-4">
-      <span className="text-gray-700 shrink-0">{icon}</span>
-      <span className="text-sm text-gray-700">{amenity.name}</span>
+      <span className="text-cool-steel-700 shrink-0">{icon}</span>
+      <span className="text-sm text-cool-steel-700">{amenity.name}</span>
     </li>
   )
 }
@@ -438,21 +438,21 @@ function AvailabilityCalendar() {
   ]
 
   return (
-    <div className="rounded-xl border border-gray-200 p-4">
+    <div className="rounded-xl border border-cool-steel-200 p-4">
       <div className="flex items-center justify-between mb-4">
-        <button className="p-1.5 rounded-full hover:bg-gray-100">
+        <button className="p-1.5 rounded-full hover:bg-cool-steel-100">
           <ChevronLeft size={16} />
         </button>
-        <p className="text-sm font-semibold text-gray-900">
+        <p className="text-sm font-semibold text-cool-steel-900">
           {MONTH_NAMES[month]} {year}
         </p>
-        <button className="p-1.5 rounded-full hover:bg-gray-100">
+        <button className="p-1.5 rounded-full hover:bg-cool-steel-100">
           <ChevronRight size={16} />
         </button>
       </div>
       <div className="grid grid-cols-7 gap-1 text-center">
         {['D', 'L', 'M', 'M', 'J', 'V', 'S'].map((d, i) => (
-          <span key={i} className="text-xs font-medium text-gray-500 py-1">
+          <span key={i} className="text-xs font-medium text-cool-steel-500 py-1">
             {d}
           </span>
         ))}
@@ -463,7 +463,7 @@ function AvailabilityCalendar() {
             className={`aspect-square rounded-full text-sm ${
               day === null
                 ? ''
-                : 'hover:bg-gray-100 text-gray-800'
+                : 'hover:bg-cool-steel-100 text-cool-steel-800'
             }`}
           >
             {day}
@@ -487,14 +487,14 @@ function RatingBreakdown() {
     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-3">
       {rows.map((r) => (
         <div key={r.label} className="flex items-center gap-3">
-          <span className="text-sm text-gray-700 w-32 shrink-0">{r.label}</span>
-          <div className="flex-1 h-1 bg-gray-200 rounded-full overflow-hidden">
+          <span className="text-sm text-cool-steel-700 w-32 shrink-0">{r.label}</span>
+          <div className="flex-1 h-1 bg-cool-steel-200 rounded-full overflow-hidden">
             <div
-              className="h-full bg-gray-900"
+              className="h-full bg-cool-steel-900"
               style={{ width: `${(r.value / 5) * 100}%` }}
             />
           </div>
-          <span className="text-xs font-medium text-gray-700 w-8 text-right">
+          <span className="text-xs font-medium text-cool-steel-700 w-8 text-right">
             {r.value.toFixed(1)}
           </span>
         </div>
@@ -529,13 +529,13 @@ function ReviewCard({
             className="w-10 h-10 rounded-full object-cover"
           />
         ) : (
-          <div className="w-10 h-10 rounded-full bg-gray-200" />
+          <div className="w-10 h-10 rounded-full bg-cool-steel-200" />
         )}
         <div>
-          <p className="text-sm font-semibold text-gray-900">
+          <p className="text-sm font-semibold text-cool-steel-900">
             {review.author_name}
           </p>
-          <p className="text-xs text-gray-500">
+          <p className="text-xs text-cool-steel-500">
             {review.author_location ?? ''}
           </p>
         </div>
@@ -547,14 +547,14 @@ function ReviewCard({
             size={12}
             className={
               i < Math.round(review.rating)
-                ? 'fill-gray-900 text-gray-900'
-                : 'fill-gray-300 text-gray-300'
+                ? 'fill-cool-steel-900 text-cool-steel-900'
+                : 'fill-cool-steel-300 text-cool-steel-300'
             }
           />
         ))}
-        <span className="text-xs text-gray-500 ml-1">· {monthYear}</span>
+        <span className="text-xs text-cool-steel-500 ml-1">· {monthYear}</span>
       </div>
-      <p className="text-sm text-gray-700 leading-relaxed">{review.comment}</p>
+      <p className="text-sm text-cool-steel-700 leading-relaxed">{review.comment}</p>
     </div>
   )
 }
@@ -571,10 +571,10 @@ function PlaceholderReview({
   return (
     <div>
       <div className="flex items-center gap-3 mb-3">
-        <div className="w-10 h-10 rounded-full bg-gray-200" />
+        <div className="w-10 h-10 rounded-full bg-cool-steel-200" />
         <div>
-          <p className="text-sm font-semibold text-gray-900">{name}</p>
-          <p className="text-xs text-gray-500">{location}</p>
+          <p className="text-sm font-semibold text-cool-steel-900">{name}</p>
+          <p className="text-xs text-cool-steel-500">{location}</p>
         </div>
       </div>
       <div className="flex items-center gap-1 mb-2">
@@ -584,13 +584,13 @@ function PlaceholderReview({
             size={12}
             className={
               i < rating
-                ? 'fill-gray-900 text-gray-900'
-                : 'fill-gray-300 text-gray-300'
+                ? 'fill-cool-steel-900 text-cool-steel-900'
+                : 'fill-cool-steel-300 text-cool-steel-300'
             }
           />
         ))}
       </div>
-      <p className="text-sm text-gray-700 leading-relaxed">
+      <p className="text-sm text-cool-steel-700 leading-relaxed">
         Excelente estancia. El lugar es tal cual se ve en las fotos, muy limpio
         y bien ubicado. La comunicación con el anfitrión fue impecable.
       </p>
@@ -609,10 +609,10 @@ function NearbyItem({
 }) {
   return (
     <div className="flex items-start gap-3">
-      <span className="text-gray-500 shrink-0 mt-0.5">{icon}</span>
+      <span className="text-cool-steel-500 shrink-0 mt-0.5">{icon}</span>
       <div>
-        <p className="font-medium text-gray-900">{label}</p>
-        <p className="text-gray-500 text-xs">{value}</p>
+        <p className="font-medium text-cool-steel-900">{label}</p>
+        <p className="text-cool-steel-500 text-xs">{value}</p>
       </div>
     </div>
   )
@@ -625,53 +625,53 @@ function BookingCard({ detail }: { detail: LodgingDetail }) {
   const total = subtotal + detail.cleaning_fee + detail.service_fee
 
   return (
-    <div className="rounded-2xl border border-gray-300 shadow-lg p-6">
+    <div className="rounded-2xl border border-cool-steel-300 shadow-lg p-6">
       <div className="flex items-baseline justify-between mb-5">
         <div>
-          <span className="text-2xl font-semibold text-gray-900">
+          <span className="text-2xl font-semibold text-cool-steel-900">
             ${detail.base_price.toLocaleString('es-MX')}
           </span>
-          <span className="text-gray-500 text-sm ml-1">noche</span>
+          <span className="text-cool-steel-500 text-sm ml-1">noche</span>
         </div>
         <div className="flex items-center gap-1 text-xs">
-          <Star size={12} className="fill-gray-900 text-gray-900" />
+          <Star size={12} className="fill-cool-steel-900 text-cool-steel-900" />
           <span className="font-medium">{detail.rating.toFixed(2)}</span>
-          <span className="text-gray-400">·</span>
-          <span className="underline text-gray-500">
+          <span className="text-cool-steel-400">·</span>
+          <span className="underline text-cool-steel-500">
             {detail.reviews} reseñas
           </span>
         </div>
       </div>
 
       {/* Caja de fechas + huéspedes */}
-      <div className="border border-gray-300 rounded-xl overflow-hidden mb-4">
-        <div className="grid grid-cols-2 divide-x divide-gray-300">
-          <button className="p-3 text-left hover:bg-gray-50">
-            <div className="text-[10px] uppercase tracking-wide font-semibold text-gray-700">
+      <div className="border border-cool-steel-300 rounded-xl overflow-hidden mb-4">
+        <div className="grid grid-cols-2 divide-x divide-cool-steel-300">
+          <button className="p-3 text-left hover:bg-cool-steel-50">
+            <div className="text-[10px] uppercase tracking-wide font-semibold text-cool-steel-700">
               Llegada
             </div>
-            <div className="text-sm text-gray-400 mt-0.5">Selecciona</div>
+            <div className="text-sm text-cool-steel-400 mt-0.5">Selecciona</div>
           </button>
-          <button className="p-3 text-left hover:bg-gray-50">
-            <div className="text-[10px] uppercase tracking-wide font-semibold text-gray-700">
+          <button className="p-3 text-left hover:bg-cool-steel-50">
+            <div className="text-[10px] uppercase tracking-wide font-semibold text-cool-steel-700">
               Salida
             </div>
-            <div className="text-sm text-gray-400 mt-0.5">Selecciona</div>
+            <div className="text-sm text-cool-steel-400 mt-0.5">Selecciona</div>
           </button>
         </div>
-        <div className="border-t border-gray-300 p-3 flex items-center justify-between">
+        <div className="border-t border-cool-steel-300 p-3 flex items-center justify-between">
           <div>
-            <div className="text-[10px] uppercase tracking-wide font-semibold text-gray-700">
+            <div className="text-[10px] uppercase tracking-wide font-semibold text-cool-steel-700">
               Huéspedes
             </div>
-            <div className="text-sm text-gray-800 mt-0.5">
+            <div className="text-sm text-cool-steel-800 mt-0.5">
               {guests} huésped{guests !== 1 ? 'es' : ''}
             </div>
           </div>
           <div className="flex items-center gap-1">
             <button
               onClick={() => setGuests((g) => Math.max(1, g - 1))}
-              className="w-7 h-7 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50"
+              className="w-7 h-7 rounded-full border border-cool-steel-300 flex items-center justify-center hover:bg-cool-steel-50"
             >
               −
             </button>
@@ -679,7 +679,7 @@ function BookingCard({ detail }: { detail: LodgingDetail }) {
               onClick={() =>
                 setGuests((g) => Math.min(detail.guests, g + 1))
               }
-              className="w-7 h-7 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50"
+              className="w-7 h-7 rounded-full border border-cool-steel-300 flex items-center justify-center hover:bg-cool-steel-50"
             >
               +
             </button>
@@ -687,16 +687,16 @@ function BookingCard({ detail }: { detail: LodgingDetail }) {
         </div>
       </div>
 
-      <button className="w-full py-3 rounded-xl bg-gradient-to-r from-rose-500 to-pink-500 text-white font-semibold hover:opacity-90 transition-opacity mb-4">
+      <button className="w-full py-3 rounded-xl bg-gradient-to-r from-vivid-tangerine-500 to-vivid-tangerine-600 text-white font-semibold hover:opacity-90 transition-opacity mb-4">
         Reservar ahora
       </button>
 
-      <p className="text-center text-xs text-gray-500 mb-5">
+      <p className="text-center text-xs text-cool-steel-500 mb-5">
         No se te cobrará nada todavía
       </p>
 
       {/* Desglose */}
-      <div className="space-y-2 text-sm text-gray-700 pt-4 border-t border-gray-200">
+      <div className="space-y-2 text-sm text-cool-steel-700 pt-4 border-t border-cool-steel-200">
         <div className="flex justify-between">
           <span className="underline">
             ${detail.base_price.toLocaleString('es-MX')} × 1 noche
@@ -715,30 +715,30 @@ function BookingCard({ detail }: { detail: LodgingDetail }) {
             <span>${detail.service_fee.toLocaleString('es-MX')}</span>
           </div>
         )}
-        <div className="flex justify-between pt-3 mt-2 border-t border-gray-200 font-semibold text-gray-900 text-base">
+        <div className="flex justify-between pt-3 mt-2 border-t border-cool-steel-200 font-semibold text-cool-steel-900 text-base">
           <span>Total</span>
           <span>${total.toLocaleString('es-MX')}</span>
         </div>
       </div>
 
       {/* Badges inferiores */}
-      <div className="mt-5 space-y-2 text-xs text-gray-600">
+      <div className="mt-5 space-y-2 text-xs text-cool-steel-600">
         <div className="flex items-center gap-2">
-          <ShieldCheck size={14} className="text-green-600 shrink-0" />
+          <ShieldCheck size={14} className="text-pacific-blue-600 shrink-0" />
           <span>Garantía de protección de pago</span>
         </div>
         <div className="flex items-center gap-2">
-          <CalendarCheck size={14} className="text-gray-500 shrink-0" />
+          <CalendarCheck size={14} className="text-cool-steel-500 shrink-0" />
           <span>Política de cancelación flexible</span>
         </div>
       </div>
 
-      <button className="mt-5 w-full flex items-center justify-between px-4 py-3 rounded-lg border border-gray-300 hover:bg-gray-50 text-sm font-medium">
+      <button className="mt-5 w-full flex items-center justify-between px-4 py-3 rounded-lg border border-cool-steel-300 hover:bg-cool-steel-50 text-sm font-medium">
         <span className="flex items-center gap-2">
           <Heart size={16} />
           Guardar
         </span>
-        <ChevronDown size={14} className="text-gray-500" />
+        <ChevronDown size={14} className="text-cool-steel-500" />
       </button>
     </div>
   )

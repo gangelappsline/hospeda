@@ -16,19 +16,19 @@ export default function Dashboard() {
       {/* Encabezado */}
       <div className="flex items-start justify-between flex-wrap gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">
+          <h1 className="text-2xl font-bold text-cool-steel-900">
             Hola, {firstName} 👋
           </h1>
-          <p className="text-sm text-gray-500 mt-1">
+          <p className="text-sm text-cool-steel-500 mt-1">
             Este es el resumen de tu operación en Hospeda.
           </p>
         </div>
 
         <div className="flex items-center gap-2">
-          <button className="px-4 py-2 rounded-lg border border-gray-200 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
+          <button className="px-4 py-2 rounded-lg border border-cool-steel-200 bg-white text-sm font-medium text-cool-steel-700 hover:bg-cool-steel-50 transition-colors">
             Últimos 30 días
           </button>
-          <button className="px-4 py-2 rounded-lg bg-orange-500 text-sm font-medium text-white hover:bg-orange-600 transition-colors">
+          <button className="px-4 py-2 rounded-lg bg-vivid-tangerine-500 text-sm font-medium text-white hover:bg-vivid-tangerine-600 transition-colors">
             Nueva propiedad
           </button>
         </div>

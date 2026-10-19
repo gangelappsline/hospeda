@@ -27,8 +27,8 @@ export default function CategoryTabs({ active, onChange }: Props) {
             onClick={() => onChange(category.value)}
             className={`relative whitespace-nowrap px-4 py-2 rounded-full text-sm font-medium transition-all shrink-0 ${
               isActive
-                ? 'bg-[#1a2740] text-white shadow-sm'
-                : 'bg-white text-gray-600 border border-gray-200 hover:border-gray-300 hover:bg-gray-50'
+                ? 'bg-cool-steel-900 text-white shadow-sm'
+                : 'bg-white text-cool-steel-600 border border-cool-steel-200 hover:border-cool-steel-300 hover:bg-cool-steel-50'
             }`}
           >
             {category.label}

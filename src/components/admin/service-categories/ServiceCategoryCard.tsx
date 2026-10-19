@@ -16,23 +16,23 @@ export default function ServiceCategoryCard({
   const isActive = Boolean(category.active)
 
   return (
-    <div className="bg-white rounded-xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col">
+    <div className="bg-white rounded-xl border border-cool-steel-100 overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col">
       {/* Header con ID, estado y acciones */}
       <div className="flex items-center justify-between px-4 pt-4">
         <div className="flex items-center gap-2">
-          <span className="px-2.5 py-1 rounded-md bg-gray-100 text-xs font-medium text-gray-600">
+          <span className="px-2.5 py-1 rounded-md bg-cool-steel-100 text-xs font-medium text-cool-steel-600">
             ID {category.id}
           </span>
           <span
             className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium ${
               isActive
-                ? 'bg-emerald-50 text-emerald-700'
-                : 'bg-gray-100 text-gray-500'
+                ? 'bg-pacific-blue-50 text-pacific-blue-700'
+                : 'bg-cool-steel-100 text-cool-steel-500'
             }`}
           >
             <span
               className={`w-1.5 h-1.5 rounded-full ${
-                isActive ? 'bg-emerald-500' : 'bg-gray-400'
+                isActive ? 'bg-pacific-blue-500' : 'bg-cool-steel-400'
               }`}
             />
             {isActive ? 'Activa' : 'Inactiva'}
@@ -42,14 +42,14 @@ export default function ServiceCategoryCard({
         <div className="flex items-center gap-1">
           <button
             onClick={() => onEdit(category)}
-            className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-500 hover:bg-gray-100 hover:text-gray-700 transition-colors"
+            className="w-8 h-8 flex items-center justify-center rounded-lg text-cool-steel-500 hover:bg-cool-steel-100 hover:text-cool-steel-700 transition-colors"
             aria-label="Editar"
           >
             <Pencil size={15} />
           </button>
           <button
             onClick={() => onDelete(category)}
-            className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-500 hover:bg-red-50 hover:text-red-600 transition-colors"
+            className="w-8 h-8 flex items-center justify-center rounded-lg text-cool-steel-500 hover:bg-vivid-tangerine-50 hover:text-vivid-tangerine-600 transition-colors"
             aria-label="Eliminar"
           >
             <Trash2 size={15} />
@@ -58,8 +58,8 @@ export default function ServiceCategoryCard({
       </div>
 
       {/* Área del icono con gradiente */}
-      <div className="flex items-center justify-center py-8 bg-gradient-to-b from-orange-50/60 to-transparent">
-        <div className="w-24 h-24 rounded-xl bg-white border border-gray-100 flex items-center justify-center p-3 shadow-sm">
+      <div className="flex items-center justify-center py-8 bg-gradient-to-b from-vivid-tangerine-50/60 to-transparent">
+        <div className="w-24 h-24 rounded-xl bg-white border border-cool-steel-100 flex items-center justify-center p-3 shadow-sm">
           {iconSrc ? (
             <img
               src={iconSrc}
@@ -71,23 +71,23 @@ export default function ServiceCategoryCard({
               }}
             />
           ) : (
-            <span className="text-3xl text-orange-300">🏷️</span>
+            <span className="text-3xl text-vivid-tangerine-300">🏷️</span>
           )}
         </div>
       </div>
 
       {/* Footer con nombre, hint y ejemplo */}
-      <div className="p-4 border-t border-gray-100 mt-auto space-y-2">
-        <h3 className="text-base font-semibold text-gray-900">
+      <div className="p-4 border-t border-cool-steel-100 mt-auto space-y-2">
+        <h3 className="text-base font-semibold text-cool-steel-900">
           {category.name}
         </h3>
         <div className="space-y-1 text-xs">
-          <p className="text-gray-600 line-clamp-2">
-            <span className="font-medium text-gray-700">Hint: </span>
+          <p className="text-cool-steel-600 line-clamp-2">
+            <span className="font-medium text-cool-steel-700">Hint: </span>
             {category.hint || '—'}
           </p>
-          <p className="text-gray-500 line-clamp-2">
-            <span className="font-medium text-gray-700">Ejemplo: </span>
+          <p className="text-cool-steel-500 line-clamp-2">
+            <span className="font-medium text-cool-steel-700">Ejemplo: </span>
             {category.example || '—'}
           </p>
         </div>

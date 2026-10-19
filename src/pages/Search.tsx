@@ -109,8 +109,8 @@ export default function Search() {
               {isLoading && <SearchSkeleton />}
 
               {isError && (
-                <div className="text-center py-16 bg-gray-50 rounded-xl">
-                  <p className="text-sm text-gray-500">
+                <div className="text-center py-16 bg-cool-steel-50 rounded-xl">
+                  <p className="text-sm text-cool-steel-500">
                     No pudimos cargar los alojamientos. Intenta de nuevo.
                   </p>
                 </div>
@@ -158,10 +158,10 @@ function ResultsHeader({
 }) {
   return (
     <div className="mb-5">
-      <p className="text-xs font-semibold uppercase tracking-wide text-orange-500 mb-1">
+      <p className="text-xs font-semibold uppercase tracking-wide text-vivid-tangerine-500 mb-1">
         Disponibilidad en vivo
       </p>
-      <h1 className="text-lg sm:text-xl font-semibold text-gray-900">
+      <h1 className="text-lg sm:text-xl font-semibold text-cool-steel-900">
         {isLoading
           ? 'Buscando alojamientos...'
           : total === 0
@@ -180,11 +180,11 @@ function EmptyState({
   onClear: () => void
 }) {
   return (
-    <div className="text-center py-16 bg-gray-50 rounded-xl">
-      <h3 className="text-base font-semibold text-gray-900 mb-1">
+    <div className="text-center py-16 bg-cool-steel-50 rounded-xl">
+      <h3 className="text-base font-semibold text-cool-steel-900 mb-1">
         {hasFilters ? 'Sin resultados para tu búsqueda' : 'No hay alojamientos disponibles'}
       </h3>
-      <p className="text-sm text-gray-500 mb-4 max-w-sm mx-auto">
+      <p className="text-sm text-cool-steel-500 mb-4 max-w-sm mx-auto">
         {hasFilters
           ? 'Prueba ajustando los filtros o buscando en otra ciudad.'
           : 'Vuelve más tarde, estamos actualizando el catálogo.'}
@@ -192,7 +192,7 @@ function EmptyState({
       {hasFilters && (
         <button
           onClick={onClear}
-          className="text-sm font-medium text-orange-600 hover:text-orange-700 underline"
+          className="text-sm font-medium text-vivid-tangerine-600 hover:text-vivid-tangerine-700 underline"
         >
           Limpiar todos los filtros
         </button>

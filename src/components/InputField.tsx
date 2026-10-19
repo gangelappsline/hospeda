@@ -31,12 +31,12 @@ export default function InputField({
   return (
     <div className="w-full">
       <div className="flex items-center justify-between mb-1.5">
-        <label className="text-sm font-medium text-gray-700">{label}</label>
+        <label className="text-sm font-medium text-cool-steel-700">{label}</label>
         {action}
       </div>
       <div className="relative">
         {icon && (
-          <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+          <div className="absolute left-3 top-1/2 -translate-y-1/2 text-cool-steel-400">
             {icon}
           </div>
         )}
@@ -46,13 +46,13 @@ export default function InputField({
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
           autoComplete={autoComplete}
-          className={`w-full rounded-lg border bg-white py-2.5 text-sm text-gray-900 placeholder-gray-400 transition-colors
+          className={`w-full rounded-lg border bg-white py-2.5 text-sm text-cool-steel-900 placeholder-cool-steel-400 transition-colors
             ${icon ? 'pl-10' : 'pl-3'}
             ${isPassword ? 'pr-10' : 'pr-3'}
             ${
               error
-                ? 'border-red-400 focus:border-red-500 focus:ring-2 focus:ring-red-100'
-                : 'border-gray-300 focus:border-orange-500 focus:ring-2 focus:ring-orange-100'
+                ? 'border-vivid-tangerine-400 focus:border-vivid-tangerine-500 focus:ring-2 focus:ring-vivid-tangerine-100'
+                : 'border-cool-steel-300 focus:border-vivid-tangerine-500 focus:ring-2 focus:ring-vivid-tangerine-100'
             }
             focus:outline-none`}
         />
@@ -60,14 +60,14 @@ export default function InputField({
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-cool-steel-400 hover:text-cool-steel-600"
             tabIndex={-1}
           >
             {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
           </button>
         )}
       </div>
-      {error && <p className="mt-1 text-xs text-red-500">{error}</p>}
+      {error && <p className="mt-1 text-xs text-vivid-tangerine-500">{error}</p>}
     </div>
   )
 }

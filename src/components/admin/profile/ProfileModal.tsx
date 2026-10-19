@@ -174,16 +174,16 @@ export default function ProfileModal({ isOpen, onClose }: Props) {
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
       <div className="bg-white rounded-xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="flex items-start justify-between p-6 pb-4 border-b border-gray-100">
+        <div className="flex items-start justify-between p-6 pb-4 border-b border-cool-steel-100">
           <div>
-            <h2 className="text-lg font-bold text-gray-900">Mi perfil</h2>
-            <p className="text-sm text-gray-500 mt-0.5">
+            <h2 className="text-lg font-bold text-cool-steel-900">Mi perfil</h2>
+            <p className="text-sm text-cool-steel-500 mt-0.5">
               Actualiza tu foto, nombre o contraseña.
             </p>
           </div>
           <button
             onClick={onClose}
-            className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors"
+            className="w-8 h-8 flex items-center justify-center rounded-lg text-cool-steel-400 hover:bg-cool-steel-100 hover:text-cool-steel-600 transition-colors"
           >
             <X size={18} />
           </button>
@@ -192,18 +192,18 @@ export default function ProfileModal({ isOpen, onClose }: Props) {
         {isLoading ? (
           <div className="p-6 space-y-5">
             <div className="flex justify-center">
-              <div className="w-24 h-24 rounded-full bg-gray-100 animate-pulse" />
+              <div className="w-24 h-24 rounded-full bg-cool-steel-100 animate-pulse" />
             </div>
-            <div className="h-11 bg-gray-50 rounded-lg animate-pulse" />
-            <div className="h-11 bg-gray-50 rounded-lg animate-pulse" />
-            <div className="h-11 bg-gray-50 rounded-lg animate-pulse" />
+            <div className="h-11 bg-cool-steel-50 rounded-lg animate-pulse" />
+            <div className="h-11 bg-cool-steel-50 rounded-lg animate-pulse" />
+            <div className="h-11 bg-cool-steel-50 rounded-lg animate-pulse" />
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="p-6 space-y-5">
             {/* Avatar */}
             <div className="flex flex-col items-center">
               <div className="relative group">
-                <div className="w-24 h-24 rounded-full overflow-hidden bg-orange-100 flex items-center justify-center border-4 border-white shadow-md">
+                <div className="w-24 h-24 rounded-full overflow-hidden bg-vivid-tangerine-100 flex items-center justify-center border-4 border-white shadow-md">
                   {avatarPreview ? (
                     <img
                       src={avatarPreview}
@@ -211,7 +211,7 @@ export default function ProfileModal({ isOpen, onClose }: Props) {
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    <span className="text-2xl font-bold text-orange-600">
+                    <span className="text-2xl font-bold text-vivid-tangerine-600">
                       {getInitials(name || profile?.name || 'U')}
                     </span>
                   )}
@@ -221,7 +221,7 @@ export default function ProfileModal({ isOpen, onClose }: Props) {
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
-                  className="absolute bottom-0 right-0 w-8 h-8 rounded-full bg-orange-500 text-white flex items-center justify-center shadow-md hover:bg-orange-600 transition-colors"
+                  className="absolute bottom-0 right-0 w-8 h-8 rounded-full bg-vivid-tangerine-500 text-white flex items-center justify-center shadow-md hover:bg-vivid-tangerine-600 transition-colors"
                   aria-label="Cambiar foto"
                 >
                   <Camera size={14} />
@@ -239,24 +239,24 @@ export default function ProfileModal({ isOpen, onClose }: Props) {
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-orange-600 hover:text-orange-700"
+                className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-vivid-tangerine-600 hover:text-vivid-tangerine-700"
               >
                 <Upload size={14} />
                 {avatarPreview ? 'Cambiar foto' : 'Subir foto'}
               </button>
 
-              <p className="text-xs text-gray-400 mt-1">
+              <p className="text-xs text-cool-steel-400 mt-1">
                 WebP, JPG o PNG · Máx. 2 MB
               </p>
               {errors.avatar && (
-                <p className="mt-1 text-xs text-red-500">{errors.avatar}</p>
+                <p className="mt-1 text-xs text-vivid-tangerine-500">{errors.avatar}</p>
               )}
             </div>
 
             {/* Nombre */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                Nombre completo <span className="text-orange-500">*</span>
+              <label className="block text-sm font-medium text-cool-steel-700 mb-1.5">
+                Nombre completo <span className="text-vivid-tangerine-500">*</span>
               </label>
               <input
                 type="text"
@@ -265,61 +265,61 @@ export default function ProfileModal({ isOpen, onClose }: Props) {
                 placeholder="Ej. Angel García"
                 className={`w-full rounded-lg border py-2.5 px-3.5 text-sm transition-colors focus:outline-none focus:ring-2 ${
                   errors.name
-                    ? 'border-red-400 focus:border-red-500 focus:ring-red-100'
-                    : 'border-gray-300 focus:border-orange-500 focus:ring-orange-100'
+                    ? 'border-vivid-tangerine-400 focus:border-vivid-tangerine-500 focus:ring-vivid-tangerine-100'
+                    : 'border-cool-steel-300 focus:border-vivid-tangerine-500 focus:ring-vivid-tangerine-100'
                 }`}
               />
               {errors.name && (
-                <p className="mt-1 text-xs text-red-500">{errors.name}</p>
+                <p className="mt-1 text-xs text-vivid-tangerine-500">{errors.name}</p>
               )}
             </div>
 
             {/* Campos no editables */}
             <div className="space-y-3">
               <div>
-                <label className="block text-sm font-medium text-gray-500 mb-1.5">
+                <label className="block text-sm font-medium text-cool-steel-500 mb-1.5">
                   Correo electrónico
                 </label>
                 <div className="relative">
                   <Mail
                     size={16}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-cool-steel-400"
                   />
                   <input
                     type="email"
                     value={profile?.email || ''}
                     disabled
-                    className="w-full rounded-lg border border-gray-200 bg-gray-50 py-2.5 pl-10 pr-3.5 text-sm text-gray-500 cursor-not-allowed"
+                    className="w-full rounded-lg border border-cool-steel-200 bg-cool-steel-50 py-2.5 pl-10 pr-3.5 text-sm text-cool-steel-500 cursor-not-allowed"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-500 mb-1.5">
+                <label className="block text-sm font-medium text-cool-steel-500 mb-1.5">
                   Teléfono
                 </label>
                 <div className="relative">
                   <Phone
                     size={16}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-cool-steel-400"
                   />
                   <input
                     type="tel"
                     value={profile?.phone || 'Sin teléfono'}
                     disabled
-                    className="w-full rounded-lg border border-gray-200 bg-gray-50 py-2.5 pl-10 pr-3.5 text-sm text-gray-500 cursor-not-allowed"
+                    className="w-full rounded-lg border border-cool-steel-200 bg-cool-steel-50 py-2.5 pl-10 pr-3.5 text-sm text-cool-steel-500 cursor-not-allowed"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-500 mb-1.5">
+                <label className="block text-sm font-medium text-cool-steel-500 mb-1.5">
                   Rol
                 </label>
                 <div className="relative">
                   <Shield
                     size={16}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-cool-steel-400"
                   />
                   <input
                     type="text"
@@ -333,7 +333,7 @@ export default function ProfileModal({ isOpen, onClose }: Props) {
                             : profile?.role || '—'
                     }
                     disabled
-                    className="w-full rounded-lg border border-gray-200 bg-gray-50 py-2.5 pl-10 pr-3.5 text-sm text-gray-500 cursor-not-allowed capitalize"
+                    className="w-full rounded-lg border border-cool-steel-200 bg-cool-steel-50 py-2.5 pl-10 pr-3.5 text-sm text-cool-steel-500 cursor-not-allowed capitalize"
                   />
                 </div>
               </div>
@@ -342,10 +342,10 @@ export default function ProfileModal({ isOpen, onClose }: Props) {
             {/* Separador */}
             <div className="relative py-2">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-100" />
+                <div className="w-full border-t border-cool-steel-100" />
               </div>
               <div className="relative flex justify-center">
-                <span className="bg-white px-3 text-xs font-medium text-gray-400 uppercase tracking-wider">
+                <span className="bg-white px-3 text-xs font-medium text-cool-steel-400 uppercase tracking-wider">
                   Cambiar contraseña
                 </span>
               </div>
@@ -353,7 +353,7 @@ export default function ProfileModal({ isOpen, onClose }: Props) {
 
             {/* Contraseña */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+              <label className="block text-sm font-medium text-cool-steel-700 mb-1.5">
                 Nueva contraseña
               </label>
               <div className="relative">
@@ -364,27 +364,27 @@ export default function ProfileModal({ isOpen, onClose }: Props) {
                   placeholder="Dejar en blanco para no cambiar"
                   className={`w-full rounded-lg border py-2.5 pl-3.5 pr-10 text-sm transition-colors focus:outline-none focus:ring-2 ${
                     errors.password
-                      ? 'border-red-400 focus:border-red-500 focus:ring-red-100'
-                      : 'border-gray-300 focus:border-orange-500 focus:ring-orange-100'
+                      ? 'border-vivid-tangerine-400 focus:border-vivid-tangerine-500 focus:ring-vivid-tangerine-100'
+                      : 'border-cool-steel-300 focus:border-vivid-tangerine-500 focus:ring-vivid-tangerine-100'
                   }`}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-cool-steel-400 hover:text-cool-steel-600"
                   tabIndex={-1}
                 >
                   {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
               </div>
               {errors.password && (
-                <p className="mt-1 text-xs text-red-500">{errors.password}</p>
+                <p className="mt-1 text-xs text-vivid-tangerine-500">{errors.password}</p>
               )}
             </div>
 
             {/* Confirmar contraseña */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+              <label className="block text-sm font-medium text-cool-steel-700 mb-1.5">
                 Confirmar contraseña
               </label>
               <div className="relative">
@@ -394,43 +394,43 @@ export default function ProfileModal({ isOpen, onClose }: Props) {
                   onChange={(e) => setPasswordConfirmation(e.target.value)}
                   placeholder="Repite la nueva contraseña"
                   disabled={!password}
-                  className={`w-full rounded-lg border py-2.5 pl-3.5 pr-10 text-sm transition-colors focus:outline-none focus:ring-2 disabled:bg-gray-50 disabled:text-gray-400 ${
+                  className={`w-full rounded-lg border py-2.5 pl-3.5 pr-10 text-sm transition-colors focus:outline-none focus:ring-2 disabled:bg-cool-steel-50 disabled:text-cool-steel-400 ${
                     errors.password_confirmation
-                      ? 'border-red-400 focus:border-red-500 focus:ring-red-100'
-                      : 'border-gray-300 focus:border-orange-500 focus:ring-orange-100'
+                      ? 'border-vivid-tangerine-400 focus:border-vivid-tangerine-500 focus:ring-vivid-tangerine-100'
+                      : 'border-cool-steel-300 focus:border-vivid-tangerine-500 focus:ring-vivid-tangerine-100'
                   }`}
                 />
                 <button
                   type="button"
                   onClick={() => setShowConfirmation(!showConfirmation)}
                   disabled={!password}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 disabled:opacity-50"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-cool-steel-400 hover:text-cool-steel-600 disabled:opacity-50"
                   tabIndex={-1}
                 >
                   {showConfirmation ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
               </div>
               {errors.password_confirmation && (
-                <p className="mt-1 text-xs text-red-500">
+                <p className="mt-1 text-xs text-vivid-tangerine-500">
                   {errors.password_confirmation}
                 </p>
               )}
             </div>
 
             {/* Footer */}
-            <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-100">
+            <div className="flex items-center justify-end gap-3 pt-4 border-t border-cool-steel-100">
               <button
                 type="button"
                 onClick={onClose}
                 disabled={mutation.isPending}
-                className="px-4 py-2.5 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 transition-colors disabled:opacity-50"
+                className="px-4 py-2.5 rounded-lg text-sm font-medium text-cool-steel-700 hover:bg-cool-steel-100 transition-colors disabled:opacity-50"
               >
                 Cancelar
               </button>
               <button
                 type="submit"
                 disabled={mutation.isPending || !hasChanges}
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-orange-500 text-sm font-medium text-white hover:bg-orange-600 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-vivid-tangerine-500 text-sm font-medium text-white hover:bg-vivid-tangerine-600 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 {mutation.isPending ? (
                   <Loader2 size={16} className="animate-spin" />

@@ -28,7 +28,7 @@ export default function LandingNavbar() {
           <div className="w-16 h-16 rounded-lg flex items-center justify-center">
             <img src={LogoIcon} alt="Hospeda Logo" className="w-12 h-12" />
           </div>
-          <span className="text-lg font-bold text-gray-900 tracking-tight">
+          <span className="text-lg font-bold text-cool-steel-900 tracking-tight">
             Hospeda
           </span>
         </Link>
@@ -37,19 +37,19 @@ export default function LandingNavbar() {
         <nav className="hidden md:flex items-center gap-8">
           <a
             href="#explorar"
-            className="text-sm font-medium text-gray-700 hover:text-orange-500 transition-colors"
+            className="text-sm font-medium text-cool-steel-700 hover:text-vivid-tangerine-500 transition-colors"
           >
             Explorar
           </a>
           <a
             href="#por-que"
-            className="text-sm font-medium text-gray-700 hover:text-orange-500 transition-colors"
+            className="text-sm font-medium text-cool-steel-700 hover:text-vivid-tangerine-500 transition-colors"
           >
             Por qué Hospeda
           </a>
           <a
             href="#anfitrion"
-            className="text-sm font-medium text-gray-700 hover:text-orange-500 transition-colors"
+            className="text-sm font-medium text-cool-steel-700 hover:text-vivid-tangerine-500 transition-colors"
           >
             Sé anfitrión
           </a>
@@ -59,13 +59,13 @@ export default function LandingNavbar() {
         <div className="flex items-center gap-3">
           <a
             href="#anfitrion"
-            className="hidden sm:block text-sm font-medium text-gray-700 hover:text-orange-500 transition-colors"
+            className="hidden sm:block text-sm font-medium text-cool-steel-700 hover:text-vivid-tangerine-500 transition-colors"
           >
             Pon tu espacio en Hospeda
           </a>
           <Link
             to="/login"
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-orange-500 text-sm font-medium text-white hover:bg-orange-600 transition-all hover:shadow-md hover:shadow-orange-500/20"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-vivid-tangerine-500 text-sm font-medium text-white hover:bg-vivid-tangerine-600 transition-all hover:shadow-md hover:shadow-vivid-tangerine-500/20"
           >
             <LogIn size={15} />
             Iniciar sesión

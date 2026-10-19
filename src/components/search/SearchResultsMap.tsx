@@ -19,13 +19,13 @@ export default function SearchResultsMap({ lodgings }: Props) {
   ]
 
   return (
-    <div className="relative w-full h-full bg-sky-50 overflow-hidden">
+    <div className="relative w-full h-full bg-pacific-blue-50 overflow-hidden">
       {/* Fondo tipo mapa */}
       <div
         className="absolute inset-0 opacity-40"
         style={{
           backgroundImage:
-            'radial-gradient(circle at 30% 40%, #bae6fd 0%, transparent 40%), radial-gradient(circle at 70% 60%, #a7f3d0 0%, transparent 40%), radial-gradient(circle at 50% 80%, #fef3c7 0%, transparent 40%)',
+            'radial-gradient(circle at 30% 40%, #a1f0f7 0%, transparent 40%), radial-gradient(circle at 70% 60%, #fdc49b 0%, transparent 40%), radial-gradient(circle at 50% 80%, #d7d0c1 0%, transparent 40%)',
         }}
       />
 
@@ -33,7 +33,7 @@ export default function SearchResultsMap({ lodgings }: Props) {
       <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#cbd5e1" strokeWidth="0.5" />
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#a1b7c4" strokeWidth="0.5" />
           </pattern>
         </defs>
         <rect width="100%" height="100%" fill="url(#grid)" />
@@ -46,7 +46,7 @@ export default function SearchResultsMap({ lodgings }: Props) {
           <button
             key={stay.id}
             style={{ top: pos.top, left: pos.left }}
-            className="absolute -translate-x-1/2 -translate-y-1/2 px-2.5 py-1 rounded-full bg-white border border-gray-900 text-xs font-semibold text-gray-900 shadow-md hover:bg-gray-900 hover:text-white transition-colors"
+            className="absolute -translate-x-1/2 -translate-y-1/2 px-2.5 py-1 rounded-full bg-white border border-cool-steel-900 text-xs font-semibold text-cool-steel-900 shadow-md hover:bg-cool-steel-900 hover:text-white transition-colors"
           >
             ${Math.round(stay.price / 10) * 10}
           </button>
@@ -55,13 +55,13 @@ export default function SearchResultsMap({ lodgings }: Props) {
 
       {lodgings.length === 0 && (
         <div className="absolute inset-0 flex items-center justify-center">
-          <p className="text-sm text-gray-500">Sin alojamientos para mostrar</p>
+          <p className="text-sm text-cool-steel-500">Sin alojamientos para mostrar</p>
         </div>
       )}
 
       {/* Hint */}
       <div className="absolute bottom-4 left-4 right-4 flex justify-center">
-        <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/95 backdrop-blur text-xs text-gray-700 shadow-sm">
+        <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/95 backdrop-blur text-xs text-cool-steel-700 shadow-sm">
           <MapPin size={12} />
           {lodgings.length} alojamiento{lodgings.length !== 1 ? 's' : ''} en el mapa
         </span>

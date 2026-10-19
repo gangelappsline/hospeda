@@ -18,14 +18,14 @@ export default function SearchFiltersBar({ filters, onChange }: Props) {
       : 'Agregar fechas'
 
   return (
-    <div className="sticky top-16 z-20 bg-white border-b border-gray-200">
+    <div className="sticky top-16 z-20 bg-white border-b border-cool-steel-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3">
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3 sm:rounded-full sm:border sm:border-gray-200 sm:shadow-sm sm:px-2 sm:py-1.5">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3 sm:rounded-full sm:border sm:border-cool-steel-200 sm:shadow-sm sm:px-2 sm:py-1.5">
           {/* Destino */}
-          <div className="flex items-center gap-2 flex-1 min-w-0 px-4 py-2 sm:py-1 sm:border-r sm:border-gray-200">
-            <MapPin size={16} className="text-gray-400 shrink-0" />
+          <div className="flex items-center gap-2 flex-1 min-w-0 px-4 py-2 sm:py-1 sm:border-r sm:border-cool-steel-200">
+            <MapPin size={16} className="text-cool-steel-400 shrink-0" />
             <div className="min-w-0 flex-1">
-              <label className="block text-[10px] font-semibold uppercase text-gray-500 leading-tight">
+              <label className="block text-[10px] font-semibold uppercase text-cool-steel-500 leading-tight">
                 Destino
               </label>
               <input
@@ -33,21 +33,21 @@ export default function SearchFiltersBar({ filters, onChange }: Props) {
                 value={filters.city ?? ''}
                 onChange={(e) => onChange('city', e.target.value || null)}
                 placeholder="¿A dónde vas?"
-                className="w-full text-sm bg-transparent outline-none placeholder:text-gray-400 text-gray-900"
+                className="w-full text-sm bg-transparent outline-none placeholder:text-cool-steel-400 text-cool-steel-900"
               />
             </div>
           </div>
 
           {/* Fechas */}
-          <div className="flex items-center gap-2 flex-1 min-w-0 px-4 py-2 sm:py-1 sm:border-r sm:border-gray-200">
-            <Calendar size={16} className="text-gray-400 shrink-0" />
+          <div className="flex items-center gap-2 flex-1 min-w-0 px-4 py-2 sm:py-1 sm:border-r sm:border-cool-steel-200">
+            <Calendar size={16} className="text-cool-steel-400 shrink-0" />
             <div className="min-w-0 flex-1">
-              <label className="block text-[10px] font-semibold uppercase text-gray-500 leading-tight">
+              <label className="block text-[10px] font-semibold uppercase text-cool-steel-500 leading-tight">
                 Fechas
               </label>
               <button
                 type="button"
-                className="w-full text-left text-sm text-gray-900 truncate"
+                className="w-full text-left text-sm text-cool-steel-900 truncate"
                 onClick={() => {
                   // TODO: abrir date picker
                 }}
@@ -59,9 +59,9 @@ export default function SearchFiltersBar({ filters, onChange }: Props) {
 
           {/* Viajeros */}
           <div className="flex items-center gap-2 flex-1 min-w-0 px-4 py-2 sm:py-1">
-            <Users size={16} className="text-gray-400 shrink-0" />
+            <Users size={16} className="text-cool-steel-400 shrink-0" />
             <div className="min-w-0 flex-1">
-              <label className="block text-[10px] font-semibold uppercase text-gray-500 leading-tight">
+              <label className="block text-[10px] font-semibold uppercase text-cool-steel-500 leading-tight">
                 Viajeros
               </label>
               <input
@@ -72,7 +72,7 @@ export default function SearchFiltersBar({ filters, onChange }: Props) {
                   onChange('guests', e.target.value ? Number(e.target.value) : null)
                 }
                 placeholder={guestsLabel}
-                className="w-full text-sm bg-transparent outline-none placeholder:text-gray-400 text-gray-900"
+                className="w-full text-sm bg-transparent outline-none placeholder:text-cool-steel-400 text-cool-steel-900"
               />
             </div>
           </div>
@@ -80,7 +80,7 @@ export default function SearchFiltersBar({ filters, onChange }: Props) {
           {/* Botón */}
           <button
             type="button"
-            className="flex items-center justify-center gap-2 px-4 py-2.5 sm:py-2 rounded-full bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium transition-colors shrink-0"
+            className="flex items-center justify-center gap-2 px-4 py-2.5 sm:py-2 rounded-full bg-vivid-tangerine-500 hover:bg-vivid-tangerine-600 text-white text-sm font-medium transition-colors shrink-0"
           >
             <Search size={15} />
             Actualizar
