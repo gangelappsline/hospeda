@@ -17,6 +17,7 @@ import Users from '@/pages/admin/Users'
 import Settings from '@/pages/admin/Settings'
 import Amenities from '@/pages/admin/settings/Amenities'
 import Settlements from '@/pages/admin/settings/Settlements'
+import Services from '@/pages/admin/settings/Services'
 import AdminNotFound from '@/pages/admin/NotFound'
 import { useLocation } from 'react-router-dom'
 
@@ -55,6 +56,7 @@ export default function App() {
     <Route path="settings" element={<Settings />} />
     <Route path="settings/amenities" element={<Amenities />} />
     <Route path="settings/settlements" element={<Settlements />} />
+    <Route path="settings/services" element={<Services />} />
     <Route path="*" element={<AdminNotFound />} />
   </Route>
 </Route>

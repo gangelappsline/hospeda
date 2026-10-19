@@ -1,6 +1,6 @@
 import type { FeaturedStay, LodgingDetail, LodgingSearchFilters } from '@/types/public'
 
-const API_BASE_URL = 'http://192.168.1.202:8000/api/v1/web'
+const API_BASE_URL = import.meta.env.VITE_API_URL
 
 // Forma cruda de un lodging tal como lo devuelve la API
 interface ApiLodging {

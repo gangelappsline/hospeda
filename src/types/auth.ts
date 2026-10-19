@@ -51,7 +51,7 @@ export interface LoginCredentials {
 }
 
 export interface ApiError {
-  status: number
+  status: number | undefined
   message: string
   errors?: Record<string, string[]>
 }

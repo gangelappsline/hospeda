@@ -61,6 +61,7 @@ export const PANELS: Record<Role, PanelConfig> = {
         children: [
           { label: 'Colonia', to: '/admin/settings/settlements' },
           { label: 'Amenidades', to: '/admin/settings/amenities' },
+          { label: 'Servicios', to: '/admin/settings/services' },
         ],
       },
     ],

@@ -1,7 +1,7 @@
 import type { HostLodging } from '@/types/hostLodgings'
 import { apiFetch } from '@/api/client'
 
-const API_BASE_URL = 'http://192.168.1.202:8000/api/v1/web'
+const API_BASE_URL = import.meta.env.VITE_API_URL
 
 // ---- Forma cruda ----
 interface ApiHostLodging {
