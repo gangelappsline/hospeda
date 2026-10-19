@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-@theme {
+@theme static {
   /* ── Cool Steel · neutro frío principal ─────────────────────── */
   --color-cool-steel-50: #eff3f5;
   --color-cool-steel-100: #e0e7eb;
@@ -65,6 +65,75 @@
   --color-parchment-800: #3e3728;
   --color-parchment-900: #1f1b14;
   --color-parchment-950: #16130e;
+
+  /* ─────────────────────────────────────────────────────────────
+     Alias semánticos · la UI debe consumir estos nombres cuando el
+     color comunica un rol (marca, éxito, aviso, error, superficie)
+     en lugar de repetir un tono suelto de la escala.
+     ───────────────────────────────────────────────────────────── */
+
+  /* Marca */
+  --color-brand: var(--color-vivid-tangerine-500);
+  --color-brand-strong: var(--color-vivid-tangerine-600);
+  --color-brand-deep: var(--color-vivid-tangerine-700);
+  --color-brand-soft: var(--color-vivid-tangerine-50);
+  --color-brand-line: var(--color-vivid-tangerine-200);
+
+  /* Éxito (confirmaciones, tendencias positivas, estados activos) */
+  --color-success: var(--color-pacific-blue-700);
+  --color-success-soft: var(--color-pacific-blue-50);
+  --color-success-line: var(--color-pacific-blue-200);
+
+  /* Información */
+  --color-info: var(--color-pacific-blue-600);
+  --color-info-soft: var(--color-pacific-blue-50);
+  --color-info-line: var(--color-pacific-blue-200);
+
+  /* Advertencia (procesos en curso) */
+  --color-warning: var(--color-tangerine-dream-700);
+  --color-warning-soft: var(--color-tangerine-dream-50);
+  --color-warning-line: var(--color-tangerine-dream-200);
+
+  /* Error / destructivo */
+  --color-danger: var(--color-vivid-tangerine-700);
+  --color-danger-soft: var(--color-vivid-tangerine-50);
+  --color-danger-line: var(--color-vivid-tangerine-200);
+
+  /* Pendiente / neutral cálido */
+  --color-pending: var(--color-parchment-700);
+  --color-pending-soft: var(--color-parchment-50);
+  --color-pending-line: var(--color-parchment-200);
+
+  /* Superficies, texto y líneas */
+  --color-surface: #ffffff;
+  --color-surface-muted: var(--color-cool-steel-50);
+  --color-surface-warm: var(--color-parchment-50);
+  --color-line: var(--color-cool-steel-200);
+  --color-line-soft: var(--color-cool-steel-100);
+  --color-ink: var(--color-cool-steel-900);
+  --color-ink-soft: var(--color-cool-steel-700);
+  --color-muted: var(--color-cool-steel-500);
+  --color-subtle: var(--color-cool-steel-400);
+  --color-overlay: var(--color-cool-steel-950);
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+    scrollbar-color: var(--color-cool-steel-300) transparent;
+  }
+
+  body {
+    background-color: var(--color-surface-warm);
+    color: var(--color-ink);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background-color: var(--color-vivid-tangerine-200);
+    color: var(--color-cool-steel-950);
+  }
 }
 
 @layer utilities {
@@ -75,4 +144,31 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+}
+
+/* ───────────────────────────────────────────────────────────────
+   Toasts (sonner) · los avisos también viven en la paleta de marca
+   ─────────────────────────────────────────────────────────────── */
+:root [data-sonner-toaster][data-sonner-theme='light'] {
+  --normal-bg: var(--color-surface);
+  --normal-bg-hover: var(--color-surface-muted);
+  --normal-border: var(--color-line);
+  --normal-border-hover: var(--color-cool-steel-300);
+  --normal-text: var(--color-ink);
+
+  --success-bg: var(--color-success-soft);
+  --success-border: var(--color-success-line);
+  --success-text: var(--color-cool-steel-900);
+
+  --info-bg: var(--color-info-soft);
+  --info-border: var(--color-info-line);
+  --info-text: var(--color-cool-steel-900);
+
+  --warning-bg: var(--color-warning-soft);
+  --warning-border: var(--color-warning-line);
+  --warning-text: var(--color-cool-steel-900);
+
+  --error-bg: var(--color-danger-soft);
+  --error-border: var(--color-danger-line);
+  --error-text: var(--color-cool-steel-900);
 }

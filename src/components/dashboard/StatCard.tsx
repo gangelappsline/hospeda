@@ -21,15 +21,15 @@ export default function StatCard({
     <div className="bg-white rounded-xl border border-cool-steel-100 p-5 shadow-sm hover:shadow-md transition-shadow">
       {/* Icono + badge de cambio */}
       <div className="flex items-start justify-between mb-4">
-        <div className="w-10 h-10 rounded-lg bg-vivid-tangerine-50 flex items-center justify-center text-vivid-tangerine-500">
+        <div className="w-10 h-10 rounded-lg bg-brand-soft flex items-center justify-center text-brand">
           {icon}
         </div>
         {change !== undefined && (
           <span
             className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${
               isPositive
-                ? 'bg-pacific-blue-50 text-pacific-blue-600'
-                : 'bg-vivid-tangerine-50 text-vivid-tangerine-500'
+                ? 'bg-success-soft text-success'
+                : 'bg-danger-soft text-danger'
             }`}
           >
             {isPositive ? <TrendingUp size={12} /> : <TrendingDown size={12} />}

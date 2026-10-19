@@ -36,7 +36,7 @@ export default function DeleteServiceCategoryModal({ isOpen, onClose, category }
   if (!isOpen || !category) return null
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-overlay/60 backdrop-blur-sm">
       <div className="bg-white rounded-xl shadow-2xl w-full max-w-md p-6">
         <div className="flex items-start gap-4">
           <div className="w-12 h-12 rounded-full bg-vivid-tangerine-50 flex items-center justify-center shrink-0">

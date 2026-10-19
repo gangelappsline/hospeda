@@ -13,29 +13,29 @@ import {
 type Kind = 'affiliate' | 'commission' | 'payout'
 
 const AFFILIATE_STYLES: Record<AffiliateStatus, string> = {
-  pending: 'bg-parchment-50 text-parchment-600 border-parchment-200',
-  active: 'bg-pacific-blue-50 text-pacific-blue-700 border-pacific-blue-200',
+  pending: 'bg-pending-soft text-pending border-pending-line',
+  active: 'bg-success-soft text-success border-success-line',
   suspended:
     'bg-cool-steel-100 text-cool-steel-600 border-cool-steel-200',
   rejected:
-    'bg-vivid-tangerine-50 text-vivid-tangerine-600 border-vivid-tangerine-200',
+    'bg-danger-soft text-danger border-danger-line',
 }
 
 const COMMISSION_STYLES: Record<CommissionStatus, string> = {
-  pending: 'bg-parchment-50 text-parchment-600 border-parchment-200',
-  approved: 'bg-pacific-blue-50 text-pacific-blue-700 border-pacific-blue-200',
-  paid: 'bg-pacific-blue-100 text-pacific-blue-800 border-pacific-blue-300',
+  pending: 'bg-pending-soft text-pending border-pending-line',
+  approved: 'bg-success-soft text-success border-success-line',
+  paid: 'bg-success-soft text-success border-success-line',
   cancelled:
-    'bg-vivid-tangerine-50 text-vivid-tangerine-600 border-vivid-tangerine-200',
+    'bg-danger-soft text-danger border-danger-line',
 }
 
 const PAYOUT_STYLES: Record<PayoutStatus, string> = {
-  requested: 'bg-parchment-50 text-parchment-600 border-parchment-200',
+  requested: 'bg-pending-soft text-pending border-pending-line',
   processing:
-    'bg-tangerine-dream-50 text-tangerine-dream-600 border-tangerine-dream-200',
-  paid: 'bg-pacific-blue-50 text-pacific-blue-700 border-pacific-blue-200',
+    'bg-warning-soft text-warning border-warning-line',
+  paid: 'bg-success-soft text-success border-success-line',
   rejected:
-    'bg-vivid-tangerine-50 text-vivid-tangerine-600 border-vivid-tangerine-200',
+    'bg-danger-soft text-danger border-danger-line',
 }
 
 interface Props {
@@ -88,8 +88,8 @@ export function LevelBadge({ level }: { level: ReferralLevel }) {
     <span
       className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold ${
         level === 1
-          ? 'bg-vivid-tangerine-50 text-vivid-tangerine-600 border border-vivid-tangerine-200'
-          : 'bg-parchment-50 text-parchment-600 border border-parchment-200'
+          ? 'bg-brand-soft text-brand-deep border border-brand-line'
+          : 'bg-pending-soft text-pending border border-pending-line'
       }`}
     >
       Nivel {level}

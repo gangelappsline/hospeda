@@ -25,6 +25,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       </BrowserRouter>
       <Toaster
         position="top-right"
+        theme="light"
         richColors
         closeButton
         toastOptions={{

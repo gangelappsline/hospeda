@@ -25,7 +25,7 @@ export default function SearchResultsMap({ lodgings }: Props) {
         className="absolute inset-0 opacity-40"
         style={{
           backgroundImage:
-            'radial-gradient(circle at 30% 40%, #a1f0f7 0%, transparent 40%), radial-gradient(circle at 70% 60%, #fdc49b 0%, transparent 40%), radial-gradient(circle at 50% 80%, #d7d0c1 0%, transparent 40%)',
+            'radial-gradient(circle at 30% 40%, var(--color-pacific-blue-200) 0%, transparent 40%), radial-gradient(circle at 70% 60%, var(--color-vivid-tangerine-200) 0%, transparent 40%), radial-gradient(circle at 50% 80%, var(--color-parchment-200) 0%, transparent 40%)',
         }}
       />
 
@@ -33,7 +33,7 @@ export default function SearchResultsMap({ lodgings }: Props) {
       <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#a1b7c4" strokeWidth="0.5" />
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="var(--color-cool-steel-300)" strokeWidth="0.5" />
           </pattern>
         </defs>
         <rect width="100%" height="100%" fill="url(#grid)" />

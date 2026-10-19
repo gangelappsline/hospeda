@@ -81,7 +81,7 @@ export default function AffiliatesLanding() {
   const cfg = settings ?? getAffiliateSettingsFallback()
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-surface-warm">
       {/* ═══ Navbar ═══ */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md shadow-sm">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
@@ -136,7 +136,7 @@ export default function AffiliatesLanding() {
 
       {/* ═══ Hero ═══ */}
       <section className="relative pt-16 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-parchment-50 via-white to-vivid-tangerine-50" />
+        <div className="absolute inset-0 bg-gradient-to-br from-parchment-50 via-parchment-100 to-vivid-tangerine-50" />
         <div
           className="absolute inset-0 opacity-[0.07]"
           style={{
