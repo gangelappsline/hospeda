@@ -7,14 +7,38 @@ interface Props {
   onDelete: (category: ServiceCategory) => void
 }
 
-export default function ServiceCategoryCard({ category, onEdit, onDelete }: Props) {
+export default function ServiceCategoryCard({
+  category,
+  onEdit,
+  onDelete,
+}: Props) {
+  const iconSrc = category.icon_url || category.logo_url || null
+  const isActive = Boolean(category.active)
+
   return (
     <div className="bg-white rounded-xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col">
-      {/* Header con ID y acciones */}
+      {/* Header con ID, estado y acciones */}
       <div className="flex items-center justify-between px-4 pt-4">
-        <span className="px-2.5 py-1 rounded-md bg-gray-100 text-xs font-medium text-gray-600">
-          ID {category.id}
-        </span>
+        <div className="flex items-center gap-2">
+          <span className="px-2.5 py-1 rounded-md bg-gray-100 text-xs font-medium text-gray-600">
+            ID {category.id}
+          </span>
+          <span
+            className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium ${
+              isActive
+                ? 'bg-emerald-50 text-emerald-700'
+                : 'bg-gray-100 text-gray-500'
+            }`}
+          >
+            <span
+              className={`w-1.5 h-1.5 rounded-full ${
+                isActive ? 'bg-emerald-500' : 'bg-gray-400'
+              }`}
+            />
+            {isActive ? 'Activa' : 'Inactiva'}
+          </span>
+        </div>
+
         <div className="flex items-center gap-1">
           <button
             onClick={() => onEdit(category)}
@@ -36,9 +60,9 @@ export default function ServiceCategoryCard({ category, onEdit, onDelete }: Prop
       {/* Área del icono con gradiente */}
       <div className="flex items-center justify-center py-8 bg-gradient-to-b from-orange-50/60 to-transparent">
         <div className="w-24 h-24 rounded-xl bg-white border border-gray-100 flex items-center justify-center p-3 shadow-sm">
-          {category.icon_url ? (
+          {iconSrc ? (
             <img
-              src={category.icon_url}
+              src={iconSrc}
               alt={category.name}
               className="w-full h-full object-contain"
               onError={(e) => {
@@ -52,14 +76,21 @@ export default function ServiceCategoryCard({ category, onEdit, onDelete }: Prop
         </div>
       </div>
 
-      {/* Footer con nombre y descripción */}
-      <div className="p-4 border-t border-gray-100 mt-auto">
-        <h3 className="text-base font-semibold text-gray-900 mb-1">
+      {/* Footer con nombre, hint y ejemplo */}
+      <div className="p-4 border-t border-gray-100 mt-auto space-y-2">
+        <h3 className="text-base font-semibold text-gray-900">
           {category.name}
         </h3>
-        <p className="text-sm text-gray-500 line-clamp-2">
-          {category.description || 'Sin descripción'}
-        </p>
+        <div className="space-y-1 text-xs">
+          <p className="text-gray-600 line-clamp-2">
+            <span className="font-medium text-gray-700">Hint: </span>
+            {category.hint || '—'}
+          </p>
+          <p className="text-gray-500 line-clamp-2">
+            <span className="font-medium text-gray-700">Ejemplo: </span>
+            {category.example || '—'}
+          </p>
+        </div>
       </div>
     </div>
   )

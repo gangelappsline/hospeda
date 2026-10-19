@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react'
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 import {
   ChevronRight,
@@ -11,23 +11,11 @@ import {
   Trash2,
   Image as ImageIcon,
 } from 'lucide-react'
-import apiClient from '@/api/axios'
-import ServiceCategoryModal from '@/components/admin/settings/ServiceCategoryModal'
-import type { ServiceCategory } from '@/types/settingServices'
+import { getServiceCategories } from '@/api/serviceCategories'
+import ServiceCategoryModal from '@/components/admin/service-categories/ServiceCategoryModal'
+import DeleteServiceCategoryModal from '@/components/admin/service-categories/DeleteServiceCategoryModal'
+import type { ServiceCategory } from '@/types/serviceCategory'
 
-// --- API Helpers ---
-const fetchCategories = async (): Promise<ServiceCategory[]> => {
-  const { data } = await apiClient.get('/web/admin/settings/services')
-  // La API puede responder [] o { data: [] } (recurso/paginación de Laravel)
-  const list = Array.isArray(data) ? data : data?.data
-  return Array.isArray(list) ? list : []
-}
-
-const deleteCategory = async (id: number) => {
-  await apiClient.delete(`/web/admin/settings/services/${id}`)
-}
-
-// --- Componente Principal ---
 export default function SettingServices() {
   const [activeTab, setActiveTab] = useState<'categories'>('categories')
 
@@ -44,7 +32,9 @@ export default function SettingServices() {
 
       {/* Encabezado */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Configuración de Servicios</h1>
+        <h1 className="text-2xl font-bold text-gray-900">
+          Configuración de Servicios
+        </h1>
         <p className="text-sm text-gray-500 mt-1">
           Administra las categorías y opciones de servicios para tus alojamientos.
         </p>
@@ -66,7 +56,6 @@ export default function SettingServices() {
               Categorías
             </button>
           </li>
-          {/* Aquí puedes agregar más tabs en el futuro */}
         </ul>
       </div>
 
@@ -78,32 +67,34 @@ export default function SettingServices() {
   )
 }
 
-// --- Componente de la Tab de Categorías ---
 function CategoriesTab() {
-  const queryClient = useQueryClient()
   const [search, setSearch] = useState('')
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [editingCategory, setEditingCategory] = useState<ServiceCategory | null>(null)
-  const [deletingCategory, setDeletingCategory] = useState<ServiceCategory | null>(null)
+  const [editingCategory, setEditingCategory] = useState<ServiceCategory | null>(
+    null
+  )
+  const [deletingCategory, setDeletingCategory] =
+    useState<ServiceCategory | null>(null)
 
-  const { data: categories = [], isLoading, isFetching, refetch } = useQuery({
+  const {
+    data: categories = [],
+    isLoading,
+    isFetching,
+    refetch,
+  } = useQuery({
     queryKey: ['service-categories'],
-    queryFn: fetchCategories,
+    queryFn: getServiceCategories,
   })
 
-  const deleteMutation = useMutation({
-    mutationFn: deleteCategory,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['service-categories'] })
-      setDeletingCategory(null)
-    },
-  })
-
-  // Filtrado local por búsqueda
   const filteredCategories = useMemo(() => {
     if (!search.trim()) return categories
     const term = search.toLowerCase()
-    return categories.filter((c) => c.name.toLowerCase().includes(term))
+    return categories.filter(
+      (c) =>
+        c.name.toLowerCase().includes(term) ||
+        (c.hint ?? '').toLowerCase().includes(term) ||
+        (c.example ?? '').toLowerCase().includes(term)
+    )
   }, [categories, search])
 
   const handleCreate = () => {
@@ -123,9 +114,12 @@ function CategoriesTab() {
   return (
     <div className="space-y-4">
       {/* Acciones */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-4 flex-wrap">
         <div className="relative max-w-md w-full">
-          <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+          <Search
+            size={18}
+            className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+          />
           <input
             type="text"
             value={search}
@@ -140,7 +134,10 @@ function CategoriesTab() {
             disabled={isFetching}
             className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-gray-200 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors disabled:opacity-50"
           >
-            <RefreshCw size={16} className={isFetching ? 'animate-spin text-orange-500' : ''} />
+            <RefreshCw
+              size={16}
+              className={isFetching ? 'animate-spin text-orange-500' : ''}
+            />
             Refrescar
           </button>
           <button
@@ -155,20 +152,14 @@ function CategoriesTab() {
 
       {/* Tabla y Skeleton */}
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
-        {/* Skeleton Loader: Se muestra en carga inicial o si se refresca sin datos previos */}
         {isLoading || (isFetching && categories.length === 0) ? (
           <div className="p-6 space-y-4">
             {Array.from({ length: 5 }).map((_, i) => (
               <div key={i} className="flex items-center gap-4 animate-pulse">
-                {/* Columna Logo */}
                 <div className="w-10 h-10 bg-gray-100 rounded-lg shrink-0" />
-                {/* Columna Nombre */}
                 <div className="h-4 bg-gray-100 rounded w-1/4" />
-                {/* Columna Hint/Ejemplo */}
                 <div className="h-4 bg-gray-100 rounded w-1/3" />
-                {/* Columna Estado */}
                 <div className="h-6 bg-gray-100 rounded-full w-20" />
-                {/* Columna Acciones */}
                 <div className="flex gap-2 ml-auto">
                   <div className="w-8 h-8 bg-gray-100 rounded-lg" />
                   <div className="w-8 h-8 bg-gray-100 rounded-lg" />
@@ -177,7 +168,6 @@ function CategoriesTab() {
             ))}
           </div>
         ) : filteredCategories.length === 0 ? (
-          // Empty state
           <div className="flex flex-col items-center justify-center py-16 px-4">
             <div className="w-14 h-14 rounded-full bg-orange-50 flex items-center justify-center mb-4">
               <Tags size={22} className="text-orange-500" />
@@ -201,27 +191,39 @@ function CategoriesTab() {
             )}
           </div>
         ) : (
-          // Tabla normal
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="bg-gray-50 border-b border-gray-100">
-                  <th className="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Logo</th>
-                  <th className="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Nombre</th>
-                  <th className="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Hint / Ejemplo</th>
-                  <th className="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Estado</th>
-                  <th className="text-right px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Acciones</th>
+                  <th className="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                    Icono
+                  </th>
+                  <th className="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                    Nombre
+                  </th>
+                  <th className="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                    Hint / Ejemplo
+                  </th>
+                  <th className="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                    Estado
+                  </th>
+                  <th className="text-right px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                    Acciones
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {filteredCategories.map((category) => (
-                  <tr key={category.id} className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
+                  <tr
+                    key={category.id}
+                    className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors"
+                  >
                     <td className="px-5 py-4">
-                      {category.logo ? (
+                      {category.icon_url ? (
                         <img
-                          src={`/storage/${category.logo}`}
+                          src={category.icon_url}
                           alt={category.name}
-                          className="w-10 h-10 object-cover rounded-lg border border-gray-200"
+                          className="w-10 h-10 object-contain p-1 rounded-lg border border-gray-200 bg-white"
                         />
                       ) : (
                         <div className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center border border-gray-200">
@@ -229,20 +231,32 @@ function CategoriesTab() {
                         </div>
                       )}
                     </td>
-                    <td className="px-5 py-4 font-medium text-gray-900">{category.name}</td>
+                    <td className="px-5 py-4 font-medium text-gray-900">
+                      {category.name}
+                    </td>
                     <td className="px-5 py-4">
                       <div className="flex flex-col">
-                        <span className="text-gray-700">{category.hint || '-'}</span>
-                        <span className="text-xs text-gray-400">{category.example || ''}</span>
+                        <span className="text-gray-700">
+                          {category.hint || '-'}
+                        </span>
+                        <span className="text-xs text-gray-400">
+                          {category.example || ''}
+                        </span>
                       </div>
                     </td>
                     <td className="px-5 py-4">
-                      <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${
-                        category.active
-                          ? 'bg-emerald-50 text-emerald-700'
-                          : 'bg-gray-100 text-gray-600'
-                      }`}>
-                        <span className={`w-1.5 h-1.5 rounded-full ${category.active ? 'bg-emerald-500' : 'bg-gray-400'}`} />
+                      <span
+                        className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${
+                          category.active
+                            ? 'bg-emerald-50 text-emerald-700'
+                            : 'bg-gray-100 text-gray-600'
+                        }`}
+                      >
+                        <span
+                          className={`w-1.5 h-1.5 rounded-full ${
+                            category.active ? 'bg-emerald-500' : 'bg-gray-400'
+                          }`}
+                        />
                         {category.active ? 'Activo' : 'Inactivo'}
                       </span>
                     </td>
@@ -272,57 +286,17 @@ function CategoriesTab() {
         )}
       </div>
 
-      {/* Modal de Confirmación de Eliminación */}
-      {deletingCategory && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="bg-white rounded-xl shadow-xl w-full max-w-md p-6">
-            <h3 className="text-lg font-bold text-gray-900 mb-2">Eliminar Categoría</h3>
-            <p className="text-sm text-gray-500 mb-6">
-              ¿Estás seguro de que deseas eliminar la categoría <strong>{deletingCategory.name}</strong>? Esta acción no se puede deshacer.
-            </p>
-            <div className="flex justify-end gap-3">
-              <button
-                onClick={() => setDeletingCategory(null)}
-                className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50"
-              >
-                Cancelar
-              </button>
-              <button
-                onClick={() => deleteMutation.mutate(deletingCategory.id)}
-                disabled={deleteMutation.isPending}
-                className="px-4 py-2 text-sm font-medium text-white bg-red-500 rounded-lg hover:bg-red-600 disabled:opacity-50"
-              >
-                {deleteMutation.isPending ? 'Eliminando...' : 'Eliminar'}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Modal de Creación/Edición (Placeholder) */}
-      {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="bg-white rounded-xl shadow-xl w-full max-w-lg p-6">
-            <h3 className="text-lg font-bold text-gray-900 mb-4">
-              {editingCategory ? 'Editar Categoría' : 'Nueva Categoría'}
-            </h3>
-            {/* Modal de Creación/Edición */}
+      {/* Modales */}
       <ServiceCategoryModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         category={editingCategory}
       />
-            <div className="flex justify-end">
-              <button
-                onClick={() => setIsModalOpen(false)}
-                className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200"
-              >
-                Cerrar
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <DeleteServiceCategoryModal
+        isOpen={!!deletingCategory}
+        onClose={() => setDeletingCategory(null)}
+        category={deletingCategory}
+      />
     </div>
   )
 }
