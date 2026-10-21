@@ -1,3 +1,5 @@
+import type { ArrivalInstruction } from './arrivalInstruction'
+
 export type LodgingStatus = 'published' | 'draft' | 'archived'
 
 export interface HostLodging {
@@ -22,6 +24,7 @@ export interface HostLodging {
   photos: LodgingPhoto[]
   cover: string | null        // derivado: photo con cover=1 o la primera
   amenitiesCount: number
+  arrival_instructions?: ArrivalInstruction[]
   createdAt: string
   updatedAt: string
 }

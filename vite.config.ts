@@ -7,14 +7,16 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
+      '@': path.resolve(import.meta.dirname, './src'),
     },
   },
   base: '/',
   server: {
+    host: '0.0.0.0',
     allowedHosts: true,
   },
   preview: {
+    host: '0.0.0.0',
     allowedHosts: true,
   },
 })

@@ -10,6 +10,7 @@ import {
   Eye,
   EyeOff,
   ExternalLink,
+  Compass,
 } from 'lucide-react'
 import { useState, useRef, useEffect } from 'react'
 import type { HostLodging } from '@/types/hostLodgings'
@@ -102,6 +103,15 @@ export default function HostLodgingCard({ lodging }: Props) {
               >
                 <Pencil size={14} />
                 Editar
+              </Link>
+
+              <Link
+                to={`/host/lodgings/${lodging.id}/edit?step=6`}
+                className="w-full flex items-center gap-2 px-3 py-2 text-sm text-pacific-blue-700 hover:bg-pacific-blue-50"
+                onClick={() => setMenuOpen(false)}
+              >
+                <Compass size={14} />
+                Instrucciones de llegada
               </Link>
 
               <button

@@ -19,6 +19,7 @@ import {
   MapPin,
   BadgeCheck,
   Sparkles,
+  Compass,
 } from 'lucide-react'
 import { getLodgingBySlug } from '@/api/public'
 import type { LodgingAmenity, LodgingDetail as LodgingDetailType } from '@/types/public'
@@ -295,6 +296,46 @@ export default function LodgingDetail() {
                 <NearbyItem icon={<Car size={16} />} label="Aeropuerto" value="A 25 min en auto" />
               </div>
             </div>
+
+            {/* --- Instrucciones de llegada para huéspedes --- */}
+            {data.arrival_instructions && data.arrival_instructions.length > 0 && (
+              <div className="pb-10 border-b border-cool-steel-200">
+                <h3 className="text-xl font-semibold text-cool-steel-900 mb-1 flex items-center gap-2">
+                  <Compass size={22} className="text-vivid-tangerine-500" />
+                  Instrucciones de llegada y acceso
+                </h3>
+                <p className="text-sm text-cool-steel-500 mb-6">
+                  Indicaciones paso a paso proporcionadas por el anfitrión para acceder a la propiedad.
+                </p>
+                <div className="space-y-4">
+                  {data.arrival_instructions.map((inst, idx) => (
+                    <div
+                      key={inst.id ?? idx}
+                      className="p-4 rounded-xl border border-cool-steel-200 bg-white flex items-start gap-4"
+                    >
+                      <div className="w-8 h-8 rounded-lg bg-pacific-blue-100 text-pacific-blue-800 font-bold text-sm flex items-center justify-center shrink-0">
+                        {idx + 1}
+                      </div>
+                      {(inst.photo_url || inst.photo) && (
+                        <img
+                          src={inst.photo_url || (inst.photo as string)}
+                          alt={inst.title}
+                          className="w-16 h-16 rounded-lg object-cover shrink-0 border border-cool-steel-200"
+                        />
+                      )}
+                      <div className="flex-1 min-w-0">
+                        <h4 className="text-base font-semibold text-cool-steel-900 mb-1">
+                          {inst.title}
+                        </h4>
+                        <p className="text-sm text-cool-steel-600 whitespace-pre-line leading-relaxed">
+                          {inst.description}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* ============ COLUMNA DERECHA (BOOKING CARD) ============ */}
