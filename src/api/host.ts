@@ -1,7 +1,10 @@
 import type { HostLodging } from '@/types/hostLodgings'
 import { apiFetch } from '@/api/client'
 
-const API_BASE_URL = import.meta.env.VITE_API_URL
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL ||
+  import.meta.env.VITE_API_BASE_URL ||
+  ''
 
 // ---- Forma cruda ----
 interface ApiHostLodging {
@@ -105,6 +108,33 @@ export async function getHostLodging(id: number): Promise<HostLodging> {
   const json: ApiItemResponse<ApiHostLodging> = await res.json()
   if (!json.success) throw new Error(json.message)
   return mapHostLodging(json.data)
+}
+
+export async function createHostLodging(
+  payload: Record<string, unknown>
+): Promise<HostLodging> {
+  const res = await apiFetch(`${API_BASE_URL}/host/lodgings`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  })
+  const json = await res.json()
+  if (!res.ok && json.message) throw new Error(json.message)
+  return mapHostLodging(json.data ?? json)
+}
+
+export async function updateHostLodging(
+  id: number,
+  payload: Record<string, unknown>
+): Promise<HostLodging> {
+  const res = await apiFetch(`${API_BASE_URL}/host/lodgings/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  })
+  const json = await res.json()
+  if (!res.ok && json.message) throw new Error(json.message)
+  return mapHostLodging(json.data ?? json)
 }
 
 export async function deleteHostLodging(id: number): Promise<void> {

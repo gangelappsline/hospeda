@@ -34,6 +34,7 @@ import { useLocation } from 'react-router-dom'
 // Host
 import HostDashboard from '@/pages/host/Dashboard'
 import HostLodgings from '@/pages/host/Lodgings'
+import LodgingForm from '@/pages/host/LodgingForm'
 // ...
 
 // Guest
@@ -72,6 +73,9 @@ export default function App() {
     <Route path="dashboard" element={<Dashboard />} />
     <Route path="reservations" element={<Reservations />} />
     <Route path="lodgings" element={<LodgingList />} />
+    <Route path="lodgings/new" element={<LodgingForm />} />
+    <Route path="lodgings/:id/edit" element={<LodgingForm />} />
+    <Route path="lodgings/:id/instructions" element={<LodgingForm initialStep={6} />} />
     <Route path="lodging-types" element={<LodgingTypes />} />
     <Route path="experiences" element={<ExperienceList />} />
     <Route path="experience-categories" element={<ExperienceCategories />} />
@@ -94,6 +98,9 @@ export default function App() {
           <Route index element={<Navigate to="/host/dashboard" replace />} />
           <Route path="dashboard" element={<HostDashboard />} />
           <Route path="lodgings" element={<HostLodgings />} />
+          <Route path="lodgings/new" element={<LodgingForm />} />
+          <Route path="lodgings/:id/edit" element={<LodgingForm />} />
+          <Route path="lodgings/:id/instructions" element={<LodgingForm initialStep={6} />} />
           {/* etc */}
         </Route>
       </Route>

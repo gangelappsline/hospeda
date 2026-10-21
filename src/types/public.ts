@@ -1,3 +1,5 @@
+import type { ArrivalInstruction } from './arrivalInstruction'
+
 export interface FeaturedStay {
   id: number
   title: string
@@ -158,6 +160,7 @@ export interface LodgingDetail {
   amenities: LodgingAmenity[]
   address: LodgingAddress | null
   photos: LodgingPhoto[]
+  arrival_instructions?: ArrivalInstruction[]
   // Opcionales que la API quizás devuelva más adelante:
   check_in_time?: string
   check_out_time?: string
