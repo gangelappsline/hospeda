@@ -7,6 +7,7 @@ import {
   type PanelSection,
   type PanelConfig,
 } from '@/config/panels'
+import LogoIcon from '@/assets/images/icon.webp'
 
 /** Mapa de clases Tailwind por color para evitar templates dinámicos que Tailwind no detecta. */
 const ACCENT_CLASSES: Record<
@@ -96,11 +97,11 @@ export default function Sidebar() {
   return (
     <aside className="fixed left-0 top-0 h-screen w-64 bg-white border-r border-cool-steel-200 flex flex-col z-40">
       {/* Logo */}
-      <div className="h-16 flex items-center gap-2.5 px-5 border-b border-cool-steel-100">
+      <div className="h-16 flex items-center gap-2 px-5 border-b border-cool-steel-100">
         <div
-          className={`w-9 h-9 rounded-lg ${accent.bg} flex items-center justify-center`}
+          className={`w-12 h-12 rounded-lg bg-white flex items-center justify-center`}
         >
-          <Home size={18} className="text-white" />
+          <img src={LogoIcon} alt="Logo" className="h-8" />
         </div>
         <span className="text-lg font-semibold text-cool-steel-900 tracking-tight">
           Hospeda

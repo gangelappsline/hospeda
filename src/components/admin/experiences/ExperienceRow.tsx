@@ -48,7 +48,7 @@ export default function ExperienceRow({ experience, onEdit, onDelete }: Props) {
 
       {/* Precio */}
       <td className="px-5 py-4 text-cool-steel-700">
-        ${experience.price.toLocaleString('es-MX', { minimumFractionDigits: 2 })}
+        ${experience.price?.toLocaleString('es-MX', { minimumFractionDigits: 2 }) || 0}
       </td>
 
       {/* Duración */}
