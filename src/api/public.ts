@@ -8,6 +8,7 @@ import type {
   LodgingReview,
   LodgingSearchFilters,
   LodgingType,
+  PublicCategory,
   PublicExperience,
   PublicService,
   ServiceAvailability,
@@ -15,8 +16,11 @@ import type {
   SortOption,
 } from '@/types/public'
 import {
+  FALLBACK_EXPERIENCE_CATEGORIES,
   FALLBACK_EXPERIENCES,
+  FALLBACK_LODGING_CATEGORIES,
   FALLBACK_LODGINGS,
+  FALLBACK_SERVICE_CATEGORIES,
   FALLBACK_SERVICES,
   getFallbackLodgingBySlug,
   normalizeText,
@@ -29,15 +33,7 @@ const API_BASE_URL =
   ''
 
 function canCallApi(): boolean {
-  if (!API_BASE_URL) return false
-  if (
-    typeof window !== 'undefined' &&
-    window.location.protocol === 'https:' &&
-    API_BASE_URL.startsWith('http://')
-  ) {
-    return false
-  }
-  return true
+  return Boolean(API_BASE_URL)
 }
 
 interface ApiListEnvelope<T> {
@@ -143,17 +139,20 @@ function normalizeReviewsList(
     })
 }
 
-function normalizeLodgingType(rawType: unknown): LodgingType {
+function normalizeLodgingType(
+  rawType: unknown,
+  fallbackId?: unknown
+): LodgingType {
   if (isRecord(rawType)) {
     return {
-      id: toSafeNumber(rawType.id, 0),
-      name: toDisplayString(rawType.name) || 'Alojamiento',
+      id: toSafeNumber(rawType.id ?? fallbackId, 0),
+      name: toDisplayString(rawType.name ?? rawType.title) || 'Alojamiento',
     }
   }
   if (typeof rawType === 'string' && rawType.trim() !== '') {
-    return { id: 0, name: rawType }
+    return { id: toSafeNumber(fallbackId, 0), name: rawType }
   }
-  return { id: 0, name: 'Alojamiento' }
+  return { id: toSafeNumber(fallbackId, 0), name: 'Alojamiento' }
 }
 
 function normalizeAddress(rawAddress: unknown): LodgingAddress | null {
@@ -313,7 +312,10 @@ function mapLodging(raw: Record<string, unknown>): FeaturedStay {
         : null,
     price: toSafeNumber(raw.base_price ?? raw.price, 0),
     photos: normalizePhotos(raw.photos),
-    type: normalizeLodgingType(raw.type),
+    type: normalizeLodgingType(
+      raw.type ?? raw.category ?? raw.lodging_category,
+      raw.type_id ?? raw.category_id ?? raw.lodging_category_id
+    ),
     amenities: amenities.length > 0 ? amenities : undefined,
     is_superhost: Boolean(raw.is_superhost),
   }
@@ -548,8 +550,16 @@ export function filterAndSortLodgings(
       if (!locationHaystack.includes(cityNorm)) return false
     }
 
-    if (typeNorm && normalizeText(stay.type.name) !== typeNorm) {
-      return false
+    if (typeNorm || filters.category_id != null) {
+      const matchesId =
+        filters.category_id != null &&
+        stay.type.id > 0 &&
+        stay.type.id === filters.category_id
+      const matchesName =
+        typeNorm !== '' && normalizeText(stay.type.name) === typeNorm
+      if (!matchesId && !matchesName) {
+        return false
+      }
     }
 
     if (filters.guests != null && stay.guests < filters.guests) {
@@ -615,8 +625,18 @@ export function filterAndSortExperiences(
       if (!loc.includes(cityNorm)) return false
     }
 
-    if (catNorm && normalizeText(exp.category?.name ?? '') !== catNorm) {
-      return false
+    if (catNorm || filters.category_id != null) {
+      const matchesId =
+        filters.category_id != null &&
+        exp.category_id != null &&
+        exp.category_id > 0 &&
+        exp.category_id === filters.category_id
+      const matchesName =
+        catNorm !== '' &&
+        normalizeText(exp.category?.name ?? '') === catNorm
+      if (!matchesId && !matchesName) {
+        return false
+      }
     }
 
     if (filters.guests != null && exp.max_guests < filters.guests) {
@@ -678,8 +698,18 @@ export function filterAndSortServices(
       if (!loc.includes(cityNorm)) return false
     }
 
-    if (catNorm && normalizeText(srv.category?.name ?? '') !== catNorm) {
-      return false
+    if (catNorm || filters.category_id != null) {
+      const matchesId =
+        filters.category_id != null &&
+        srv.category_id != null &&
+        srv.category_id > 0 &&
+        srv.category_id === filters.category_id
+      const matchesName =
+        catNorm !== '' &&
+        normalizeText(srv.category?.name ?? '') === catNorm
+      if (!matchesId && !matchesName) {
+        return false
+      }
     }
 
     if (filters.min_price != null && srv.price < filters.min_price) {
@@ -810,7 +840,10 @@ export async function getLodgingBySlug(slug: string): Promise<LodgingDetail> {
             reviews: normalizeReviewsCount(raw.reviews, raw.reviews_count),
             reviews_list: reviewsList,
             status: toDisplayString(raw.status) || 'published',
-            type: normalizeLodgingType(raw.type),
+            type: normalizeLodgingType(
+              raw.type ?? raw.category ?? raw.lodging_category,
+              raw.type_id ?? raw.category_id ?? raw.lodging_category_id
+            ),
             owner: {
               id: toSafeNumber(ownerObj?.id, 0),
               name: toDisplayString(ownerObj?.name ?? raw.owner) || 'Anfitrión',
@@ -906,3 +939,85 @@ export async function searchServices(
 
   return filterAndSortServices(FALLBACK_SERVICES, filters)
 }
+
+function mapPublicCategory(
+  raw: Record<string, unknown>,
+  fallbackIndex: number
+): PublicCategory | null {
+  const name = toDisplayString(raw.name ?? raw.title).trim()
+  if (!name) return null
+
+  const active =
+    raw.active === undefined || raw.active === null
+      ? true
+      : raw.active === true ||
+        Number(raw.active) === 1 ||
+        raw.active === 'true'
+
+  const iconRaw =
+    toDisplayString(raw.icon_url ?? raw.logo_url ?? raw.icon ?? raw.logo) ||
+    null
+
+  const rawSlug = toDisplayString(raw.slug)
+  const slug =
+    rawSlug ||
+    normalizeText(name)
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '')
+
+  return {
+    id: toSafeNumber(raw.id, fallbackIndex + 1),
+    name,
+    slug,
+    description: toDisplayString(raw.description ?? raw.hint) || null,
+    icon_url: resolveMediaUrl(iconRaw),
+    active,
+  }
+}
+
+async function fetchPublicCategories(
+  endpointPath: string,
+  fallbackCategories: PublicCategory[]
+): Promise<PublicCategory[]> {
+  if (canCallApi()) {
+    try {
+      const response = await fetchWithTimeout(`${API_BASE_URL}${endpointPath}`)
+      if (response.ok) {
+        const json: unknown = await response.json()
+        const rawList = extractDataList(json)
+        return rawList
+          .map((item, index) => mapPublicCategory(item, index))
+          .filter(
+            (category): category is PublicCategory =>
+              category !== null && category.active
+          )
+      }
+    } catch {
+      // Fallback visual cuando el endpoint público no está accesible
+    }
+  }
+
+  return fallbackCategories
+}
+
+export async function getPublicLodgingCategories(): Promise<PublicCategory[]> {
+  return fetchPublicCategories(
+    '/lodging-categories',
+    FALLBACK_LODGING_CATEGORIES
+  )
+}
+
+export async function getPublicExperienceCategories(): Promise<PublicCategory[]> {
+  return fetchPublicCategories(
+    '/experience-categories',
+    FALLBACK_EXPERIENCE_CATEGORIES
+  )
+}
+
+export async function getPublicServiceCategories(): Promise<PublicCategory[]> {
+  return fetchPublicCategories(
+    '/service-categories',
+    FALLBACK_SERVICE_CATEGORIES
+  )
+}
+

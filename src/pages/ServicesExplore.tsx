@@ -15,6 +15,8 @@ import {
 } from 'lucide-react'
 import LandingNavbar from '@/components/landing/LandingNavbar'
 import { useSearchServices } from '@/hooks/useSearchServices'
+import { usePublicServiceCategories } from '@/hooks/usePublicCategories'
+import { normalizeText } from '@/utils/exploreFallback'
 import ServiceCard from '@/components/explore/ServiceCard'
 import ServiceDetailModal from '@/components/explore/ServiceDetailModal'
 import Skeleton from '@/components/ui/Skeleton'
@@ -24,15 +26,6 @@ import type {
   ServiceSearchFilters,
   SortOption,
 } from '@/types/public'
-
-const DEFAULT_SERVICE_CATEGORIES = [
-  'Chef y gastronomía',
-  'Transporte y traslados',
-  'Spa y bienestar',
-  'Limpieza y hogar',
-  'Fotografía y video',
-  'Concierge y eventos',
-] as const
 
 const AVAILABILITY_OPTIONS: {
   label: string
@@ -55,6 +48,9 @@ function parseFilters(params: URLSearchParams): ServiceSearchFilters {
 
   const category = params.get('category')
   if (category) filters.category = category
+
+  const category_id = params.get('category_id')
+  if (category_id) filters.category_id = Number(category_id)
 
   const date = params.get('date')
   if (date) filters.date = date
@@ -86,18 +82,26 @@ export default function ServicesExplore() {
 
   const filters = useMemo(() => parseFilters(searchParams), [searchParams])
   const { data, isLoading, isError } = useSearchServices(filters)
+  const {
+    data: serviceCategories = [],
+    isLoading: categoriesLoading,
+  } = usePublicServiceCategories()
 
-  const services = useMemo(() => data ?? [], [data])
-
-  // Categorías dinámicas combinando las estándar con las devueltas por la API
-  const categories = useMemo(() => {
-    const set = new Set<string>(DEFAULT_SERVICE_CATEGORIES)
-    services.forEach((srv) => {
-      if (srv.category?.name) set.add(srv.category.name)
+  const services = useMemo(() => {
+    const rawItems = data ?? []
+    if (serviceCategories.length === 0) return rawItems
+    const catById = new Map(serviceCategories.map((c) => [c.id, c]))
+    return rawItems.map((srv) => {
+      if (!srv.category && srv.category_id && catById.has(srv.category_id)) {
+        const matched = catById.get(srv.category_id)!
+        return {
+          ...srv,
+          category: { id: matched.id, name: matched.name },
+        }
+      }
+      return srv
     })
-    if (filters.category) set.add(filters.category)
-    return Array.from(set)
-  }, [services, filters.category])
+  }, [data, serviceCategories])
 
   const setFilter = (key: string, value: string | number | null) => {
     const next = new URLSearchParams(searchParams)
@@ -163,6 +167,8 @@ export default function ServicesExplore() {
   const removeChip = (key: string) => {
     if (key === 'price') {
       batchChange({ min_price: null, max_price: null })
+    } else if (key === 'category') {
+      batchChange({ category: null, category_id: null })
     } else {
       setFilter(key, null)
     }
@@ -254,15 +260,27 @@ export default function ServicesExplore() {
                     </label>
                     <select
                       value={filters.category ?? ''}
-                      onChange={(e) =>
-                        setFilter('category', e.target.value || null)
-                      }
+                      onChange={(e) => {
+                        const selectedName = e.target.value
+                        if (!selectedName) {
+                          batchChange({ category: null, category_id: null })
+                          return
+                        }
+                        const matched = serviceCategories.find(
+                          (c) => c.name === selectedName
+                        )
+                        batchChange({
+                          category: selectedName,
+                          category_id:
+                            matched && matched.id > 0 ? matched.id : null,
+                        })
+                      }}
                       className="w-full text-sm bg-transparent outline-none text-cool-steel-900"
                     >
                       <option value="">Todas</option>
-                      {categories.map((cat) => (
-                        <option key={cat} value={cat}>
-                          {cat}
+                      {serviceCategories.map((cat) => (
+                        <option key={cat.id || cat.name} value={cat.name}>
+                          {cat.name}
                         </option>
                       ))}
                     </select>
@@ -319,13 +337,13 @@ export default function ServicesExplore() {
               </div>
             </form>
 
-            {/* Chips de categorías rápidas */}
+            {/* Categorías reales desde /service-categories */}
             <div className="flex items-center gap-2 overflow-x-auto pb-0.5 scrollbar-hide">
               <button
                 type="button"
-                onClick={() => setFilter('category', null)}
+                onClick={() => batchChange({ category: null, category_id: null })}
                 className={`whitespace-nowrap px-3.5 py-1.5 rounded-full text-xs font-medium transition-all shrink-0 cursor-pointer ${
-                  !filters.category
+                  !filters.category && filters.category_id == null
                     ? 'bg-cool-steel-900 text-white shadow-sm'
                     : 'bg-cool-steel-50 text-cool-steel-700 border border-cool-steel-200 hover:bg-white'
                 }`}
@@ -333,25 +351,61 @@ export default function ServicesExplore() {
                 Todos los servicios
               </button>
 
-              {categories.map((cat) => {
-                const isSelected = filters.category === cat
-                return (
-                  <button
-                    key={cat}
-                    type="button"
-                    onClick={() =>
-                      setFilter('category', isSelected ? null : cat)
-                    }
-                    className={`whitespace-nowrap px-3.5 py-1.5 rounded-full text-xs font-medium transition-all shrink-0 cursor-pointer ${
-                      isSelected
-                        ? 'bg-cool-steel-900 text-white shadow-sm'
-                        : 'bg-cool-steel-50 text-cool-steel-700 border border-cool-steel-200 hover:bg-white'
-                    }`}
-                  >
-                    {cat}
-                  </button>
-                )
-              })}
+              {categoriesLoading &&
+                Array.from({ length: 6 }).map((_, index) => (
+                  <Skeleton
+                    key={`srv-cat-skel-${index}`}
+                    className="h-7 w-28 rounded-full shrink-0"
+                  />
+                ))}
+
+              {!categoriesLoading &&
+                serviceCategories.map((cat) => {
+                  const isSelected =
+                    (filters.category_id != null &&
+                      cat.id > 0 &&
+                      filters.category_id === cat.id) ||
+                    (Boolean(filters.category) &&
+                      normalizeText(filters.category ?? '') ===
+                        normalizeText(cat.name))
+
+                  return (
+                    <button
+                      key={cat.id || cat.name}
+                      type="button"
+                      title={cat.description ?? undefined}
+                      onClick={() =>
+                        batchChange(
+                          isSelected
+                            ? { category: null, category_id: null }
+                            : {
+                                category: cat.name,
+                                category_id: cat.id > 0 ? cat.id : null,
+                              }
+                        )
+                      }
+                      className={`inline-flex items-center gap-1.5 whitespace-nowrap px-3.5 py-1.5 rounded-full text-xs font-medium transition-all shrink-0 cursor-pointer ${
+                        isSelected
+                          ? 'bg-cool-steel-900 text-white shadow-sm'
+                          : 'bg-cool-steel-50 text-cool-steel-700 border border-cool-steel-200 hover:bg-white'
+                      }`}
+                    >
+                      {cat.icon_url && (
+                        <img
+                          src={cat.icon_url}
+                          alt=""
+                          onError={(e) => {
+                            e.currentTarget.style.display = 'none'
+                          }}
+                          className={`w-3.5 h-3.5 object-contain shrink-0 ${
+                            isSelected ? 'brightness-0 invert' : ''
+                          }`}
+                        />
+                      )}
+                      <span>{cat.name}</span>
+                    </button>
+                  )
+                })}
             </div>
 
             {/* Panel de filtros avanzados */}

@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom'
 import { Home as HomeIcon, Map as MapIcon, Building2 } from 'lucide-react'
 import LandingNavbar from '@/components/landing/LandingNavbar'
 import { useSearchLodgings } from '@/hooks/useSearchLodgings'
+import { usePublicLodgingCategories } from '@/hooks/usePublicCategories'
 import SearchFiltersBar from '@/components/search/SearchFiltersBar'
 import ActiveFilterChips from '@/components/search/ActiveFilterChips'
 import LodgingHorizontalCard from '@/components/search/LodgingHorizontalCard'
@@ -41,6 +42,9 @@ function parseFilters(params: URLSearchParams): LodgingSearchFilters {
   const type = params.get('type')
   if (type) filters.type = type
 
+  const category_id = params.get('category_id')
+  if (category_id) filters.category_id = Number(category_id)
+
   const min_rating = params.get('min_rating')
   if (min_rating) filters.min_rating = Number(min_rating)
 
@@ -71,8 +75,26 @@ export default function Search() {
 
   const filters = useMemo(() => parseFilters(searchParams), [searchParams])
   const { data, isLoading, isError } = useSearchLodgings(filters)
+  const { data: lodgingCategories = [] } = usePublicLodgingCategories()
 
-  const stays = data ?? []
+  const stays = useMemo(() => {
+    const rawStays = data ?? []
+    if (lodgingCategories.length === 0) return rawStays
+    const catById = new Map(lodgingCategories.map((c) => [c.id, c.name]))
+    return rawStays.map((stay) => {
+      if (
+        stay.type.id > 0 &&
+        stay.type.name === 'Alojamiento' &&
+        catById.has(stay.type.id)
+      ) {
+        return {
+          ...stay,
+          type: { id: stay.type.id, name: catById.get(stay.type.id)! },
+        }
+      }
+      return stay
+    })
+  }, [data, lodgingCategories])
   const nights = computeNights(filters.check_in, filters.check_out)
 
   // --- Mutadores de filtros ---
@@ -118,6 +140,9 @@ export default function Search() {
     } else if (key === 'price') {
       next.delete('min_price')
       next.delete('max_price')
+    } else if (key === 'type') {
+      next.delete('type')
+      next.delete('category_id')
     } else if (value != null) {
       const existing = next.getAll(`${key}[]`)
       next.delete(`${key}[]`)
