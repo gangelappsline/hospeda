@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { motion } from 'motion/react'
 import { Home, ArrowRight } from 'lucide-react'
 
@@ -39,13 +40,16 @@ export default function HostCTA() {
                 la comisión más baja del mercado y pagos en 24 horas.
               </p>
 
-              <button className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-vivid-tangerine-500 text-sm font-semibold text-white hover:bg-vivid-tangerine-600 transition-all hover:shadow-lg hover:shadow-vivid-tangerine-500/30 group">
+              <Link
+                to="/register"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-vivid-tangerine-500 text-sm font-semibold text-white hover:bg-vivid-tangerine-600 transition-all hover:shadow-lg hover:shadow-vivid-tangerine-500/30 group"
+              >
                 Comenzar ahora
                 <ArrowRight
                   size={16}
                   className="transition-transform group-hover:translate-x-1"
                 />
-              </button>
+              </Link>
             </div>
 
             {/* Columna derecha: estadísticas */}

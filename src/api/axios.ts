@@ -36,8 +36,13 @@ apiClient.interceptors.response.use(
     }
 
     // 401: sesión expirada
-    // Evitar redirigir si ya estamos en /login para no crear bucles
-    if (status === 401 && !window.location.pathname.includes('/login')) {
+    // Evitar redirigir si ya estamos en /login o /register para no crear bucles
+    const isAuthRoute =
+      window.location.pathname.includes('/login') ||
+      window.location.pathname.includes('/register') ||
+      window.location.pathname.includes('/registro')
+
+    if (status === 401 && !isAuthRoute) {
       clearAuth()
       // Guardar la ruta actual para volver después del login (opcional)
       const redirect = encodeURIComponent(window.location.pathname)

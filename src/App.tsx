@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import ProtectedRoute from '@/components/ProtectedRoute'
 import Home from '@/pages/Home'
 import Login from '@/pages/Login'
+import Register from '@/pages/Register'
 import LodgingDetail from '@/pages/LodgingDetail'
 import Search from '@/pages/Search'
 import ExperiencesExplore from '@/pages/ExperiencesExplore'
@@ -66,6 +67,8 @@ export default function App() {
       <Route path="/buscar" element={<Search />} />
       <Route path="/alojamiento/:slug" element={<LodgingDetail />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/registro" element={<Register />} />
 
       {/* Programa de afiliados (público) */}
       <Route path="/afiliados" element={<AffiliatesLanding />} />

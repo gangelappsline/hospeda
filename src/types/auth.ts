@@ -50,6 +50,27 @@ export interface LoginCredentials {
   source?: string
 }
 
+export interface RegisterPayload {
+  name: string
+  email: string
+  password: string
+  password_confirmation: string
+  source?: string
+  referral_code?: string
+}
+
+export interface RegisterResponse {
+  access_token?: string
+  token?: string
+  user?: AuthUser
+  message?: string
+  data?: {
+    access_token?: string
+    token?: string
+    user?: AuthUser
+  }
+}
+
 export interface ApiError {
   status: number | undefined
   message: string
