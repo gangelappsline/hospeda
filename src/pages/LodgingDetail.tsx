@@ -25,6 +25,7 @@ import { getLodgingBySlug } from '@/api/public'
 import type { LodgingAmenity, LodgingDetail as LodgingDetailType } from '@/types/public'
 import Skeleton from '@/components/ui/Skeleton'
 import LandingNavbar from '@/components/landing/LandingNavbar'
+import LodgingLocationMap from '@/components/search/LodgingLocationMap'
 import { Home as HomeIcon } from 'lucide-react'
 
 const MONTH_NAMES = [
@@ -283,13 +284,11 @@ export default function LodgingDetail() {
               <p className="text-sm text-cool-steel-500 mb-4">
                 {data.address?.city}, {data.address?.state}
               </p>
-              <div className="relative w-full h-72 rounded-xl overflow-hidden bg-pacific-blue-100 mb-4">
-                {/* Placeholder de mapa: pon aquí un <Map> real (Leaflet / Google Maps) */}
-                <div className="absolute inset-0 flex items-center justify-center text-pacific-blue-700 text-sm font-medium">
-                  <MapPin size={20} className="mr-2" />
-                  {data.address?.formatted_address ?? 'Ubicación aproximada'}
-                </div>
-              </div>
+              <LodgingLocationMap
+                id={data.id}
+                title={data.title}
+                address={data.address}
+              />
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-cool-steel-700">
                 <NearbyItem icon={<MapPin size={16} />} label="Playa" value="A 5 min caminando" />
                 <NearbyItem icon={<UtensilsCrossed size={16} />} label="Restaurantes" value="A 10 min caminando" />
