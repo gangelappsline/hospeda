@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
-import { Home, ChevronDown } from 'lucide-react'
+import { ChevronDown } from 'lucide-react'
 import {
   PANELS,
   getActiveRole,

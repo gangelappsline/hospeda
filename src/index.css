@@ -146,6 +146,12 @@
   }
 }
 
+/* Pines de precio personalizados sobre Leaflet */
+.hospeda-price-pin {
+  background: transparent;
+  border: 0;
+}
+
 /* ───────────────────────────────────────────────────────────────
    Toasts (sonner) · los avisos también viven en la paleta de marca
    ─────────────────────────────────────────────────────────────── */

@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react'
+import { Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { motion } from 'motion/react'
 import { getFeaturedStays } from '@/api/public'
@@ -46,12 +47,12 @@ export default function FeaturedStays() {
             Seleccionadas por su calificación y calidad de anfitrión.
           </p>
         </div>
-        <a
-          href="#"
+        <Link
+          to="/alojamientos"
           className="text-sm font-medium text-vivid-tangerine-500 hover:text-vivid-tangerine-600 transition-colors shrink-0"
         >
           Ver todas
-        </a>
+        </Link>
       </motion.div>
 
       {isLoading && (
