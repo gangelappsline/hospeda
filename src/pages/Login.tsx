@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 import {
   Mail,
@@ -20,6 +20,11 @@ import { getDefaultPanel } from '@/config/panels'
 
 export default function Login() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const redirectQuery = searchParams.get("redirect");
+  const registerHref = redirectQuery
+    ? `/register?redirect=${encodeURIComponent(redirectQuery)}`
+    : "/register";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
@@ -274,7 +279,7 @@ export default function Login() {
           <p className="text-center text-sm text-cool-steel-500 mt-6">
             ¿Aún no tienes cuenta?{" "}
             <Link
-              to="/register"
+              to={registerHref}
               className="text-vivid-tangerine-600 hover:text-vivid-tangerine-700 font-medium"
             >
               Regístrate gratis

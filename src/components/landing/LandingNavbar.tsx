@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import {
   LogIn,
+  UserPlus,
   ChevronDown,
   Building2,
   Compass,
@@ -242,21 +243,29 @@ export default function LandingNavbar() {
         </nav>
 
         {/* Acciones derecha + botón móvil */}
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-2">
           <a
             href={sectionHref('#anfitrion')}
             onClick={closeAllMenus}
-            className="hidden lg:block text-sm font-medium text-cool-steel-700 hover:text-vivid-tangerine-500 transition-colors"
+            className="hidden xl:block text-sm font-medium text-cool-steel-700 hover:text-vivid-tangerine-500 transition-colors mr-1"
           >
             Pon tu espacio en Hospeda
           </a>
           <Link
             to="/login"
             onClick={closeAllMenus}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-vivid-tangerine-500 text-sm font-medium text-white hover:bg-vivid-tangerine-600 transition-all hover:shadow-md hover:shadow-vivid-tangerine-500/20"
+            className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-cool-steel-200 bg-white text-sm font-medium text-cool-steel-700 hover:border-cool-steel-300 hover:text-vivid-tangerine-600 transition-colors"
           >
             <LogIn size={15} />
             <span>Iniciar sesión</span>
+          </Link>
+          <Link
+            to="/register"
+            onClick={closeAllMenus}
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-vivid-tangerine-500 text-sm font-medium text-white hover:bg-vivid-tangerine-600 transition-all hover:shadow-md hover:shadow-vivid-tangerine-500/20"
+          >
+            <UserPlus size={15} />
+            <span>Crear cuenta</span>
           </Link>
 
           <button
@@ -352,6 +361,25 @@ export default function LandingNavbar() {
               className="block py-2 text-sm font-medium text-cool-steel-700 hover:text-vivid-tangerine-500"
             >
               Programa de afiliados
+            </Link>
+          </div>
+
+          <div className="border-t border-cool-steel-100 pt-3 grid grid-cols-2 gap-2.5">
+            <Link
+              to="/login"
+              onClick={closeAllMenus}
+              className="inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-lg border border-cool-steel-200 bg-white text-sm font-medium text-cool-steel-700 hover:bg-cool-steel-50 transition-colors"
+            >
+              <LogIn size={15} />
+              <span>Iniciar sesión</span>
+            </Link>
+            <Link
+              to="/register"
+              onClick={closeAllMenus}
+              className="inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-lg bg-vivid-tangerine-500 text-sm font-semibold text-white hover:bg-vivid-tangerine-600 transition-colors"
+            >
+              <UserPlus size={15} />
+              <span>Crear cuenta</span>
             </Link>
           </div>
         </div>
