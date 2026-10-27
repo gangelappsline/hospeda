@@ -102,9 +102,9 @@ export default function LodgingHorizontalCard({
             <div className="flex items-center gap-1 shrink-0">
               <Star size={12} className="fill-cool-steel-900 text-cool-steel-900" />
               <span className="text-xs font-semibold text-cool-steel-900">
-                {stay.rating.toFixed(2)}
+                {(Number(stay.rating) || 0).toFixed(2)}
               </span>
-              {stay.reviews != null && (
+              {typeof stay.reviews === 'number' && (
                 <span className="text-xs text-cool-steel-400">
                   ({stay.reviews})
                 </span>

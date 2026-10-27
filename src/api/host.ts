@@ -23,7 +23,7 @@ interface ApiHostLodging {
   lodging_scope: 'entire_place' | 'private_room' | 'shared_room'
   status: string
   rating: string
-  reviews: number
+  reviews: number | unknown[]
   type: { id: number; name: string }
   address: {
     street: string
@@ -78,7 +78,9 @@ function mapHostLodging(raw: ApiHostLodging): HostLodging {
     guests: raw.capacity,
     lodging_scope: raw.lodging_scope,
     rating: Number(raw.rating) || 0,
-    reviews: raw.reviews,
+    reviews: Array.isArray(raw.reviews)
+      ? raw.reviews.length
+      : Number(raw.reviews) || 0,
     type: raw.type,
     address: raw.address,
     photos: raw.photos.map((p) => ({
