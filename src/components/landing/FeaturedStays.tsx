@@ -3,13 +3,17 @@ import { Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { motion } from 'motion/react'
 import { getFeaturedStays } from '@/api/public'
-import type { StayCategory } from '@/types/public'
+import { normalizeText } from '@/utils/exploreFallback'
+import type { PublicCategory, StayCategory } from '@/types/public'
 import CategoryTabs from './CategoryTabs'
 import StayCard from './StayCard'
 import Skeleton from '@/components/ui/Skeleton'
 
 export default function FeaturedStays() {
   const [category, setCategory] = useState<StayCategory>('all')
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
+    null
+  )
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['featured-stays'],
@@ -23,13 +27,27 @@ export default function FeaturedStays() {
   const stays = useMemo(() => {
     if (!data) return []
     if (category === 'all') return data
-    return data.filter((s) => s.type.name === category)
-  }, [data, category])
+    const targetNorm = normalizeText(category)
+    return data.filter((s) => {
+      if (selectedCategoryId && s.type.id > 0 && s.type.id === selectedCategoryId) {
+        return true
+      }
+      return normalizeText(s.type.name) === targetNorm
+    })
+  }, [data, category, selectedCategoryId])
+
+  const handleCategoryChange = (
+    nextCategory: StayCategory,
+    categoryObj?: PublicCategory | null
+  ) => {
+    setCategory(nextCategory)
+    setSelectedCategoryId(categoryObj?.id ?? null)
+  }
 
   return (
     <section id="explorar" className="max-w-7xl mx-auto px-6 py-12 scroll-mt-20">
       <div className="mb-8">
-        <CategoryTabs active={category} onChange={setCategory} />
+        <CategoryTabs active={category} onChange={handleCategoryChange} />
       </div>
 
       <motion.div

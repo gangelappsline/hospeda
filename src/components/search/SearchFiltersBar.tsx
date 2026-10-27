@@ -10,7 +10,10 @@ import {
   RotateCcw,
   BedDouble,
 } from 'lucide-react'
-import type { LodgingSearchFilters, StayCategory } from '@/types/public'
+import { usePublicLodgingCategories } from '@/hooks/usePublicCategories'
+import { normalizeText } from '@/utils/exploreFallback'
+import Skeleton from '@/components/ui/Skeleton'
+import type { LodgingSearchFilters } from '@/types/public'
 
 interface Props {
   filters: LodgingSearchFilters
@@ -20,18 +23,6 @@ interface Props {
   onBatchChange: (updates: Record<string, string | number | null>) => void
   onClearAll: () => void
 }
-
-const LODGING_TYPES: { value: StayCategory; label: string }[] = [
-  { value: 'all', label: 'Todos' },
-  { value: 'Casa', label: 'Casas' },
-  { value: 'Cabaña', label: 'Cabañas' },
-  { value: 'Villa', label: 'Villas' },
-  { value: 'Apartamento', label: 'Apartamentos' },
-  { value: 'Loft', label: 'Lofts' },
-  { value: 'Glamping', label: 'Glamping' },
-  { value: 'Estudio', label: 'Estudios' },
-  { value: 'Oficina', label: 'Oficinas' },
-]
 
 const AMENITY_OPTIONS = [
   'Wifi',
@@ -69,6 +60,8 @@ export default function SearchFiltersBar({
 }: Props) {
   const [filtersOpen, setFiltersOpen] = useState(false)
   const [cityDraft, setCityDraft] = useState<string | null>(null)
+  const { data: lodgingCategories = [], isLoading: categoriesLoading } =
+    usePublicLodgingCategories()
 
   const displayedCity = cityDraft !== null ? cityDraft : (filters.city ?? '')
 
@@ -206,28 +199,74 @@ export default function SearchFiltersBar({
           </div>
         </form>
 
-        {/* Selector rápido de tipo de alojamiento */}
+        {/* Categorías reales desde /lodging-categories */}
         <div className="flex items-center gap-2 overflow-x-auto pb-0.5 scrollbar-hide">
-          {LODGING_TYPES.map((t) => {
-            const activeType = filters.type ?? 'all'
-            const isSelected = activeType === t.value
-            return (
-              <button
-                key={t.value}
-                type="button"
-                onClick={() =>
-                  onChange('type', t.value === 'all' ? null : t.value)
-                }
-                className={`whitespace-nowrap px-3.5 py-1.5 rounded-full text-xs font-medium transition-all shrink-0 cursor-pointer ${
-                  isSelected
-                    ? 'bg-cool-steel-900 text-white shadow-sm'
-                    : 'bg-cool-steel-50 text-cool-steel-700 border border-cool-steel-200 hover:border-cool-steel-300 hover:bg-white'
-                }`}
-              >
-                {t.label}
-              </button>
-            )
-          })}
+          <button
+            type="button"
+            onClick={() => onBatchChange({ type: null, category_id: null })}
+            className={`whitespace-nowrap px-3.5 py-1.5 rounded-full text-xs font-medium transition-all shrink-0 cursor-pointer ${
+              !filters.type && filters.category_id == null
+                ? 'bg-cool-steel-900 text-white shadow-sm'
+                : 'bg-cool-steel-50 text-cool-steel-700 border border-cool-steel-200 hover:border-cool-steel-300 hover:bg-white'
+            }`}
+          >
+            Todos
+          </button>
+
+          {categoriesLoading &&
+            Array.from({ length: 6 }).map((_, index) => (
+              <Skeleton
+                key={`lodging-cat-skel-${index}`}
+                className="h-7 w-24 rounded-full shrink-0"
+              />
+            ))}
+
+          {!categoriesLoading &&
+            lodgingCategories.map((cat) => {
+              const isSelected =
+                (filters.category_id != null &&
+                  cat.id > 0 &&
+                  filters.category_id === cat.id) ||
+                (Boolean(filters.type) &&
+                  normalizeText(filters.type ?? '') === normalizeText(cat.name))
+
+              return (
+                <button
+                  key={cat.id || cat.name}
+                  type="button"
+                  title={cat.description ?? undefined}
+                  onClick={() =>
+                    onBatchChange(
+                      isSelected
+                        ? { type: null, category_id: null }
+                        : {
+                            type: cat.name,
+                            category_id: cat.id > 0 ? cat.id : null,
+                          }
+                    )
+                  }
+                  className={`inline-flex items-center gap-1.5 whitespace-nowrap px-3.5 py-1.5 rounded-full text-xs font-medium transition-all shrink-0 cursor-pointer ${
+                    isSelected
+                      ? 'bg-cool-steel-900 text-white shadow-sm'
+                      : 'bg-cool-steel-50 text-cool-steel-700 border border-cool-steel-200 hover:border-cool-steel-300 hover:bg-white'
+                  }`}
+                >
+                  {cat.icon_url && (
+                    <img
+                      src={cat.icon_url}
+                      alt=""
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none'
+                      }}
+                      className={`w-3.5 h-3.5 object-contain shrink-0 ${
+                        isSelected ? 'brightness-0 invert' : ''
+                      }`}
+                    />
+                  )}
+                  <span>{cat.name}</span>
+                </button>
+              )
+            })}
         </div>
 
         {/* Panel desplegable de filtros avanzados */}

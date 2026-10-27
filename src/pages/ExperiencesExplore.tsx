@@ -15,6 +15,8 @@ import {
 } from 'lucide-react'
 import LandingNavbar from '@/components/landing/LandingNavbar'
 import { useSearchExperiences } from '@/hooks/useSearchExperiences'
+import { usePublicExperienceCategories } from '@/hooks/usePublicCategories'
+import { normalizeText } from '@/utils/exploreFallback'
 import ExperienceCard from '@/components/explore/ExperienceCard'
 import ExperienceDetailModal from '@/components/explore/ExperienceDetailModal'
 import Skeleton from '@/components/ui/Skeleton'
@@ -24,15 +26,6 @@ import type {
   PublicExperience,
   SortOption,
 } from '@/types/public'
-
-const DEFAULT_CATEGORIES = [
-  'Gastronomía',
-  'Aventura y naturaleza',
-  'Acuáticas',
-  'Cultura e historia',
-  'Bienestar',
-  'Arte y talleres',
-] as const
 
 const DURATION_OPTIONS: {
   label: string
@@ -55,6 +48,9 @@ function parseFilters(params: URLSearchParams): ExperienceSearchFilters {
 
   const category = params.get('category')
   if (category) filters.category = category
+
+  const category_id = params.get('category_id')
+  if (category_id) filters.category_id = Number(category_id)
 
   const date = params.get('date')
   if (date) filters.date = date
@@ -88,18 +84,26 @@ export default function ExperiencesExplore() {
 
   const filters = useMemo(() => parseFilters(searchParams), [searchParams])
   const { data, isLoading, isError } = useSearchExperiences(filters)
+  const {
+    data: experienceCategories = [],
+    isLoading: categoriesLoading,
+  } = usePublicExperienceCategories()
 
-  const experiences = useMemo(() => data ?? [], [data])
-
-  // Categorías dinámicas combinando las estándar con cualquier categoría devuelta por la API
-  const categories = useMemo(() => {
-    const set = new Set<string>(DEFAULT_CATEGORIES)
-    experiences.forEach((exp) => {
-      if (exp.category?.name) set.add(exp.category.name)
+  const experiences = useMemo(() => {
+    const rawItems = data ?? []
+    if (experienceCategories.length === 0) return rawItems
+    const catById = new Map(experienceCategories.map((c) => [c.id, c]))
+    return rawItems.map((exp) => {
+      if (!exp.category && exp.category_id && catById.has(exp.category_id)) {
+        const matched = catById.get(exp.category_id)!
+        return {
+          ...exp,
+          category: { id: matched.id, name: matched.name },
+        }
+      }
+      return exp
     })
-    if (filters.category) set.add(filters.category)
-    return Array.from(set)
-  }, [experiences, filters.category])
+  }, [data, experienceCategories])
 
   const setFilter = (key: string, value: string | number | null) => {
     const next = new URLSearchParams(searchParams)
@@ -169,6 +173,8 @@ export default function ExperiencesExplore() {
   const removeChip = (key: string) => {
     if (key === 'price') {
       batchChange({ min_price: null, max_price: null })
+    } else if (key === 'category') {
+      batchChange({ category: null, category_id: null })
     } else {
       setFilter(key, null)
     }
@@ -325,13 +331,13 @@ export default function ExperiencesExplore() {
               </div>
             </form>
 
-            {/* Categorías rápidas */}
+            {/* Categorías reales desde /experience-categories */}
             <div className="flex items-center gap-2 overflow-x-auto pb-0.5 scrollbar-hide">
               <button
                 type="button"
-                onClick={() => setFilter('category', null)}
+                onClick={() => batchChange({ category: null, category_id: null })}
                 className={`whitespace-nowrap px-3.5 py-1.5 rounded-full text-xs font-medium transition-all shrink-0 cursor-pointer ${
-                  !filters.category
+                  !filters.category && filters.category_id == null
                     ? 'bg-cool-steel-900 text-white shadow-sm'
                     : 'bg-cool-steel-50 text-cool-steel-700 border border-cool-steel-200 hover:bg-white'
                 }`}
@@ -339,25 +345,61 @@ export default function ExperiencesExplore() {
                 Todas las categorías
               </button>
 
-              {categories.map((cat) => {
-                const isSelected = filters.category === cat
-                return (
-                  <button
-                    key={cat}
-                    type="button"
-                    onClick={() =>
-                      setFilter('category', isSelected ? null : cat)
-                    }
-                    className={`whitespace-nowrap px-3.5 py-1.5 rounded-full text-xs font-medium transition-all shrink-0 cursor-pointer ${
-                      isSelected
-                        ? 'bg-cool-steel-900 text-white shadow-sm'
-                        : 'bg-cool-steel-50 text-cool-steel-700 border border-cool-steel-200 hover:bg-white'
-                    }`}
-                  >
-                    {cat}
-                  </button>
-                )
-              })}
+              {categoriesLoading &&
+                Array.from({ length: 6 }).map((_, index) => (
+                  <Skeleton
+                    key={`exp-cat-skel-${index}`}
+                    className="h-7 w-28 rounded-full shrink-0"
+                  />
+                ))}
+
+              {!categoriesLoading &&
+                experienceCategories.map((cat) => {
+                  const isSelected =
+                    (filters.category_id != null &&
+                      cat.id > 0 &&
+                      filters.category_id === cat.id) ||
+                    (Boolean(filters.category) &&
+                      normalizeText(filters.category ?? '') ===
+                        normalizeText(cat.name))
+
+                  return (
+                    <button
+                      key={cat.id || cat.name}
+                      type="button"
+                      title={cat.description ?? undefined}
+                      onClick={() =>
+                        batchChange(
+                          isSelected
+                            ? { category: null, category_id: null }
+                            : {
+                                category: cat.name,
+                                category_id: cat.id > 0 ? cat.id : null,
+                              }
+                        )
+                      }
+                      className={`inline-flex items-center gap-1.5 whitespace-nowrap px-3.5 py-1.5 rounded-full text-xs font-medium transition-all shrink-0 cursor-pointer ${
+                        isSelected
+                          ? 'bg-cool-steel-900 text-white shadow-sm'
+                          : 'bg-cool-steel-50 text-cool-steel-700 border border-cool-steel-200 hover:bg-white'
+                      }`}
+                    >
+                      {cat.icon_url && (
+                        <img
+                          src={cat.icon_url}
+                          alt=""
+                          onError={(e) => {
+                            e.currentTarget.style.display = 'none'
+                          }}
+                          className={`w-3.5 h-3.5 object-contain shrink-0 ${
+                            isSelected ? 'brightness-0 invert' : ''
+                          }`}
+                        />
+                      )}
+                      <span>{cat.name}</span>
+                    </button>
+                  )
+                })}
             </div>
 
             {/* Panel de filtros avanzados */}

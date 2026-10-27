@@ -141,6 +141,15 @@ export interface LodgingDetail {
 
 export type SortOption = 'recommended' | 'price_asc' | 'price_desc' | 'rating_desc'
 
+export interface PublicCategory {
+  id: number
+  name: string
+  slug?: string
+  description?: string | null
+  icon_url: string | null
+  active: boolean
+}
+
 export interface LodgingSearchFilters {
   q?: string
   city?: string
@@ -150,7 +159,8 @@ export interface LodgingSearchFilters {
   bedrooms?: number
   min_price?: number
   max_price?: number
-  type?: string              // nombre del tipo: 'Casa', 'Cabaña', etc.
+  type?: string              // nombre de la categoría de alojamiento
+  category_id?: number
   min_rating?: number
   amenities?: string[]       // nombres de amenidades
   sort?: SortOption
@@ -183,6 +193,7 @@ export interface ExperienceSearchFilters {
   q?: string
   city?: string
   category?: string
+  category_id?: number
   date?: string
   guests?: number
   min_price?: number
@@ -218,6 +229,7 @@ export interface ServiceSearchFilters {
   q?: string
   city?: string
   category?: string
+  category_id?: number
   date?: string
   min_price?: number
   max_price?: number
@@ -236,14 +248,4 @@ export interface Paginated<T> {
   }
 }
 
-// Los valores coinciden con type.name que devuelve la API
-export type StayCategory =
-  | 'all'
-  | 'Casa'
-  | 'Cabaña'
-  | 'Glamping'
-  | 'Oficina'
-  | 'Loft'
-  | 'Apartamento'
-  | 'Villa'
-  | 'Estudio'
+export type StayCategory = string

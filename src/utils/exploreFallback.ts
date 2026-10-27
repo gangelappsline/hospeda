@@ -1,6 +1,7 @@
 import type {
   FeaturedStay,
   LodgingDetail,
+  PublicCategory,
   PublicExperience,
   PublicService,
 } from '@/types/public'
@@ -1048,3 +1049,33 @@ export const FALLBACK_SERVICES: PublicService[] = [
     highlights: ['Recolección a domicilio', 'Entrega el mismo día', 'Detergentes hipoalergénicos'],
   },
 ]
+
+export const FALLBACK_LODGING_CATEGORIES: PublicCategory[] = [
+  { id: 1, name: 'Casa', slug: 'casa', description: 'Casas completas con privacidad total', icon_url: null, active: true },
+  { id: 2, name: 'Cabaña', slug: 'cabana', description: 'Cabañas rodeadas de naturaleza', icon_url: null, active: true },
+  { id: 3, name: 'Villa', slug: 'villa', description: 'Villas exclusivas para grupos y familias', icon_url: null, active: true },
+  { id: 4, name: 'Apartamento', slug: 'apartamento', description: 'Apartamentos urbanos y frente al mar', icon_url: null, active: true },
+  { id: 5, name: 'Loft', slug: 'loft', description: 'Lofts modernos de diseño abierto', icon_url: null, active: true },
+  { id: 6, name: 'Glamping', slug: 'glamping', description: 'Domos y tiendas de lujo al aire libre', icon_url: null, active: true },
+  { id: 7, name: 'Estudio', slug: 'estudio', description: 'Estudios prácticos para estancias ágiles', icon_url: null, active: true },
+  { id: 8, name: 'Oficina', slug: 'oficina', description: 'Espacios equipados para trabajo remoto', icon_url: null, active: true },
+]
+
+export const FALLBACK_EXPERIENCE_CATEGORIES: PublicCategory[] = [
+  { id: 1, name: 'Gastronomía', slug: 'gastronomia', description: 'Sabores locales, catas y clases de cocina', icon_url: null, active: true },
+  { id: 2, name: 'Naturaleza', slug: 'naturaleza', description: 'Rutas escénicas, cenotes y reservas naturales', icon_url: null, active: true },
+  { id: 3, name: 'Cultura e historia', slug: 'cultura-e-historia', description: 'Recorridos históricos, arte y tradiciones', icon_url: null, active: true },
+  { id: 4, name: 'Bienestar', slug: 'bienestar', description: 'Temazcal, meditación y experiencias holísticas', icon_url: null, active: true },
+  { id: 5, name: 'Aventura', slug: 'aventura', description: 'Actividades al aire libre y adrenalina', icon_url: null, active: true },
+  { id: 6, name: 'Acuáticas', slug: 'acuaticas', description: 'Veleo, snorkel y travesías en el agua', icon_url: null, active: true },
+]
+
+export const FALLBACK_SERVICE_CATEGORIES: PublicCategory[] = [
+  { id: 1, name: 'Gastronomía privada', slug: 'gastronomia-privada', description: 'Chef en casa, catering y mixología', icon_url: null, active: true },
+  { id: 2, name: 'Transporte', slug: 'transporte', description: 'Traslados ejecutivos, chofer y aeropuerto', icon_url: null, active: true },
+  { id: 3, name: 'Bienestar y spa', slug: 'bienestar-y-spa', description: 'Masajes terapéuticos y tratamientos en tu estancia', icon_url: null, active: true },
+  { id: 4, name: 'Limpieza y hogar', slug: 'limpieza-y-hogar', description: 'Limpieza profunda, lavandería y asistencia', icon_url: null, active: true },
+  { id: 5, name: 'Concierge y eventos', slug: 'concierge-y-eventos', description: 'Decoración, planeación e itinerarios a medida', icon_url: null, active: true },
+  { id: 6, name: 'Fotografía', slug: 'fotografia', description: 'Sesiones fotográficas de viaje y eventos', icon_url: null, active: true },
+]
+
