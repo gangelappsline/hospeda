@@ -1,9 +1,22 @@
+import { useState, type FormEvent } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { motion } from 'motion/react'
 import { MapPin, Calendar, Users, Search, TrendingUp } from 'lucide-react'
 
 export default function Hero() {
-  const scrollToStays = () => {
-    document.getElementById('explorar')?.scrollIntoView({ behavior: 'smooth' })
+  const navigate = useNavigate()
+  const [city, setCity] = useState('')
+  const [checkIn, setCheckIn] = useState('')
+  const [guests, setGuests] = useState('')
+
+  const handleSearch = (e: FormEvent) => {
+    e.preventDefault()
+    const params = new URLSearchParams()
+    if (city.trim()) params.set('city', city.trim())
+    if (checkIn) params.set('check_in', checkIn)
+    if (guests && Number(guests) > 0) params.set('guests', guests)
+    const qs = params.toString()
+    navigate(`/alojamientos${qs ? `?${qs}` : ''}`)
   }
 
   return (
@@ -53,7 +66,8 @@ export default function Hero() {
         </motion.p>
 
         {/* Buscador */}
-        <motion.div
+        <motion.form
+          onSubmit={handleSearch}
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.3 }}
@@ -66,6 +80,8 @@ export default function Hero() {
               <p className="text-xs font-semibold text-cool-steel-700">Destino</p>
               <input
                 type="text"
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
                 placeholder="¿A dónde vas?"
                 className="w-full text-sm text-cool-steel-900 placeholder-cool-steel-400 bg-transparent focus:outline-none"
               />
@@ -78,10 +94,13 @@ export default function Hero() {
           <div className="flex-1 flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-cool-steel-50 transition-colors">
             <Calendar size={18} className="text-vivid-tangerine-500 shrink-0" />
             <div className="flex-1 text-left min-w-0">
-              <p className="text-xs font-semibold text-cool-steel-700">Fechas</p>
-              <button className="text-sm text-cool-steel-400 text-left">
-                Llegada — Salida
-              </button>
+              <p className="text-xs font-semibold text-cool-steel-700">Llegada</p>
+              <input
+                type="date"
+                value={checkIn}
+                onChange={(e) => setCheckIn(e.target.value)}
+                className="w-full text-sm text-cool-steel-900 bg-transparent focus:outline-none"
+              />
             </div>
           </div>
 
@@ -92,21 +111,26 @@ export default function Hero() {
             <Users size={18} className="text-vivid-tangerine-500 shrink-0" />
             <div className="flex-1 text-left min-w-0">
               <p className="text-xs font-semibold text-cool-steel-700">Huéspedes</p>
-              <button className="text-sm text-cool-steel-400 text-left">
-                Agrega huéspedes
-              </button>
+              <input
+                type="number"
+                min={1}
+                value={guests}
+                onChange={(e) => setGuests(e.target.value)}
+                placeholder="¿Cuántos viajan?"
+                className="w-full text-sm text-cool-steel-900 placeholder-cool-steel-400 bg-transparent focus:outline-none"
+              />
             </div>
           </div>
 
           {/* Botón buscar */}
           <button
-            onClick={scrollToStays}
-            className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-vivid-tangerine-500 text-sm font-semibold text-white hover:bg-vivid-tangerine-600 transition-all hover:shadow-lg hover:shadow-vivid-tangerine-500/30 shrink-0"
+            type="submit"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-vivid-tangerine-500 text-sm font-semibold text-white hover:bg-vivid-tangerine-600 transition-all hover:shadow-lg hover:shadow-vivid-tangerine-500/30 shrink-0 cursor-pointer"
           >
             <Search size={16} />
             Buscar
           </button>
-        </motion.div>
+        </motion.form>
       </div>
     </section>
   )

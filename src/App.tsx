@@ -4,6 +4,8 @@ import Home from '@/pages/Home'
 import Login from '@/pages/Login'
 import LodgingDetail from '@/pages/LodgingDetail'
 import Search from '@/pages/Search'
+import ExperiencesExplore from '@/pages/ExperiencesExplore'
+import ServicesExplore from '@/pages/ServicesExplore'
 
 // Afiliados (público)
 import AffiliatesLanding from '@/pages/affiliates/AffiliatesLanding'
@@ -58,6 +60,9 @@ export default function App() {
     <Routes>
       {/* Públicas */}
       <Route path="/" element={<Home />} />
+      <Route path="/alojamientos" element={<Search />} />
+      <Route path="/experiencias" element={<ExperiencesExplore />} />
+      <Route path="/servicios" element={<ServicesExplore />} />
       <Route path="/buscar" element={<Search />} />
       <Route path="/alojamiento/:slug" element={<LodgingDetail />} />
       <Route path="/login" element={<Login />} />
