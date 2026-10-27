@@ -1,7 +1,7 @@
 import apiClient from './axios'
 import type { LodgingType, LodgingTypePayload } from '@/types/lodgingType'
 
-const BASE = '/web/admin/lodging-types'
+const BASE = '/admin/lodging-types'
 
 export const getLodgingTypes = async (): Promise<LodgingType[]> => {
   const response = await apiClient.get(BASE)
