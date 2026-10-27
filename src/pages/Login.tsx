@@ -10,7 +10,6 @@ import {
   ShieldCheck,
   Clock,
   BadgeCheck,
-  Home,
 } from "lucide-react";
 import { login } from "@/api/auth";
 import type { LoginCredentials, ApiError } from "@/types/auth";

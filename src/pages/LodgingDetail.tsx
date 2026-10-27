@@ -551,7 +551,9 @@ function ReviewCard({
   }
 }) {
   const date = new Date(review.created_at)
-  const monthYear = `${MONTH_NAMES[date.getMonth()]} ${date.getFullYear()}`
+  const monthYear = Number.isNaN(date.getTime())
+    ? review.created_at
+    : `${MONTH_NAMES[date.getMonth()]} ${date.getFullYear()}`
 
   return (
     <div>
