@@ -522,62 +522,22 @@ export async function searchLodgings(
 }
 
 export async function getFeaturedStays(): Promise<FeaturedStay[]> {
-  if (canCallApi()) {
-    try {
-      const response = await fetchWithTimeout(`${API_BASE_URL}/lodgings`)
-      if (response.ok) {
-        const json: ApiListEnvelope<ApiLodging> | ApiLodging[] = await response.json()
-        const rawList = Array.isArray(json) ? json : (json.data ?? [])
-        return rawList
-          .filter((l) => l.status === 'published' && l.title && l.address)
-          .map(mapLodging)
-      }
-    } catch {
-      // Fallback visual cuando la API no está accesible
-    }
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+  const response = await fetch(`${API_BASE_URL}/lodgings`)
+
+  if (!response.ok) {
+    throw new Error(`Error al obtener alojamientos: ${response.status}`)
   }
 
   return FALLBACK_LODGINGS.slice(0, 6)
 }
 
 export async function getLodgingBySlug(slug: string): Promise<LodgingDetail> {
-  if (canCallApi()) {
-    try {
-      const response = await fetchWithTimeout(`${API_BASE_URL}/lodgings/${slug}`)
-      if (response.ok) {
-        const json = await response.json()
-        if (json.success !== false && json.data) {
-          const raw = json.data
-          return {
-            id: raw.id,
-            title: raw.title ?? 'Sin título',
-            description: raw.description ?? '',
-            slug: raw.slug ?? '',
-            base_price: Number(raw.base_price) || 0,
-            cleaning_fee: Number(raw.cleaning_fee) || 0,
-            service_fee: Number(raw.service_fee) || 0,
-            security_deposit: Number(raw.security_deposit) || 0,
-            bathrooms: raw.bathrooms,
-            bedrooms: raw.bedrooms,
-            beds: raw.beds,
-            guests: raw.capacity,
-            rating: Number(raw.rating) || 0,
-            reviews: raw.reviews,
-            reviews_list: raw.reviews_list ?? [],
-            status: raw.status,
-            type: raw.type,
-            owner: raw.owner,
-            amenities: raw.amenities ?? [],
-            address: raw.address,
-            photos: raw.photos ?? [],
-            is_superhost: raw.is_superhost ?? false,
-            is_guest_favorite: raw.is_guest_favorite ?? false,
-          }
-        }
-      }
-    } catch {
-      // Intenta resolver desde catálogo fallback si aplica
-    }
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+  const response = await fetch(`${API_BASE_URL}/lodgings/${slug}`)
+
+  if (!response.ok) {
+    throw new Error(`Error al obtener el alojamiento: ${response.status}`)
   }
 
   const fallback = getFallbackLodgingBySlug(slug)

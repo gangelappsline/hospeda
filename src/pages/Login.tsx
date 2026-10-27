@@ -16,6 +16,7 @@ import { login } from "@/api/auth";
 import type { LoginCredentials, ApiError } from "@/types/auth";
 import InputField from "@/components/InputField";
 import { saveAuth } from "@/utils/authStorage";
+import LogoIcon from '@/assets/images/icon.webp'
 import { getDefaultPanel } from '@/config/panels'
 
 export default function Login() {
@@ -137,8 +138,8 @@ export default function Login() {
         <div className="relative z-10 flex flex-col justify-between p-12 text-white w-full">
           {/* Logo */}
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-lg bg-white/20 backdrop-blur flex items-center justify-center">
-              <Home size={20} className="text-white" />
+            <div className="w-9 h-9 rounded-lg bg-white/80 backdrop-blur flex items-center justify-center">
+            <img src={LogoIcon} alt="Hospeda Logo" className="w-12" />
             </div>
             <span className="text-xl font-semibold tracking-tight">
               Hospeda
