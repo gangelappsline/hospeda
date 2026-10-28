@@ -5,6 +5,7 @@ import LandingNavbar from '@/components/landing/LandingNavbar'
 import Hero from '@/components/landing/Hero'
 import HeroSearchResults from '@/components/landing/HeroSearchResults'
 import FeaturedStays from '@/components/landing/FeaturedStays'
+import ExperienciasCercaDeTi from '@/components/landing/ExperienciasCercaDeTi'
 import Features from '@/components/landing/Features'
 import HostCTA from '@/components/landing/HostCTA'
 import {
@@ -63,6 +64,12 @@ export default function Home() {
     return () => window.clearTimeout(timer)
   }, [applied])
 
+  // Ciudad de referencia para "Experiencias cerca de ti".
+  const referenceCity = useMemo(
+    () => (applied?.draft.destination ?? draft.destination).trim(),
+    [applied, draft.destination]
+  )
+
   // Parámetros que se comparten con /alojamientos desde "Ver todas".
   const seeAllQuery = useMemo(() => {
     if (applied) return filtersToQueryString(applied.filters)
@@ -94,6 +101,13 @@ export default function Home() {
         )}
 
         <FeaturedStays seeAllQuery={seeAllQuery} />
+
+        {/* La ciudad se usa como referencia; la key reinicia el filtro local. */}
+        <ExperienciasCercaDeTi
+          key={referenceCity || 'todos'}
+          referenceCity={referenceCity}
+        />
+
         <Features />
         <HostCTA />
       </main>
