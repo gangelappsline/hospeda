@@ -1,26 +1,34 @@
 import { useState, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'motion/react'
-import { MapPin, Calendar, Users, Search, TrendingUp } from 'lucide-react'
+import { MapPin, Calendar, Users, Search, TrendingUp, ChevronDown } from 'lucide-react'
+import DateRangeCalendar, {
+  type DateRange,
+} from '@/components/booking/DateRangeCalendar'
+import { useDismissable } from '@/hooks/useUiHelpers'
+import { formatDayMonth, toISODate } from '@/utils/dates'
 
 export default function Hero() {
   const navigate = useNavigate()
   const [city, setCity] = useState('')
-  const [checkIn, setCheckIn] = useState('')
+  const [range, setRange] = useState<DateRange>({ checkIn: null, checkOut: null })
   const [guests, setGuests] = useState('')
+  const [datesOpen, setDatesOpen] = useState(false)
+  const datesRef = useDismissable(datesOpen, () => setDatesOpen(false))
 
   const handleSearch = (e: FormEvent) => {
     e.preventDefault()
     const params = new URLSearchParams()
     if (city.trim()) params.set('city', city.trim())
-    if (checkIn) params.set('check_in', checkIn)
+    if (range.checkIn) params.set('check_in', toISODate(range.checkIn))
+    if (range.checkOut) params.set('check_out', toISODate(range.checkOut))
     if (guests && Number(guests) > 0) params.set('guests', guests)
     const qs = params.toString()
     navigate(`/alojamientos${qs ? `?${qs}` : ''}`)
   }
 
   return (
-    <section className="relative min-h-[680px] flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-[680px] flex items-center justify-center">
       {/* Imagen de fondo */}
       <div className="absolute inset-0">
         <img
@@ -71,7 +79,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.3 }}
-          className="bg-white rounded-2xl shadow-2xl p-2 flex flex-col md:flex-row items-stretch gap-1 max-w-3xl mx-auto"
+          className="relative bg-white rounded-2xl shadow-2xl p-2 flex flex-col md:flex-row items-stretch gap-1 max-w-3xl mx-auto"
         >
           {/* Destino */}
           <div className="flex-1 flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-cool-steel-50 transition-colors">
@@ -91,17 +99,61 @@ export default function Hero() {
           <div className="hidden md:block w-px bg-cool-steel-200 my-2" />
 
           {/* Fechas */}
-          <div className="flex-1 flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-cool-steel-50 transition-colors">
-            <Calendar size={18} className="text-vivid-tangerine-500 shrink-0" />
-            <div className="flex-1 text-left min-w-0">
-              <p className="text-xs font-semibold text-cool-steel-700">Llegada</p>
-              <input
-                type="date"
-                value={checkIn}
-                onChange={(e) => setCheckIn(e.target.value)}
-                className="w-full text-sm text-cool-steel-900 bg-transparent focus:outline-none"
+          <div ref={datesRef} className="relative flex-1">
+            <button
+              type="button"
+              onClick={() => setDatesOpen((open) => !open)}
+              aria-expanded={datesOpen}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-colors cursor-pointer ${
+                datesOpen ? 'bg-cool-steel-50' : 'hover:bg-cool-steel-50'
+              }`}
+            >
+              <Calendar size={18} className="text-vivid-tangerine-500 shrink-0" />
+              <span className="flex-1 min-w-0">
+                <span className="block text-xs font-semibold text-cool-steel-700">
+                  Fechas
+                </span>
+                <span
+                  className={`block truncate text-sm ${
+                    range.checkIn
+                      ? 'text-cool-steel-900 font-medium'
+                      : 'text-cool-steel-400'
+                  }`}
+                >
+                  {range.checkIn
+                    ? `${formatDayMonth(range.checkIn)} → ${
+                        range.checkOut
+                          ? formatDayMonth(range.checkOut)
+                          : 'Salida'
+                      }`
+                    : 'Llegada y salida'}
+                </span>
+              </span>
+              <ChevronDown
+                size={16}
+                className={`shrink-0 text-cool-steel-400 transition-transform ${
+                  datesOpen ? 'rotate-180' : ''
+                }`}
               />
-            </div>
+            </button>
+
+            {datesOpen && (
+              <div className="absolute left-1/2 top-full z-50 mt-3 w-[640px] max-w-[calc(100vw-2rem)] -translate-x-1/2 rounded-2xl border border-cool-steel-200 bg-white p-4 text-left shadow-2xl shadow-cool-steel-950/25">
+                <DateRangeCalendar
+                  value={range}
+                  onChange={setRange}
+                  numberOfMonths={2}
+                  compact
+                />
+                <button
+                  type="button"
+                  onClick={() => setDatesOpen(false)}
+                  className="mt-3 w-full rounded-xl bg-cool-steel-900 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-cool-steel-800 cursor-pointer"
+                >
+                  Listo
+                </button>
+              </div>
+            )}
           </div>
 
           <div className="hidden md:block w-px bg-cool-steel-200 my-2" />

@@ -1,7 +1,8 @@
 import { motion } from 'motion/react'
-import { Star, Heart } from 'lucide-react'
+import { Star } from 'lucide-react'
 import type { FeaturedStay } from '@/types/public'
 import { Link } from 'react-router-dom'
+import FavoriteButton from '@/components/ui/FavoriteButton'
 
 interface Props {
   stay: FeaturedStay
@@ -38,13 +39,24 @@ export default function StayCard({ stay, index }: Props) {
           </span>
         )}
 
-        <button
-          onClick={(e) => e.stopPropagation()}
-          className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center hover:bg-white hover:scale-110 transition-all"
-          aria-label="Guardar en favoritos"
-        >
-          <Heart size={16} className="text-cool-steel-700" />
-        </button>
+        <div className="absolute top-3 right-3">
+          <FavoriteButton
+            stay={{
+              id: stay.id,
+              slug: stay.slug,
+              title: stay.title,
+              cover: stay.photos?.[0]?.thumbnail ?? null,
+              city: stay.address?.city ?? '',
+              price: stay.price,
+              rating: stay.rating,
+              reviews: stay.reviews,
+              guests: stay.guests,
+              bedrooms: stay.bedrooms,
+            }}
+            variant="overlay"
+            size="sm"
+          />
+        </div>
       </div>
 
       <div className="space-y-1">

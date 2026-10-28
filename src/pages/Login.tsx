@@ -40,24 +40,26 @@ export default function Login() {
         description: `Hola ${data.user.name}, has iniciado sesión correctamente.`,
       });
 
-      // Si veníamos de una ruta protegida, volver ahí
+      // Si veníamos de una ruta (protegida o pública, como el detalle de un
+      // alojamiento), volvemos ahí después de iniciar sesión.
       const params = new URLSearchParams(window.location.search);
-      const redirect = params.get("redirect") || "/admin/dashboard";
+      const redirect = params.get("redirect");
 
-      if (redirect) {
-        const targetRole = redirect.startsWith("/host/dashboard")
+      if (redirect && redirect.startsWith("/")) {
+        const targetRole = redirect.startsWith("/host/")
           ? "host"
-          : redirect.startsWith("/admin/dashboard")
+          : redirect.startsWith("/admin/")
             ? "administrator"
-            : redirect.startsWith("/support/dashboard")
+            : redirect.startsWith("/support/")
               ? "support"
-              : redirect.startsWith("/guest/dashboard")
+              : redirect.startsWith("/guest/")
                 ? "guest"
                 : redirect.startsWith("/affiliate/")
                   ? "affiliate"
                   : null;
 
-        if (targetRole && data.user.role == targetRole) {
+        // Rutas públicas (sin rol asociado) o paneles del mismo rol.
+        if (!targetRole || data.user.role === targetRole) {
           navigate(redirect, { replace: true });
           return;
         }

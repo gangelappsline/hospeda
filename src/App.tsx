@@ -4,6 +4,7 @@ import Home from '@/pages/Home'
 import Login from '@/pages/Login'
 import Register from '@/pages/Register'
 import LodgingDetail from '@/pages/LodgingDetail'
+import Favorites from '@/pages/Favorites'
 import Search from '@/pages/Search'
 import ExperiencesExplore from '@/pages/ExperiencesExplore'
 import ServicesExplore from '@/pages/ServicesExplore'
@@ -42,6 +43,7 @@ import LodgingForm from '@/pages/host/LodgingForm'
 
 // Guest
 import GuestDashboard from '@/pages/guest/Dashboard'
+import GuestFavorites from '@/pages/guest/Favorites'
 
 // Support
 import SupportDashboard from '@/pages/support/Dashboard'
@@ -66,6 +68,9 @@ export default function App() {
       <Route path="/servicios" element={<ServicesExplore />} />
       <Route path="/buscar" element={<Search />} />
       <Route path="/alojamiento/:slug" element={<LodgingDetail />} />
+      <Route element={<ProtectedRoute />}>
+        <Route path="/favoritos" element={<Favorites />} />
+      </Route>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/registro" element={<Register />} />
@@ -118,6 +123,7 @@ export default function App() {
         <Route path="/guest" element={<AdminLayout />}>
           <Route index element={<Navigate to="/guest/dashboard" replace />} />
           <Route path="dashboard" element={<GuestDashboard />} />
+          <Route path="favorites" element={<GuestFavorites />} />
         </Route>
       </Route>
 

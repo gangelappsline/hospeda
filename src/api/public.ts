@@ -188,6 +188,29 @@ function normalizeAddress(rawAddress: unknown): LodgingAddress | null {
   }
 }
 
+/** Número opcional: devuelve `undefined` si no viene o no es válido. */
+function toOptionalNumber(value: unknown): number | undefined {
+  if (value === undefined || value === null || value === '') return undefined
+  const parsed = typeof value === 'number' ? value : Number(value)
+  return Number.isFinite(parsed) ? parsed : undefined
+}
+
+/** Fechas bloqueadas (YYYY-MM-DD) tolerando strings u objetos { date }. */
+function normalizeBlockedDates(value: unknown): string[] | undefined {
+  if (!Array.isArray(value)) return undefined
+  const dates = value
+    .map((item) => {
+      if (typeof item === 'string') return item
+      if (isRecord(item)) {
+        const candidate = item.date ?? item.day ?? item.start_date
+        return typeof candidate === 'string' ? candidate : null
+      }
+      return null
+    })
+    .filter((item): item is string => Boolean(item))
+  return dates.length > 0 ? dates : undefined
+}
+
 function normalizePhotos(rawPhotos: unknown): LodgingPhoto[] {
   if (!Array.isArray(rawPhotos)) return []
   return rawPhotos
@@ -868,6 +891,23 @@ export async function getLodgingBySlug(slug: string): Promise<LodgingDetail> {
               : undefined,
             is_superhost: Boolean(raw.is_superhost),
             is_guest_favorite: Boolean(raw.is_guest_favorite),
+            check_in_time: toDisplayString(raw.check_in_time) || undefined,
+            check_out_time: toDisplayString(raw.check_out_time) || undefined,
+            min_nights: toOptionalNumber(raw.min_nights),
+            max_nights: toOptionalNumber(raw.max_nights),
+            included_guests: toOptionalNumber(raw.included_guests),
+            extra_guest_fee: toOptionalNumber(
+              raw.extra_guest_fee ?? raw.extra_person_fee
+            ),
+            pet_fee: toOptionalNumber(raw.pet_fee),
+            max_pets: toOptionalNumber(raw.max_pets),
+            accepts_pets:
+              typeof raw.accepts_pets === 'boolean'
+                ? raw.accepts_pets
+                : undefined,
+            blocked_dates: normalizeBlockedDates(
+              raw.blocked_dates ?? raw.unavailable_dates
+            ),
           }
         }
       }
