@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react'
+import { useMemo, useState, type FormEvent } from 'react'
 import {
   MapPin,
   Calendar,
@@ -9,10 +9,20 @@ import {
   Check,
   RotateCcw,
   BedDouble,
+  ChevronDown,
 } from 'lucide-react'
 import { usePublicLodgingCategories } from '@/hooks/usePublicCategories'
 import { normalizeText } from '@/utils/exploreFallback'
 import Skeleton from '@/components/ui/Skeleton'
+import DateRangeCalendar, {
+  type DateRange,
+} from '@/components/booking/DateRangeCalendar'
+import { useDismissable } from '@/hooks/useUiHelpers'
+import {
+  formatDayMonth,
+  parseISODate,
+  toISODate,
+} from '@/utils/dates'
 import type { LodgingSearchFilters } from '@/types/public'
 
 interface Props {
@@ -59,7 +69,17 @@ export default function SearchFiltersBar({
   onClearAll,
 }: Props) {
   const [filtersOpen, setFiltersOpen] = useState(false)
+  const [datesOpen, setDatesOpen] = useState(false)
   const [cityDraft, setCityDraft] = useState<string | null>(null)
+  const datesRef = useDismissable(datesOpen, () => setDatesOpen(false))
+
+  const dateRange: DateRange = useMemo(
+    () => ({
+      checkIn: filters.check_in ? parseISODate(filters.check_in) : null,
+      checkOut: filters.check_out ? parseISODate(filters.check_out) : null,
+    }),
+    [filters.check_in, filters.check_out]
+  )
   const { data: lodgingCategories = [], isLoading: categoriesLoading } =
     usePublicLodgingCategories()
 
@@ -110,37 +130,110 @@ export default function SearchFiltersBar({
               </div>
             </div>
 
-            {/* Llegada */}
-            <div className="flex items-center gap-2.5 px-3 py-1.5 lg:border-r lg:border-cool-steel-200 min-w-0">
-              <Calendar size={16} className="text-vivid-tangerine-500 shrink-0" />
-              <div className="min-w-0 flex-1">
-                <label className="block text-[10px] font-semibold uppercase tracking-wide text-cool-steel-500 leading-tight">
-                  Llegada
-                </label>
-                <input
-                  type="date"
-                  value={filters.check_in ?? ''}
-                  onChange={(e) => onChange('check_in', e.target.value || null)}
-                  className="w-full text-sm bg-transparent outline-none text-cool-steel-900"
+            {/* Fechas (calendario propio) */}
+            <div
+              ref={datesRef}
+              className="relative sm:col-span-2 lg:col-span-2 lg:border-r lg:border-cool-steel-200"
+            >
+              <button
+                type="button"
+                onClick={() => setDatesOpen((open) => !open)}
+                aria-expanded={datesOpen}
+                className="group flex w-full items-center gap-2.5 px-3 py-1.5 text-left cursor-pointer"
+              >
+                <Calendar size={16} className="text-vivid-tangerine-500 shrink-0" />
+                <span className="min-w-0 flex-1 grid grid-cols-2 gap-2">
+                  <span className="min-w-0">
+                    <span className="block text-[10px] font-semibold uppercase tracking-wide text-cool-steel-500 leading-tight">
+                      Llegada
+                    </span>
+                    <span
+                      className={`block truncate text-sm ${
+                        dateRange.checkIn
+                          ? 'font-medium text-cool-steel-900'
+                          : 'text-cool-steel-400'
+                      }`}
+                    >
+                      {dateRange.checkIn
+                        ? formatDayMonth(dateRange.checkIn)
+                        : 'Selecciona'}
+                    </span>
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block text-[10px] font-semibold uppercase tracking-wide text-cool-steel-500 leading-tight">
+                      Salida
+                    </span>
+                    <span
+                      className={`block truncate text-sm ${
+                        dateRange.checkOut
+                          ? 'font-medium text-cool-steel-900'
+                          : 'text-cool-steel-400'
+                      }`}
+                    >
+                      {dateRange.checkOut
+                        ? formatDayMonth(dateRange.checkOut)
+                        : 'Selecciona'}
+                    </span>
+                  </span>
+                </span>
+                <ChevronDown
+                  size={14}
+                  className={`shrink-0 text-cool-steel-400 transition-transform ${
+                    datesOpen ? 'rotate-180' : ''
+                  }`}
                 />
-              </div>
-            </div>
+              </button>
 
-            {/* Salida */}
-            <div className="flex items-center gap-2.5 px-3 py-1.5 lg:border-r lg:border-cool-steel-200 min-w-0">
-              <Calendar size={16} className="text-vivid-tangerine-500 shrink-0" />
-              <div className="min-w-0 flex-1">
-                <label className="block text-[10px] font-semibold uppercase tracking-wide text-cool-steel-500 leading-tight">
-                  Salida
-                </label>
-                <input
-                  type="date"
-                  min={filters.check_in ?? undefined}
-                  value={filters.check_out ?? ''}
-                  onChange={(e) => onChange('check_out', e.target.value || null)}
-                  className="w-full text-sm bg-transparent outline-none text-cool-steel-900"
-                />
-              </div>
+              {datesOpen && (
+                <>
+                  <button
+                    type="button"
+                    aria-label="Cerrar calendario"
+                    onClick={() => setDatesOpen(false)}
+                    className="fixed inset-0 z-[105] bg-cool-steel-950/40 sm:hidden cursor-default"
+                  />
+                  <div className="fixed inset-x-0 bottom-0 z-[110] sm:absolute sm:inset-x-auto sm:bottom-auto sm:top-full sm:left-1/2 sm:z-50 sm:mt-3 sm:w-[620px] sm:max-w-[calc(100vw-3rem)] sm:-translate-x-1/2">
+                    <div className="bg-white rounded-t-3xl sm:rounded-2xl border border-cool-steel-200 shadow-2xl shadow-cool-steel-950/20 p-4 max-h-[88vh] overflow-y-auto">
+                      <div className="flex items-center justify-between mb-1 sm:hidden">
+                        <p className="text-sm font-semibold text-cool-steel-900">
+                          Fechas de tu estancia
+                        </p>
+                        <button
+                          type="button"
+                          onClick={() => setDatesOpen(false)}
+                          className="text-xs font-semibold text-vivid-tangerine-600 cursor-pointer"
+                        >
+                          Cerrar
+                        </button>
+                      </div>
+
+                      <DateRangeCalendar
+                        value={dateRange}
+                        onChange={(next) =>
+                          onBatchChange({
+                            check_in: next.checkIn
+                              ? toISODate(next.checkIn)
+                              : null,
+                            check_out: next.checkOut
+                              ? toISODate(next.checkOut)
+                              : null,
+                          })
+                        }
+                        numberOfMonths={2}
+                        compact
+                      />
+
+                      <button
+                        type="button"
+                        onClick={() => setDatesOpen(false)}
+                        className="mt-3 w-full rounded-xl bg-cool-steel-900 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-cool-steel-800 cursor-pointer"
+                      >
+                        Listo
+                      </button>
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
 
             {/* Huéspedes */}

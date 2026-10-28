@@ -137,6 +137,19 @@ export interface LodgingDetail {
   check_out_time?: string
   is_superhost?: boolean
   is_guest_favorite?: boolean
+
+  /* ── Reglas de reserva y tarificación ────────────────────────────
+     Campos opcionales: si la API no los envía se aplican los valores
+     por defecto documentados en `utils/pricing.ts`. */
+  min_nights?: number
+  max_nights?: number
+  included_guests?: number
+  extra_guest_fee?: number
+  pet_fee?: number
+  max_pets?: number
+  accepts_pets?: boolean
+  /** Fechas ya reservadas en formato YYYY-MM-DD. */
+  blocked_dates?: string[]
 }
 
 export type SortOption = 'recommended' | 'price_asc' | 'price_desc' | 'rating_desc'

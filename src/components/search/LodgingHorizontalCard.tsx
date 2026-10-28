@@ -1,7 +1,7 @@
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Heart, Star, Sparkles, MapPin } from 'lucide-react'
+import { Star, Sparkles, MapPin } from 'lucide-react'
 import type { FeaturedStay } from '@/types/public'
+import FavoriteButton from '@/components/ui/FavoriteButton'
 
 interface Props {
   stay: FeaturedStay
@@ -20,7 +20,6 @@ export default function LodgingHorizontalCard({
   onMouseLeave,
   onFocusOnMap,
 }: Props) {
-  const [saved, setSaved] = useState(false)
   const cover = stay.photos?.[0]?.thumbnail ?? stay.photos?.[0]?.photo
   const city = stay.address?.city ?? ''
   const state = stay.address?.state ?? ''
@@ -68,25 +67,24 @@ export default function LodgingHorizontalCard({
         </div>
 
         {/* Favorito */}
-        <button
-          type="button"
-          onClick={(e) => {
-            e.preventDefault()
-            e.stopPropagation()
-            setSaved((prev) => !prev)
-          }}
-          className="absolute top-2.5 right-2.5 w-8 h-8 rounded-full bg-white/85 backdrop-blur flex items-center justify-center hover:bg-white hover:scale-110 transition-all cursor-pointer"
-          aria-label="Guardar alojamiento"
-        >
-          <Heart
-            size={15}
-            className={
-              saved
-                ? 'fill-vivid-tangerine-500 text-vivid-tangerine-500'
-                : 'text-cool-steel-700'
-            }
+        <div className="absolute top-2.5 right-2.5">
+          <FavoriteButton
+            stay={{
+              id: stay.id,
+              slug: stay.slug,
+              title: stay.title,
+              cover: cover ?? null,
+              city,
+              price: stay.price,
+              rating: stay.rating,
+              reviews: stay.reviews,
+              guests: stay.guests,
+              bedrooms: stay.bedrooms,
+            }}
+            variant="overlay"
+            size="sm"
           />
-        </button>
+        </div>
       </Link>
 
       {/* Información */}

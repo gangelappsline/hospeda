@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import {
   LogIn,
   UserPlus,
@@ -10,8 +10,16 @@ import {
   Menu,
   X,
   ArrowUpRight,
+  Heart,
+  LayoutDashboard,
+  LogOut,
 } from 'lucide-react'
+import { toast } from 'sonner'
 import LogoIcon from '@/assets/images/icon.webp'
+import { clearAuth, getToken, getUser } from '@/utils/authStorage'
+import { PANELS, getDefaultPanel } from '@/config/panels'
+import type { ProfileUser } from '@/types/profile'
+import type { Role } from '@/types/auth'
 
 const EXPLORE_ITEMS = [
   {
@@ -39,6 +47,10 @@ const EXPLORE_ITEMS = [
 
 export default function LandingNavbar() {
   const location = useLocation()
+  const navigate = useNavigate()
+  const [user, setUser] = useState<ProfileUser | null>(null)
+  const [accountOpen, setAccountOpen] = useState(false)
+  const accountRef = useRef<HTMLDivElement | null>(null)
   const [scrolled, setScrolled] = useState(false)
   const [exploreOpen, setExploreOpen] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -53,6 +65,20 @@ export default function LandingNavbar() {
   const isExploreActive = EXPLORE_ITEMS.some((item) =>
     item.matchPaths.some((p) => location.pathname.startsWith(p))
   )
+
+  // Mantiene la barra sincronizada con la sesión (login / logout).
+  useEffect(() => {
+    const syncAuth = () => {
+      setUser(getToken() ? getUser<ProfileUser>() : null)
+    }
+    syncAuth()
+    window.addEventListener('storage', syncAuth)
+    window.addEventListener('focus', syncAuth)
+    return () => {
+      window.removeEventListener('storage', syncAuth)
+      window.removeEventListener('focus', syncAuth)
+    }
+  }, [location.pathname])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -70,12 +96,19 @@ export default function LandingNavbar() {
       ) {
         setExploreOpen(false)
       }
+      if (
+        accountRef.current &&
+        !accountRef.current.contains(event.target as Node)
+      ) {
+        setAccountOpen(false)
+      }
     }
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         setExploreOpen(false)
         setMobileMenuOpen(false)
+        setAccountOpen(false)
       }
     }
 
@@ -107,7 +140,32 @@ export default function LandingNavbar() {
   const closeAllMenus = () => {
     setExploreOpen(false)
     setMobileMenuOpen(false)
+    setAccountOpen(false)
   }
+
+  const handleLogout = () => {
+    clearAuth()
+    setUser(null)
+    closeAllMenus()
+    toast.success('Sesión cerrada', {
+      description: 'Puedes volver a entrar cuando quieras.',
+    })
+    navigate('/')
+  }
+
+  // Panel al que pertenece la cuenta (con respaldo seguro).
+  const panelPath =
+    user && user.role in PANELS
+      ? getDefaultPanel(user.role as Role)
+      : '/'
+
+  const initials = (user?.name ?? '')
+    .split(' ')
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0])
+    .join('')
+    .toUpperCase()
 
   return (
     <header
@@ -251,22 +309,94 @@ export default function LandingNavbar() {
           >
             Pon tu espacio en Hospeda
           </a>
-          <Link
-            to="/login"
-            onClick={closeAllMenus}
-            className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-cool-steel-200 bg-white text-sm font-medium text-cool-steel-700 hover:border-cool-steel-300 hover:text-vivid-tangerine-600 transition-colors"
-          >
-            <LogIn size={15} />
-            <span>Iniciar sesión</span>
-          </Link>
-          <Link
-            to="/register"
-            onClick={closeAllMenus}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-vivid-tangerine-500 text-sm font-medium text-white hover:bg-vivid-tangerine-600 transition-all hover:shadow-md hover:shadow-vivid-tangerine-500/20"
-          >
-            <UserPlus size={15} />
-            <span>Crear cuenta</span>
-          </Link>
+          {user ? (
+            <div ref={accountRef} className="relative">
+              <button
+                type="button"
+                onClick={() => setAccountOpen((open) => !open)}
+                aria-expanded={accountOpen}
+                className="inline-flex items-center gap-1.5 rounded-full border border-cool-steel-200 bg-white py-1 pl-1 pr-2.5 text-sm font-medium text-cool-steel-800 transition-colors hover:border-cool-steel-300 hover:bg-cool-steel-50 cursor-pointer"
+              >
+                {user.photo ? (
+                  <img
+                    src={user.photo}
+                    alt={user.name}
+                    className="h-7 w-7 rounded-full object-cover"
+                  />
+                ) : (
+                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-vivid-tangerine-500 text-[11px] font-bold text-white">
+                    {initials || 'H'}
+                  </span>
+                )}
+                <span className="hidden max-w-24 truncate sm:block">
+                  {user.name.split(' ')[0]}
+                </span>
+                <ChevronDown
+                  size={14}
+                  className={`text-cool-steel-500 transition-transform ${
+                    accountOpen ? 'rotate-180' : ''
+                  }`}
+                />
+              </button>
+
+              {accountOpen && (
+                <div className="absolute right-0 top-full mt-2 w-56 overflow-hidden rounded-2xl border border-cool-steel-100 bg-white p-1.5 shadow-xl shadow-cool-steel-900/10">
+                  <div className="border-b border-cool-steel-100 px-3 py-2">
+                    <p className="truncate text-sm font-semibold text-cool-steel-900">
+                      {user.name}
+                    </p>
+                    <p className="truncate text-xs text-cool-steel-500">
+                      {user.email}
+                    </p>
+                  </div>
+
+                  <Link
+                    to="/favoritos"
+                    onClick={closeAllMenus}
+                    className="mt-1 flex items-center gap-2.5 rounded-xl px-3 py-2 text-sm text-cool-steel-800 transition-colors hover:bg-cool-steel-50"
+                  >
+                    <Heart size={15} className="text-vivid-tangerine-500" />
+                    Mis favoritos
+                  </Link>
+                  <Link
+                    to={panelPath}
+                    onClick={closeAllMenus}
+                    className="flex items-center gap-2.5 rounded-xl px-3 py-2 text-sm text-cool-steel-800 transition-colors hover:bg-cool-steel-50"
+                  >
+                    <LayoutDashboard size={15} className="text-cool-steel-500" />
+                    Mi panel
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={handleLogout}
+                    className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-sm text-vivid-tangerine-700 transition-colors hover:bg-vivid-tangerine-50 cursor-pointer"
+                  >
+                    <LogOut size={15} />
+                    Cerrar sesión
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <>
+              <Link
+                to="/login"
+                onClick={closeAllMenus}
+                className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-cool-steel-200 bg-white text-sm font-medium text-cool-steel-700 hover:border-cool-steel-300 hover:text-vivid-tangerine-600 transition-colors"
+              >
+                <LogIn size={15} />
+                <span>Iniciar sesión</span>
+              </Link>
+              <Link
+                to="/register"
+                onClick={closeAllMenus}
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-vivid-tangerine-500 text-sm font-medium text-white hover:bg-vivid-tangerine-600 transition-all hover:shadow-md hover:shadow-vivid-tangerine-500/20"
+              >
+                <UserPlus size={15} />
+                <span>Crear cuenta</span>
+              </Link>
+            </>
+          )}
 
           <button
             type="button"
@@ -364,23 +494,54 @@ export default function LandingNavbar() {
             </Link>
           </div>
 
-          <div className="border-t border-cool-steel-100 pt-3 grid grid-cols-2 gap-2.5">
-            <Link
-              to="/login"
-              onClick={closeAllMenus}
-              className="inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-lg border border-cool-steel-200 bg-white text-sm font-medium text-cool-steel-700 hover:bg-cool-steel-50 transition-colors"
-            >
-              <LogIn size={15} />
-              <span>Iniciar sesión</span>
-            </Link>
-            <Link
-              to="/register"
-              onClick={closeAllMenus}
-              className="inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-lg bg-vivid-tangerine-500 text-sm font-semibold text-white hover:bg-vivid-tangerine-600 transition-colors"
-            >
-              <UserPlus size={15} />
-              <span>Crear cuenta</span>
-            </Link>
+          <div className="border-t border-cool-steel-100 pt-3">
+            {user ? (
+              <div className="space-y-1">
+                <Link
+                  to="/favoritos"
+                  onClick={closeAllMenus}
+                  className="flex items-center gap-2 py-2 text-sm font-medium text-cool-steel-700 hover:text-vivid-tangerine-500"
+                >
+                  <Heart size={15} className="text-vivid-tangerine-500" />
+                  Mis favoritos
+                </Link>
+                <Link
+                  to={panelPath}
+                  onClick={closeAllMenus}
+                  className="flex items-center gap-2 py-2 text-sm font-medium text-cool-steel-700 hover:text-vivid-tangerine-500"
+                >
+                  <LayoutDashboard size={15} />
+                  Mi panel
+                </Link>
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="flex w-full items-center gap-2 py-2 text-left text-sm font-medium text-vivid-tangerine-700 cursor-pointer"
+                >
+                  <LogOut size={15} />
+                  Cerrar sesión
+                </button>
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 gap-2.5">
+                <Link
+                  to="/login"
+                  onClick={closeAllMenus}
+                  className="inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-lg border border-cool-steel-200 bg-white text-sm font-medium text-cool-steel-700 hover:bg-cool-steel-50 transition-colors"
+                >
+                  <LogIn size={15} />
+                  <span>Iniciar sesión</span>
+                </Link>
+                <Link
+                  to="/register"
+                  onClick={closeAllMenus}
+                  className="inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-lg bg-vivid-tangerine-500 text-sm font-semibold text-white hover:bg-vivid-tangerine-600 transition-colors"
+                >
+                  <UserPlus size={15} />
+                  <span>Crear cuenta</span>
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       )}
