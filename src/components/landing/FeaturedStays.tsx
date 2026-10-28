@@ -15,6 +15,9 @@ interface Props {
   seeAllQuery?: string
 }
 
+/** La home muestra una selección corta; el resto vive en /alojamientos. */
+const MAX_VISIBLE_STAYS = 6
+
 export default function FeaturedStays({ seeAllQuery = '' }: Props) {
   const [category, setCategory] = useState<StayCategory>('all')
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
@@ -42,6 +45,11 @@ export default function FeaturedStays({ seeAllQuery = '' }: Props) {
     })
   }, [data, category, selectedCategoryId])
 
+  const visibleStays = useMemo(
+    () => stays.slice(0, MAX_VISIBLE_STAYS),
+    [stays]
+  )
+
   // "Ver todas" conserva la búsqueda del hero y la categoría activa.
   const seeAllHref = useMemo(() => {
     const params = new URLSearchParams(
@@ -68,8 +76,8 @@ export default function FeaturedStays({ seeAllQuery = '' }: Props) {
   }
 
   return (
-    <section id="explorar" className="max-w-7xl mx-auto px-6 py-12 scroll-mt-20">
-      <div className="mb-8">
+    <section id="explorar" className="mx-auto max-w-7xl scroll-mt-20 px-6 pt-12 pb-10">
+      <div className="mb-6">
         <CategoryTabs active={category} onChange={handleCategoryChange} />
       </div>
 
@@ -121,9 +129,9 @@ export default function FeaturedStays({ seeAllQuery = '' }: Props) {
         </div>
       )}
 
-      {!isLoading && !isError && stays.length > 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8">
-          {stays.map((stay, index) => (
+      {!isLoading && !isError && visibleStays.length > 0 && (
+        <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
+          {visibleStays.map((stay, index) => (
             <StayCard key={stay.id} stay={stay} index={index} />
           ))}
         </div>
