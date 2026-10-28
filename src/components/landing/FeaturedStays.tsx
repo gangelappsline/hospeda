@@ -5,11 +5,17 @@ import { motion } from 'motion/react'
 import { getFeaturedStays } from '@/api/public'
 import { normalizeText } from '@/utils/exploreFallback'
 import type { PublicCategory, StayCategory } from '@/types/public'
+import { ArrowRight } from 'lucide-react'
 import CategoryTabs from './CategoryTabs'
 import StayCard from './StayCard'
 import Skeleton from '@/components/ui/Skeleton'
 
-export default function FeaturedStays() {
+interface Props {
+  /** Query string con los parámetros de búsqueda seleccionados en el hero. */
+  seeAllQuery?: string
+}
+
+export default function FeaturedStays({ seeAllQuery = '' }: Props) {
   const [category, setCategory] = useState<StayCategory>('all')
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
     null
@@ -35,6 +41,23 @@ export default function FeaturedStays() {
       return normalizeText(s.type.name) === targetNorm
     })
   }, [data, category, selectedCategoryId])
+
+  // "Ver todas" conserva la búsqueda del hero y la categoría activa.
+  const seeAllHref = useMemo(() => {
+    const params = new URLSearchParams(
+      seeAllQuery.startsWith('?') ? seeAllQuery.slice(1) : seeAllQuery
+    )
+
+    if (category !== 'all') {
+      params.set('type', category)
+      if (selectedCategoryId != null) {
+        params.set('category_id', String(selectedCategoryId))
+      }
+    }
+
+    const qs = params.toString()
+    return `/alojamientos${qs ? `?${qs}` : ''}`
+  }, [seeAllQuery, category, selectedCategoryId])
 
   const handleCategoryChange = (
     nextCategory: StayCategory,
@@ -66,10 +89,11 @@ export default function FeaturedStays() {
           </p>
         </div>
         <Link
-          to="/alojamientos"
-          className="text-sm font-medium text-vivid-tangerine-500 hover:text-vivid-tangerine-600 transition-colors shrink-0"
+          to={seeAllHref}
+          className="inline-flex shrink-0 items-center gap-1.5 text-sm font-medium text-vivid-tangerine-500 transition-colors hover:text-vivid-tangerine-600"
         >
           Ver todas
+          <ArrowRight size={14} />
         </Link>
       </motion.div>
 
