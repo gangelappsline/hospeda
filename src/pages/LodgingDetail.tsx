@@ -188,8 +188,10 @@ export default function LodgingDetail() {
                     {data.type.name} entero en {data.address?.city ?? 'ubicación desconocida'}
                   </h2>
                   <p className="text-sm text-cool-steel-600 mt-1">
-                    {data.guests} huéspedes · {data.bedrooms} recámaras ·{' '}
-                    {data.beds} camas · {data.bathrooms} baño{data.bathrooms !== 1 ? 's' : ''}
+                    {data.guests} huésped{data.guests !== 1 ? 'es' : ''} ·{' '}
+                    {data.bedrooms} recámara{data.bedrooms !== 1 ? 's' : ''} ·{' '}
+                    {data.beds} cama{data.beds !== 1 ? 's' : ''} ·{' '}
+                    {data.bathrooms} baño{data.bathrooms !== 1 ? 's' : ''}
                   </p>
                 </div>
                 {data.owner.photo && (
