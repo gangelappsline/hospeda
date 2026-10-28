@@ -258,8 +258,8 @@ export default function SearchFiltersBar({
                       onError={(e) => {
                         e.currentTarget.style.display = 'none'
                       }}
-                      className={`w-3.5 h-3.5 object-contain shrink-0 ${
-                        isSelected ? 'brightness-0 invert' : ''
+                      className={`w-8 h-8 object-contain rounded-full shrink-0 ${
+                        isSelected ? '' : 'grayscale'
                       }`}
                     />
                   )}
