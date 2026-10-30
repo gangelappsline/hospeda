@@ -27,6 +27,9 @@ export default function LodgingList() {
     queryFn: getHostLodgings,
   })
 
+  console.log('Lodgings:');
+  console.log(lodgings);
+
   const filteredLodgings = useMemo(() => {
     if (!search.trim()) return lodgings
     const term = search.toLowerCase()

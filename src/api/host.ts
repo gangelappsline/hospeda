@@ -99,7 +99,7 @@ function mapHostLodging(raw: ApiHostLodging): HostLodging {
 
 // ---- Endpoints ----
 export async function getHostLodgings(): Promise<HostLodging[]> {
-  const res = await apiFetch(`${API_BASE_URL}/host/lodgings`)
+  const res = await apiFetch(`${API_BASE_URL}/web/admin/lodgings`)
   const json: ApiListResponse<ApiHostLodging> = await res.json()
   if (!json.success) throw new Error(json.message)
   return (json.data ?? []).map(mapHostLodging)
